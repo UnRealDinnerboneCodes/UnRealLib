@@ -5,9 +5,7 @@ import com.unrealdinnerbone.unreallib.log.LogHelper;
 import lombok.NonNull;
 import org.apache.commons.io.FileUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -16,7 +14,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.FileHandler;
-import java.util.stream.Collectors;
 
 public class FileHelper {
 
@@ -80,6 +77,10 @@ public class FileHelper {
         return createFileIfDoesNotExist(new File(getOrCreateFolder(name), fileName));
     }
 
+    public static File getFile(@NonNull File name, @NonNull String fileName) {
+        return new File(name, fileName);
+    }
+
 
     public static void deleteFile(File file) {
         if (fileExist(file)) {
@@ -141,11 +142,21 @@ public class FileHelper {
     }
 
     public static boolean isFileType(String type, File file) {
-        return file.getName().endsWith("." + type);
+        if(type != null) {
+            return file.getName().endsWith("." + type);
+        }else {
+            return true;
+        }
     }
 
     public static List<File> getFilesTypesInFolder(File file, String type) {
-        return Arrays.stream(file.listFiles()).filter(listFile -> isFileType(type, listFile)).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<File> files = new ArrayList<>();
+        for (File listFile : file.listFiles()) {
+            if (isFileType(type, listFile)) {
+                files.add(listFile);
+            }
+        }
+        return files;
     }
 
     public static void downloadFile(String url, File file)  {
@@ -153,11 +164,13 @@ public class FileHelper {
     }
 
     public static void downloadFile(URL url, File file)  {
-        try {
-            FileUtils.copyURLToFile(url, file);
-        } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
-        }
+//        SchedulerService.SCHEDULER_SERVICE.execute(() -> {
+            try {
+                FileUtils.copyURLToFile(url, file);
+            } catch (IOException e) {
+                LogHelper.logExpection(LOGGER, e);
+            }
+//        });
     }
     public static boolean fileExist(File file) {
         return file.exists();
@@ -185,4 +198,11 @@ public class FileHelper {
         return arrayList;
     }
 
+    public static void moveFile(File theFile, File file) {
+        try {
+            FileUtils.moveFile(theFile, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

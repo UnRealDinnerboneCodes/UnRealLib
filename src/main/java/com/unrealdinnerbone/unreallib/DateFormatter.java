@@ -14,6 +14,7 @@ public class DateFormatter
     public static String getLoggerDate() {
         return formatData(LOGGER_FORMAT, System.currentTimeMillis());
     }
+
     public static String formatData(DateFormat format, Long lo) {
         return StringUtils.replace("[{0}]", format.format(new Date(lo)));
     }
