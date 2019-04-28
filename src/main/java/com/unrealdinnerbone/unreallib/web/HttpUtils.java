@@ -1,5 +1,9 @@
-package com.unrealdinnerbone.unreallib;
+package com.unrealdinnerbone.unreallib.web;
 
+import com.unrealdinnerbone.unreallib.JsonHelper;
+import com.unrealdinnerbone.unreallib.StringUtils;
+import com.unrealdinnerbone.unreallib.api.ILogger;
+import com.unrealdinnerbone.unreallib.file.FileHelper;
 import com.unrealdinnerbone.unreallib.log.LogHelper;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -11,15 +15,15 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import java.util.logging.Logger;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpUtils
 {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
-    private static Logger LOGGER = LogHelper.getLogger(HttpUtils.class);
+    private static ILogger LOGGER = LogHelper.getLogger(HttpUtils.class);
 
     public static String post(String url, Object dataMap, Header header)  {
         try {
@@ -35,10 +39,10 @@ public class HttpUtils
             if(entity != null) {
                 return EntityUtils.toString(entity);
             }else {
-               LOGGER.warning(StringUtils.replace("post to {0} was null", url));
+               LOGGER.error(StringUtils.replace("post to {0} was null", url));
             }
         }catch (Exception e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error while posting", e);
         }
         return null;
     }
@@ -54,10 +58,10 @@ public class HttpUtils
             if(entity != null) {
                 return EntityUtils.toString(entity);
             }else {
-                LOGGER.warning(StringUtils.replace("get to {0} was null", url));
+                LOGGER.error(StringUtils.replace("get to {0} was null", url));
             }
         }catch (Exception e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error on get", e);
         }
         return null;
     }
@@ -66,12 +70,4 @@ public class HttpUtils
         return new StringEntity(JsonHelper.getBasicGson().toJson(hashMap), ContentType.APPLICATION_JSON);
     }
 
-    public static URL createURL(String url) {
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            LogHelper.logExpection(LOGGER, e);
-        }
-        return null;
-    }
 }

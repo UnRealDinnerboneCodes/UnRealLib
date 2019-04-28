@@ -1,14 +1,18 @@
-package com.unrealdinnerbone.unreallib;
+package com.unrealdinnerbone.unreallib.file;
 
 import com.google.common.base.Charsets;
+import com.unrealdinnerbone.unreallib.MurmurHash;
+import com.unrealdinnerbone.unreallib.web.HttpUtils;
+import com.unrealdinnerbone.unreallib.StringUtils;
+import com.unrealdinnerbone.unreallib.api.ILogger;
 import com.unrealdinnerbone.unreallib.log.LogHelper;
 import lombok.NonNull;
 import org.apache.commons.io.FileUtils;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -17,29 +21,28 @@ import java.util.logging.FileHandler;
 
 public class FileHelper {
 
-    private static final Logger LOGGER = LogHelper.getLogger(FileHandler.class);
-
+    private static final ILogger LOGGER = LogHelper.getLogger(FileHandler.class);
 
     private static File createFileIfDoesNotExist(@NonNull File file) {
         try {
             if(file.createNewFile()) {
-                LOGGER.fine(StringUtils.replace("{0} created new file ", file.getName()));
+                LOGGER.debug(StringUtils.replace("{0} created new file ", file.getName()));
             }else {
-                LOGGER.fine(StringUtils.replace("{0} file already exist no need to create it ", file.getName()));
+                LOGGER.debug(StringUtils.replace("{0} file already exist no need to create it ", file.getName()));
             }
             return file;
         } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
             return null;
         }
     }
 
     private static File createFolderIfDoesNotExist(@NonNull File fileFolder) {
         if(fileFolder.mkdir()) {
-            LOGGER.fine(StringUtils.replace("{0} crated folder", fileFolder.getName()));
+            LOGGER.debug(StringUtils.replace("{0} crated folder", fileFolder.getName()));
             return fileFolder;
         }else {
-            LOGGER.fine(StringUtils.replace("Error creating folder {0}", fileFolder.getName()));
+            LOGGER.debug(StringUtils.replace("Error creating folder {0}", fileFolder.getName()));
         }
         return fileFolder;
     }
@@ -92,7 +95,7 @@ public class FileHelper {
         try {
             return new BufferedReader(new FileReader(fIle)).readLine() == null;
         } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
         return false;
     }
@@ -101,7 +104,7 @@ public class FileHelper {
         try {
             return new FileWriter(file);
         } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
             return null;
         }
     }
@@ -111,7 +114,7 @@ public class FileHelper {
             fileWriter.write(str);
             fileWriter.close();
         } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
     }
 
@@ -119,7 +122,7 @@ public class FileHelper {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
         return null;
     }
@@ -128,7 +131,7 @@ public class FileHelper {
         try {
             FileUtils.writeStringToFile(file, string, Charsets.UTF_8, append);
         } catch (IOException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
     }
 
@@ -136,7 +139,7 @@ public class FileHelper {
         try {
             return new FileReader(file);
         } catch (FileNotFoundException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
         return null;
     }
@@ -160,7 +163,7 @@ public class FileHelper {
     }
 
     public static void downloadFile(String url, File file)  {
-        downloadFile(HttpUtils.createURL(url), file);
+        downloadFile(createURL(url), file);
     }
 
     public static void downloadFile(URL url, File file)  {
@@ -168,7 +171,7 @@ public class FileHelper {
             try {
                 FileUtils.copyURLToFile(url, file);
             } catch (IOException e) {
-                LogHelper.logExpection(LOGGER, e);
+                LOGGER.error("Error", e);
             }
 //        });
     }
@@ -193,7 +196,7 @@ public class FileHelper {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            LogHelper.logExpection(LOGGER, e);
+            LOGGER.error("Error", e);
         }
         return arrayList;
     }
@@ -204,5 +207,14 @@ public class FileHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static long getFilesMurmurHash(File file) {
+        try {
+            return MurmurHash.murmurHashHash32(MurmurHash.removeBadValuesFromArray(Files.readAllBytes(file.toPath())), 1);
+        } catch (IOException e) {
+            LOGGER.error("Error while get a files murmur hash", e);
+        }
+        return -1;
     }
 }

@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib;
+package com.unrealdinnerbone.unreallib.file;
 
 import com.unrealdinnerbone.unreallib.log.LogHelper;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;

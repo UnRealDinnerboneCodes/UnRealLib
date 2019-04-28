@@ -11,12 +11,16 @@ public class StringUtils
     public static String replace(String msg, Object... replacements) {
         int count = 0;
         for(Object o : replacements) {
-            if(msg.contains("{" + count + "}") && o != null) {
-                msg = msg.replace("{" + count + "}", o.toString());
+            if(o != null && msg.contains(formatCode(count))) {
+                msg = msg.replace(formatCode(count), o.toString());
             }
             count++;
         }
         return msg;
+    }
+
+    private static String formatCode(int number) {
+        return "{" + number + "}";
     }
 
 

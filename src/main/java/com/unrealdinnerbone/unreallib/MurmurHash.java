@@ -3,9 +3,13 @@ package com.unrealdinnerbone.unreallib;
 //This Code is Adopted From
 //https://github.com/tnm/murmurhash-java/blob/master/src/main/java/ie/ucd/murmur/MurmurHash.java
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MurmurHash {
 
     public static long murmurHashHash32(final byte[] data, int seed) {
