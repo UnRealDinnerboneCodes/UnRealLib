@@ -1,10 +1,9 @@
-package com.unrealdinnerbone.unrealutil.api.reflection;
+package com.unrealdinnerbone.unreallib.api.reflection;
 
 import com.unrealdinnerbone.unreallib.Pair;
 import com.unrealdinnerbone.unreallib.ReflectionHelper;
-import com.unrealdinnerbone.unreallib.api.ILogger;
-import com.unrealdinnerbone.unreallib.log.LogHelper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -12,9 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Slf4j
 public class AIScanner <I, A extends Annotation> implements IScanner<Pair<I, A>> {
-
-    private static final ILogger logger = LogHelper.getLogger(AIScanner.class);
 
     protected final List<Pair<I, A>> values = new ArrayList<>();
 
@@ -46,7 +44,7 @@ public class AIScanner <I, A extends Annotation> implements IScanner<Pair<I, A>>
                 Object classObject = ReflectionHelper.createInstance(annotatedClass.getA());
                 values.add(new Pair<>((I) classObject, annotatedClass.getB()));
             } else {
-                logger.error("{0} does not implement {1}", annotatedClass.getA().getName(), annotatedClass.getB().getClass().getName());
+                log.error("{} does not implement {}", annotatedClass.getA().getName(), annotatedClass.getB().getClass().getName());
             }
         }
     }

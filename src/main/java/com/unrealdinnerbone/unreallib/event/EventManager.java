@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 @Slf4j
-public class EventMangaer<T> {
+public class EventManager<T> {
 
-    private ConcurrentHashMap<Class<? extends T>, Queue<Consumer<T>>> interactions = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Class<? extends T>, Queue<Consumer<T>>> interactions = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked cast")
     public <B extends T> void registerHandler(Class<B> eventClass, Consumer<B> eventConsumer) {
@@ -24,13 +24,14 @@ public class EventMangaer<T> {
 
     public <B extends T> void post(Class<B> eventClass, B eClass) {
         if (interactions.containsKey(eventClass)) {
-            Queue<Consumer<T>> interactionsToHandle = interactions.get(eventClass);
-            interactionsToHandle.forEach(runnable -> runnable.accept(eClass));
+            log.debug("Posting event {}", eventClass.getName());
+            interactions.get(eventClass).forEach(runnable -> runnable.accept(eClass));
+        }else {
+            log.error("Cant post even for {} no events listing for it", eventClass.getName());
         }
     }
 
-    public void clear() {
-        interactions.clear();
+    protected ConcurrentHashMap<Class<? extends T>, Queue<Consumer<T>>> getInteractions() {
+        return interactions;
     }
-
 }

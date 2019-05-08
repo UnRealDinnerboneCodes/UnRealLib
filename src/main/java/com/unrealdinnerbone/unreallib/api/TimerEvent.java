@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib.api.timer;
+package com.unrealdinnerbone.unreallib.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
