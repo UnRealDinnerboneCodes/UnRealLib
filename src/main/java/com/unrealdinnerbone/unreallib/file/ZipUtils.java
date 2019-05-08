@@ -1,6 +1,6 @@
 package com.unrealdinnerbone.unreallib.file;
 
-import com.unrealdinnerbone.unreallib.log.LogHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.io.IOUtils;
 
@@ -8,8 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
 
+@Slf4j
 public class ZipUtils
 {
 
@@ -21,6 +21,7 @@ public class ZipUtils
             cis.close();
             return ret;
         } catch (IOException e) {
+            log.error("Error", e);
         }
         return null;
     }

@@ -2,51 +2,43 @@ package com.unrealdinnerbone.unreallib.file;
 
 import com.google.common.base.Charsets;
 import com.unrealdinnerbone.unreallib.MurmurHash;
-import com.unrealdinnerbone.unreallib.web.HttpUtils;
-import com.unrealdinnerbone.unreallib.StringUtils;
-import com.unrealdinnerbone.unreallib.api.ILogger;
-import com.unrealdinnerbone.unreallib.log.LogHelper;
 import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.FileHandler;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
+@Slf4j
 public class FileHelper {
 
-    private static final ILogger LOGGER = LogHelper.getLogger(FileHandler.class);
-
+    @SneakyThrows
     private static File createFileIfDoesNotExist(@NonNull File file) {
-        try {
-            if(file.createNewFile()) {
-                LOGGER.debug(StringUtils.replace("{0} created new file ", file.getName()));
-            }else {
-                LOGGER.debug(StringUtils.replace("{0} file already exist no need to create it ", file.getName()));
-            }
-            return file;
-        } catch (IOException e) {
-            LOGGER.error("Error", e);
-            return null;
+        if (file.createNewFile()) {
+            log.debug("{} created new file", file.getName());
+        } else {
+            log.debug("{} file already exist not need to create it", file.getName());
         }
+        return file;
     }
 
+    @SneakyThrows
     private static File createFolderIfDoesNotExist(@NonNull File fileFolder) {
-        if(fileFolder.mkdir()) {
-            LOGGER.debug(StringUtils.replace("{0} crated folder", fileFolder.getName()));
+        if (fileFolder.mkdir()) {
+            log.debug("{} created folder", fileFolder.getName());
             return fileFolder;
-        }else {
-            LOGGER.debug(StringUtils.replace("Error creating folder {0}", fileFolder.getName()));
+        } else {
+            log.debug("{} folder already exist no need to create it", fileFolder.getName());
         }
         return fileFolder;
     }
-
 
     public static File getOrCreateFolder(@NonNull String folderName) {
         return createFolderIfDoesNotExist(new File(folderName));
@@ -95,7 +87,7 @@ public class FileHelper {
         try {
             return new BufferedReader(new FileReader(fIle)).readLine() == null;
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            log.error("There was and error creating thing", e);
         }
         return false;
     }
@@ -104,7 +96,7 @@ public class FileHelper {
         try {
             return new FileWriter(file);
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
             return null;
         }
     }
@@ -114,7 +106,7 @@ public class FileHelper {
             fileWriter.write(str);
             fileWriter.close();
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
         }
     }
 
@@ -122,7 +114,7 @@ public class FileHelper {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
         }
         return null;
     }
@@ -131,7 +123,7 @@ public class FileHelper {
         try {
             FileUtils.writeStringToFile(file, string, Charsets.UTF_8, append);
         } catch (IOException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
         }
     }
 
@@ -139,7 +131,7 @@ public class FileHelper {
         try {
             return new FileReader(file);
         } catch (FileNotFoundException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
         }
         return null;
     }
@@ -154,7 +146,7 @@ public class FileHelper {
 
     public static List<File> getFilesTypesInFolder(File file, String type) {
         ArrayList<File> files = new ArrayList<>();
-        for (File listFile : file.listFiles()) {
+        for (File listFile : Objects.requireNonNull(file.listFiles())) {
             if (isFileType(type, listFile)) {
                 files.add(listFile);
             }
@@ -171,7 +163,7 @@ public class FileHelper {
             try {
                 FileUtils.copyURLToFile(url, file);
             } catch (IOException e) {
-                LOGGER.error("Error", e);
+                log.error("Error", e);
             }
 //        });
     }
@@ -196,7 +188,7 @@ public class FileHelper {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            LOGGER.error("Error", e);
+            log.error("Error", e);
         }
         return arrayList;
     }
@@ -213,7 +205,7 @@ public class FileHelper {
         try {
             return MurmurHash.murmurHashHash32(MurmurHash.removeBadValuesFromArray(Files.readAllBytes(file.toPath())), 1);
         } catch (IOException e) {
-            LOGGER.error("Error while get a files murmur hash", e);
+            log.error("Error", e);
         }
         return -1;
     }

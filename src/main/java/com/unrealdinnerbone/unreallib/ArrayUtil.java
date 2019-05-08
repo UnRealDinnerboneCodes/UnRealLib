@@ -3,9 +3,7 @@ package com.unrealdinnerbone.unreallib;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArrayUtil
@@ -27,4 +25,5 @@ public class ArrayUtil
         tList.forEach(t -> builder.append(t.toString()).append("\n"));
         return builder.toString();
     }
+
 }

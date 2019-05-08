@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -63,6 +64,9 @@ public final class MurmurHash {
         return b;
     }
 
+    public static boolean isGood(Byte b) {
+        return !isBad(b);
+    }
 
     public static boolean isBad(byte b) {
         return b == 9 || b == 10 || b == 13 || b == 32;

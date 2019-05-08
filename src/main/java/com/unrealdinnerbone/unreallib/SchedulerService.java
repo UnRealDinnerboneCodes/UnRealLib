@@ -28,7 +28,7 @@ public class SchedulerService {
         executorService.shutdownNow();
     }
 
-    class SchedulerExceptionHandler implements Thread.UncaughtExceptionHandler {
+    static class SchedulerExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         @Override
         public void uncaughtException(Thread t, Throwable e) {

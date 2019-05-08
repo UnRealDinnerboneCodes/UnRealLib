@@ -1,10 +1,7 @@
 package com.unrealdinnerbone.unreallib.web;
 
-import com.unrealdinnerbone.unreallib.JsonHelper;
-import com.unrealdinnerbone.unreallib.StringUtils;
-import com.unrealdinnerbone.unreallib.api.ILogger;
-import com.unrealdinnerbone.unreallib.file.FileHelper;
-import com.unrealdinnerbone.unreallib.log.LogHelper;
+import com.unrealdinnerbone.unreallib.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,14 +13,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+@Slf4j
 public class HttpUtils
 {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
-    private static ILogger LOGGER = LogHelper.getLogger(HttpUtils.class);
 
     public static String post(String url, Object dataMap, Header header)  {
         try {
@@ -34,15 +27,15 @@ public class HttpUtils
             if(dataMap != null) {
                 httpPost.setEntity(createStringEntity(dataMap));
             }
-            HttpResponse response = httpClient.execute(httpPost );
+            HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             if(entity != null) {
                 return EntityUtils.toString(entity);
             }else {
-               LOGGER.error(StringUtils.replace("post to {0} was null", url));
+                log.error("Post to {} was null", url);
             }
         }catch (Exception e) {
-            LOGGER.error("Error while posting", e);
+            log.error("Error while posting", e);
         }
         return null;
     }
@@ -58,16 +51,21 @@ public class HttpUtils
             if(entity != null) {
                 return EntityUtils.toString(entity);
             }else {
-                LOGGER.error(StringUtils.replace("get to {0} was null", url));
+                log.error("Get to {} was null", url);
             }
         }catch (Exception e) {
-            LOGGER.error("Error on get", e);
+            e.printStackTrace();
+            log.error("Error on get", e);
         }
         return null;
     }
 
+    public static String get(String url) {
+        return get(url, null);
+    }
+
     private static StringEntity createStringEntity(Object hashMap) {
-        return new StringEntity(JsonHelper.getBasicGson().toJson(hashMap), ContentType.APPLICATION_JSON);
+        return new StringEntity(JsonUtil.getBasicGson().toJson(hashMap), ContentType.APPLICATION_JSON);
     }
 
 }
