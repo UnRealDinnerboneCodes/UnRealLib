@@ -11,7 +11,9 @@ public class JsonUtil
     @Getter private static final Gson basicGson;
 
     static {
-        basicGson = new GsonBuilder().setPrettyPrinting().create();
+        basicGson = new GsonBuilder().disableHtmlEscaping().serializeNulls().create();
     }
+
+
 
 }

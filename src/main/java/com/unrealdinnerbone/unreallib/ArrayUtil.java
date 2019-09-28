@@ -17,7 +17,7 @@ public class ArrayUtil
         return longArray;
     }
 
-    public static  <T> String listToString(List<T> tList) {
+    public static <T> String listToString(List<T> tList) {
         if (tList == null) {
             return null;
         }

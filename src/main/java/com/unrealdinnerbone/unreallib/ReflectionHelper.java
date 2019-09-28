@@ -6,8 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -49,10 +52,35 @@ public class ReflectionHelper
         return iScanner;
     }
 
+    public static Set<Class<?>> getAllClasses() {
+        return BASE_REFLECTIONS.getSubTypesOf(Object.class);
+    }
+
     public static <I, A extends Annotation> List<Pair<I, A>> scan(Class<I> iClass, Class<A> aClass) {
         return scan(new AIScanner<>(iClass, aClass)).getValues();
     }
 
+    public static void setFiled(Field filed, Class clazz, Object o) {
+        try {
+            filed.set(clazz, o);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static Object getFieldValue(Field field) {
+        if(!field.isAccessible()) {
+            setFieldAccessible(field);
+        }
+        try {
+            return field.get(field.getType());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    public static void setFieldAccessible(Field field) {
+        field.setAccessible(true);
+    }
 }

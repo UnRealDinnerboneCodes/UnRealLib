@@ -5,13 +5,20 @@ package com.unrealdinnerbone.unreallib;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public final class MurmurHash {
+
+
+    static {
+      log.debug("bad vlues are");
+    }
 
     public static long murmurHashHash32(final byte[] data, int seed) {
         int length = data.length;
@@ -44,7 +51,7 @@ public final class MurmurHash {
 
 
         long returnValue = h;
-        //I Don't know why this works but it does ok SO PLEASE DONT BREAK IT
+        //I Don't know why this works but it does ok SO PLEASE DON'T BREAK IT
         if(returnValue < 0) {
             long temp = Integer.MAX_VALUE + returnValue;
             returnValue = Integer.MAX_VALUE + temp + 2;
@@ -55,7 +62,7 @@ public final class MurmurHash {
     public static byte[] removeBadValuesFromArray(byte[] bytes){
         ArrayList<Byte> bytesList = new ArrayList<>();
         for(byte b1: bytes) {
-            if(!isBad(b1)) {
+            if(isGood(b1)) {
                 bytesList.add(b1);
             }
         }
@@ -64,11 +71,12 @@ public final class MurmurHash {
         return b;
     }
 
-    public static boolean isGood(Byte b) {
+    private static boolean isGood(Byte b) {
         return !isBad(b);
     }
 
-    public static boolean isBad(byte b) {
+    private static boolean isBad(byte b)
+    {
         return b == 9 || b == 10 || b == 13 || b == 32;
     }
 }

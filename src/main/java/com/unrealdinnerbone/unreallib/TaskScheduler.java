@@ -4,26 +4,53 @@ package com.unrealdinnerbone.unreallib;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class TaskScheduler {
 
-    private static final ScheduledExecutorService executor  = Executors.newScheduledThreadPool(Math.max(1, Runtime.getRuntime().availableProcessors() - 1), new ThreadFactoryBuilder().setNameFormat("scheduler-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
+//    private static final ScheduledExecutorService executor  = Executors.newScheduledThreadPool(Math.max(1, Runtime.getRuntime().availableProcessors() - 1), new ThreadFactoryBuilder().setNameFormat("scheduler-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
+//
+//    public static void scheduleAtFixedRate(int time, TimeUnit timeUnit, Runnable runnable) {
+//        executor.scheduleAtFixedRate(runnable, 0, time, timeUnit);
+//    }
+//    public static void handleTaskOnThread(int time, TimeUnit timeUnit, Runnable runnable) {
+//        executor.schedule(runnable, time, timeUnit);
+//    }
+//
+//    @Slf4j
+//    public static class TaskExceptionHandler implements Thread.UncaughtExceptionHandler {
+//        @Override
+//        public void uncaughtException(Thread t, Throwable e) {
+//            log.error("Error while handling task on thread " + t.getName(), e);
+//        }
+//    }
 
-    public static void scheduleAtFixedRate(int time, TimeUnit timeUnit, Runnable runnable) {
-        executor.scheduleAtFixedRate(runnable, 0, time, timeUnit);
+    private static ScheduledExecutorService taskExecutor;
+    private static ExecutorService executorService = newCachedThreadPool();
+
+    public static void scheduleRepeatingTask(int time, TimeUnit timeUnit, Runnable runnable) {
+        getTaskExecutor().scheduleAtFixedRate(runnable, 0, time, timeUnit);
     }
-    public static void handleTaskOnThread(int time, TimeUnit timeUnit, Runnable runnable) {
-        executor.schedule(runnable, time, timeUnit);
+    public static void handleTaskOnThread(Runnable runnable) {
+        executorService.submit(runnable);
     }
 
-    @Slf4j
+    public static ScheduledExecutorService getTaskExecutor() {
+        if(taskExecutor == null) {
+            taskExecutor = Executors.newScheduledThreadPool(Math.max(1, Runtime.getRuntime().availableProcessors() - 1), new ThreadFactoryBuilder().setNameFormat("scheduler-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
+        }
+        return taskExecutor;
+    }
+
     public static class TaskExceptionHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            log.error("Error while handling task on thread " + t.getName(), e);
+//            Core.getInstance().log(LogLevel.ERROR, "Error while handling task on thread {0}", t.getName());
+            e.printStackTrace();
         }
+    }
+
+    public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 1, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("task-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
     }
 }

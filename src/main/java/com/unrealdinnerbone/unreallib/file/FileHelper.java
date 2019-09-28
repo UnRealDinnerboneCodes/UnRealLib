@@ -11,10 +11,10 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class FileHelper {
@@ -144,14 +144,8 @@ public class FileHelper {
         }
     }
 
-    public static List<File> getFilesTypesInFolder(File file, String type) {
-        ArrayList<File> files = new ArrayList<>();
-        for (File listFile : Objects.requireNonNull(file.listFiles())) {
-            if (isFileType(type, listFile)) {
-                files.add(listFile);
-            }
-        }
-        return files;
+    public static List<File> getFilesTypesInFolder(@NonNull File file, String type) {
+        return Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(file1 -> isFileType(type, file1)).collect(Collectors.toList());
     }
 
     public static void downloadFile(String url, File file)  {
