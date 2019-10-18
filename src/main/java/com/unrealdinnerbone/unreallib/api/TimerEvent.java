@@ -8,8 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-public @interface TimerEvent
-{
+public @interface TimerEvent {
     int value();
 
     TimeUnit timeUnit() default TimeUnit.MINUTES;

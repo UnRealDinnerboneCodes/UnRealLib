@@ -8,30 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 public final class MurmurHash {
 
-
-    static {
-      log.debug("bad vlues are");
-    }
-
     public static long murmurHashHash32(final byte[] data, int seed) {
         int length = data.length;
         final int m = 0x5bd1e995;
         final int r = 24;
 
-        int h = seed^length;
-        int length4 = length/4;
+        int h = seed ^ length;
+        int length4 = length / 4;
 
-        for (int i=0; i<length4; i++) {
-            final int i4 = i*4;
-            int k = (data[i4+0]&0xff) +((data[i4+1]&0xff)<<8)
-                    +((data[i4+2]&0xff)<<16) +((data[i4+3]&0xff)<<24);
+        for (int i = 0; i < length4; i++) {
+            final int i4 = i * 4;
+            int k = (data[i4 + 0] & 0xff) + ((data[i4 + 1] & 0xff) << 8)
+                    + ((data[i4 + 2] & 0xff) << 16) + ((data[i4 + 3] & 0xff) << 24);
             k *= m;
             k ^= k >>> r;
             k *= m;
@@ -39,10 +33,13 @@ public final class MurmurHash {
             h ^= k;
         }
 
-        switch (length%4) {
-            case 3: h ^= (data[(length&~3) +2]&0xff) << 16;
-            case 2: h ^= (data[(length&~3) +1]&0xff) << 8;
-            case 1: h ^= (data[length&~3]&0xff);
+        switch (length % 4) {
+            case 3:
+                h ^= (data[(length & ~3) + 2] & 0xff) << 16;
+            case 2:
+                h ^= (data[(length & ~3) + 1] & 0xff) << 8;
+            case 1:
+                h ^= (data[length & ~3] & 0xff);
                 h *= m;
         }
         h ^= h >>> 13;
@@ -52,17 +49,17 @@ public final class MurmurHash {
 
         long returnValue = h;
         //I Don't know why this works but it does ok SO PLEASE DON'T BREAK IT
-        if(returnValue < 0) {
+        if (returnValue < 0) {
             long temp = Integer.MAX_VALUE + returnValue;
             returnValue = Integer.MAX_VALUE + temp + 2;
         }
         return returnValue;
     }
 
-    public static byte[] removeBadValuesFromArray(byte[] bytes){
+    public static byte[] removeBadValuesFromArray(byte[] bytes) {
         ArrayList<Byte> bytesList = new ArrayList<>();
-        for(byte b1: bytes) {
-            if(isGood(b1)) {
+        for (byte b1 : bytes) {
+            if (isGood(b1)) {
                 bytesList.add(b1);
             }
         }
@@ -75,8 +72,7 @@ public final class MurmurHash {
         return !isBad(b);
     }
 
-    private static boolean isBad(byte b)
-    {
+    private static boolean isBad(byte b) {
         return b == 9 || b == 10 || b == 13 || b == 32;
     }
 }

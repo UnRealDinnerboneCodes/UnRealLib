@@ -26,7 +26,7 @@ public class EventManager<T> {
         if (interactions.containsKey(eventClass)) {
             log.debug("Posting event {}", eventClass.getName());
             interactions.get(eventClass).forEach(runnable -> runnable.accept(eClass));
-        }else {
+        } else {
             log.error("Cant post even for {} no events listing for it", eventClass.getName());
         }
     }

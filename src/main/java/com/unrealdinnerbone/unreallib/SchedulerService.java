@@ -11,20 +11,20 @@ public class SchedulerService {
 
     private final ExecutorService executorService;
 
-    public SchedulerService(){
+    public SchedulerService() {
         this.executorService = Executors.newScheduledThreadPool(Math.max(1, Runtime.getRuntime().availableProcessors() - 1), new ThreadFactoryBuilder().setNameFormat("scheduler-%d").setUncaughtExceptionHandler(new SchedulerExceptionHandler()).build());
         ShutdownUtils.addShutdownHook(this::shutdown);
     }
 
-    public void execute(Runnable task){
+    public void execute(Runnable task) {
         executorService.execute(task);
     }
 
-    public void shutdown(){
+    public void shutdown() {
         executorService.shutdown();
     }
 
-    public void forceShutdown(){
+    public void forceShutdown() {
         executorService.shutdownNow();
     }
 

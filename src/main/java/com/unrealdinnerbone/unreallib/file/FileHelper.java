@@ -1,35 +1,38 @@
 package com.unrealdinnerbone.unreallib.file;
 
 import com.google.common.base.Charsets;
+import com.google.gson.Gson;
 import com.unrealdinnerbone.unreallib.MurmurHash;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class FileHelper {
 
-    @SneakyThrows
     private static File createFileIfDoesNotExist(@NonNull File file) {
-        if (file.createNewFile()) {
-            log.debug("{} created new file", file.getName());
-        } else {
-            log.debug("{} file already exist not need to create it", file.getName());
+        try {
+            if (file.createNewFile()) {
+                log.debug("{} created new file", file.getName());
+            } else {
+                log.debug("{} file already exist not need to create it", file.getName());
+            }
+        } catch (IOException e) {
+            log.debug("There was and error while trying to create the file {}", file.getName());
         }
         return file;
     }
 
-    @SneakyThrows
     private static File createFolderIfDoesNotExist(@NonNull File fileFolder) {
         if (fileFolder.mkdir()) {
             log.debug("{} created folder", fileFolder.getName());
@@ -38,6 +41,15 @@ public class FileHelper {
             log.debug("{} folder already exist no need to create it", fileFolder.getName());
         }
         return fileFolder;
+    }
+
+    public static void deleteFolder(File file) {
+        try {
+            log.debug("Deleting folder {}", file.getName());
+            FileUtils.deleteDirectory(file);
+        } catch (IOException e) {
+            log.error("There was and error while trying to delete a folder", e);
+        }
     }
 
     public static File getOrCreateFolder(@NonNull String folderName) {
@@ -51,6 +63,7 @@ public class FileHelper {
     public static File getOrCreateFolder(@NonNull String name, @NonNull String folderName) {
         return createFolderIfDoesNotExist(new File(name, folderName));
     }
+
     public static File getOrCreateFolder(@NonNull File file) {
         return createFolderIfDoesNotExist(file);
     }
@@ -59,6 +72,7 @@ public class FileHelper {
     public static File getOrCreateFile(@NonNull File fileName) {
         return createFileIfDoesNotExist(fileName);
     }
+
     public static File getOrCreateFile(@NonNull String fileName) {
         return createFileIfDoesNotExist(new File(fileName));
     }
@@ -74,6 +88,31 @@ public class FileHelper {
 
     public static File getFile(@NonNull File name, @NonNull String fileName) {
         return new File(name, fileName);
+    }
+
+    public static String fixFileName(String name) {
+        return name.replaceAll("\"[^a-zA-Z0-9\\\\.\\\\-]\"", "");
+    }
+
+    public static <T> T jsonFromFile(File file, Gson gson, Class<T> tClass) {
+        FileReader fileReader = newFileReader(file);
+        T t = gson.fromJson(fileReader, tClass);
+      closeFileReader(fileReader);
+        return t;
+    }
+
+    public static <T> T jsonFromString(String string, Gson gson, Class<T> tClass) {
+        return gson.fromJson(string, tClass);
+    }
+
+
+
+    public static void closeFileReader(FileReader fileReader) {
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            log.error("There was and error closeing the file reader", e);
+        }
     }
 
 
@@ -131,15 +170,15 @@ public class FileHelper {
         try {
             return new FileReader(file);
         } catch (FileNotFoundException e) {
-            log.error("Error", e);
+            log.error("There was and error while trying to create the file reader", e);
         }
         return null;
     }
 
     public static boolean isFileType(String type, File file) {
-        if(type != null) {
+        if (type != null) {
             return file.getName().endsWith("." + type);
-        }else {
+        } else {
             return true;
         }
     }
@@ -148,19 +187,20 @@ public class FileHelper {
         return Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(file1 -> isFileType(type, file1)).collect(Collectors.toList());
     }
 
-    public static void downloadFile(String url, File file)  {
+    public static void downloadFile(String url, File file) {
         downloadFile(createURL(url), file);
     }
 
-    public static void downloadFile(URL url, File file)  {
+    public static void downloadFile(URL url, File file) {
 //        SchedulerService.SCHEDULER_SERVICE.execute(() -> {
-            try {
-                FileUtils.copyURLToFile(url, file);
-            } catch (IOException e) {
-                log.error("Error", e);
-            }
+        try {
+            FileUtils.copyURLToFile(url, file);
+        } catch (IOException e) {
+            log.error("Error", e);
+        }
 //        });
     }
+
     public static boolean fileExist(File file) {
         return file.exists();
     }
@@ -202,5 +242,18 @@ public class FileHelper {
             log.error("Error", e);
         }
         return -1;
+    }
+
+    public static String inputToSrring(InputStream inputStream) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return br.lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void setFileDate(File file1, long formatTime) {
+        file1.setLastModified(formatTime);
     }
 }

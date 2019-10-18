@@ -9,13 +9,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class ReflectionHelper
-{
+public class ReflectionHelper {
 
     private static final Reflections BASE_REFLECTIONS;
 
@@ -35,6 +32,7 @@ public class ReflectionHelper
     public static boolean doesClassImplementInterface(Class<?> checkClass, Class<?> interfaceClass) {
         return interfaceClass.isAssignableFrom(checkClass);
     }
+
     public static <T extends Annotation> Set<Class<?>> getClassWithAnnotationAndExtands(Class<T> annotationClass, Class<?> interfaceClass) {
         return getClassWithAnnotation(BASE_REFLECTIONS, annotationClass).stream().filter(clazz -> doesClassImplementInterface(clazz, interfaceClass)).collect(Collectors.toSet());
     }
@@ -69,7 +67,7 @@ public class ReflectionHelper
     }
 
     public static Object getFieldValue(Field field) {
-        if(!field.isAccessible()) {
+        if (!field.isAccessible()) {
             setFieldAccessible(field);
         }
         try {

@@ -7,11 +7,12 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.zip.ZipFile;
 
 @Slf4j
-public class ZipUtils
-{
+public class ZipUtils {
 
     public static String decompressBz2(File file) {
         try {
@@ -21,7 +22,29 @@ public class ZipUtils
             cis.close();
             return ret;
         } catch (IOException e) {
+            log.error("There was and error while trying to unzip the Bz2 {}", file.getName());
             log.error("Error", e);
+        }
+        return null;
+    }
+
+//    public static boolean unZipFolder(File theZipFile, String output) {
+//        try {
+//            ZipFile zipFile = new ZipFile(theZipFile);
+//            zipFile.extractAll(output);
+//            return true;
+//        } catch (IOException e) {
+//            log.error("There was and error while trying to unzip {}", theZipFile.getName());
+//            return false;
+//        }
+//    }
+
+    public static InputStream getFileFromZip(File theZip, String file) {
+        try {
+            ZipFile zipFile = new ZipFile(theZip);
+            return zipFile.getInputStream(zipFile.getEntry(file));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -14,7 +14,7 @@ public class CompletableFutureUtil {
     public static <T> T get(CompletableFuture<T> completableFuture) {
         try {
             return completableFuture.get();
-        }catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             log.error("Error while running completable future", e);
             return null;
         }

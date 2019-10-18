@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
-public class AIScanner <I, A extends Annotation> implements IScanner<Pair<I, A>> {
+public class AIScanner<I, A extends Annotation> implements IScanner<Pair<I, A>> {
 
     protected final List<Pair<I, A>> values = new ArrayList<>();
 

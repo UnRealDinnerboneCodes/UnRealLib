@@ -2,7 +2,6 @@ package com.unrealdinnerbone.unreallib;
 
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
 
@@ -31,15 +30,20 @@ public class TaskScheduler {
     public static void scheduleRepeatingTask(int time, TimeUnit timeUnit, Runnable runnable) {
         getTaskExecutor().scheduleAtFixedRate(runnable, 0, time, timeUnit);
     }
+
     public static void handleTaskOnThread(Runnable runnable) {
         executorService.submit(runnable);
     }
 
     public static ScheduledExecutorService getTaskExecutor() {
-        if(taskExecutor == null) {
+        if (taskExecutor == null) {
             taskExecutor = Executors.newScheduledThreadPool(Math.max(1, Runtime.getRuntime().availableProcessors() - 1), new ThreadFactoryBuilder().setNameFormat("scheduler-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
         }
         return taskExecutor;
+    }
+
+    public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 1, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("task-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
     }
 
     public static class TaskExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -48,9 +52,5 @@ public class TaskScheduler {
 //            Core.getInstance().log(LogLevel.ERROR, "Error while handling task on thread {0}", t.getName());
             e.printStackTrace();
         }
-    }
-
-    public static ExecutorService newCachedThreadPool() {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 1, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("task-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
     }
 }
