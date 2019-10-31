@@ -59,7 +59,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/UnRealDinnerbone/UnRealLib")
             credentials {
                 username = "unrealdinnerbone"
-                password = "71b551bcb78037d9ff976275b6eb60ce5d3d3f1c"
+                password = project.findProperty("gpr.key") ?: System.getenv("KEY")
             }
         }
     }
