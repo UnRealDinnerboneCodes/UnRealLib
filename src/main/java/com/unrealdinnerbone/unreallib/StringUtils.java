@@ -18,6 +18,10 @@ public class StringUtils {
         return msg;
     }
 
+    public static String removePunstion(String s) {
+        return s.replaceAll("[^a-zA-Z ]", "");
+    }
+
     private static String formatCode(int number) {
         return FORMAT_CODE_START + number + FORMAT_CODE_END;
     }

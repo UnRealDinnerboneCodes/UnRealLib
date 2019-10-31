@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -22,11 +23,18 @@ public class ArrayUtil {
 
     public static <T> String listToString(List<T> tList) {
         if (tList == null) {
-            return null;
+            return "";
         }
         StringBuilder builder = new StringBuilder();
         tList.forEach(t -> builder.append(t.toString()).append("\n"));
         return builder.toString();
+    }
+
+    public static <T> String listToJsonString(List<T> tList) {
+        if (tList == null) {
+            return "{}";
+        }
+        return JsonUtil.getBasicGson().toJson(tList);
     }
 
     public static <T> T getLastValue(List<T> t) {

@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib;
 
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.ExecutorService;
@@ -8,6 +9,7 @@ import java.util.concurrent.Executors;
 public class SchedulerService {
 
     public final static SchedulerService SCHEDULER_SERVICE = new SchedulerService();
+
 
     private final ExecutorService executorService;
 

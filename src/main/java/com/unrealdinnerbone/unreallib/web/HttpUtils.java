@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.web;
 
 import com.unrealdinnerbone.unreallib.JsonUtil;
+import com.unrealdinnerbone.unreallib.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -12,6 +13,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class HttpUtils {
@@ -39,11 +43,14 @@ public class HttpUtils {
         return null;
     }
 
-    public static String get(String url, Header header) {
+    public static String get(String url, List<Pair<String, String>> headers) {
         try {
             HttpGet httpGet = new HttpGet(url);
-            if (header != null) {
-                httpGet.addHeader(header);
+            if (headers != null) {
+                for (Pair<String, String> header : headers) {
+                    httpGet.addHeader(header.getA(), header.getB());
+                }
+//                Arrays.stream(header).forEach(httpGet::addHeader);
             }
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();

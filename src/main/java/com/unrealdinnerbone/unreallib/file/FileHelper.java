@@ -1,8 +1,9 @@
 package com.unrealdinnerbone.unreallib.file;
 
-import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.unrealdinnerbone.unreallib.MurmurHash;
+import com.unrealdinnerbone.unreallib.web.HttpUtils;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -13,7 +14,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -84,6 +84,15 @@ public class FileHelper {
 
     public static File getOrCreateFile(@NonNull String name, @NonNull String fileName) {
         return createFileIfDoesNotExist(new File(getOrCreateFolder(name), fileName));
+    }
+
+
+    public static File getOrCreateFile(@NonNull File fileBase, @NonNull String fileName, @NonNull FileType fileType) {
+        return createFileIfDoesNotExist(new File(fileBase, fileName + "." + fileType.name().toLowerCase()));
+    }
+
+    public static File getOrCreateFile(@NonNull String name, @NonNull String fileName, @NonNull FileType fileType) {
+        return createFileIfDoesNotExist(new File(getOrCreateFolder(name), fileName + "." + fileType.name().toLowerCase()));
     }
 
     public static File getFile(@NonNull File name, @NonNull String fileName) {
@@ -160,7 +169,7 @@ public class FileHelper {
 
     public static void writeStringToFile(String string, File file, boolean append) {
         try {
-            FileUtils.writeStringToFile(file, string, Charsets.UTF_8, append);
+            FileUtils.writeStringToFile(file, string, StandardCharsets.UTF_8, append);
         } catch (IOException e) {
             log.error("Error", e);
         }
@@ -190,15 +199,16 @@ public class FileHelper {
     public static void downloadFile(String url, File file) {
         downloadFile(createURL(url), file);
     }
+    public static void downloadFile2(String url, File file) {
+        writeStringToFile(HttpUtils.get(url), file, false);
+    }
 
     public static void downloadFile(URL url, File file) {
-//        SchedulerService.SCHEDULER_SERVICE.execute(() -> {
         try {
             FileUtils.copyURLToFile(url, file);
         } catch (IOException e) {
             log.error("Error", e);
         }
-//        });
     }
 
     public static boolean fileExist(File file) {
@@ -254,6 +264,11 @@ public class FileHelper {
     }
 
     public static void setFileDate(File file1, long formatTime) {
+
         file1.setLastModified(formatTime);
+    }
+
+    public static enum FileType {
+        JSON;
     }
 }
