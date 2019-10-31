@@ -18,8 +18,10 @@ plugins {
 }
 
 group 'com.unrealdinnerbone'
-version '0.0.0'
 
+def ENV = System.getenv()
+def buildNumber = ENV.BUILD_NUMBER ? "${ENV.BUILD_NUMBER}" : "0"
+version = "0.0+build." + buildNumber
 sourceCompatibility = 1.8
 
 repositories {
