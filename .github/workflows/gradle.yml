@@ -15,5 +15,7 @@ jobs:
         java-version: 1.8
     - name: Build Number Generator
       uses: einaregilsson/build-number@v1
+      with:
+        token: ${{secrets.github_token}} 
     - name: Build with Gradle
       run: ./gradlew build
