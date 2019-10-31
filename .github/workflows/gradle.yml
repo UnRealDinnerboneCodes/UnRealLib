@@ -19,7 +19,7 @@ jobs:
         token: ${{secrets.github_token}} 
     - name: Build with Gradle
       env: 
-        KEY: ${{secrets.KEY}} 
+        KEY: ${{secrets.github_token}} 
       run: |
         chmod +x gradlew
         ./gradlew publish
