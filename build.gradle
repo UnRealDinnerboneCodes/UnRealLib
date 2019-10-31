@@ -21,7 +21,7 @@ group 'com.unrealdinnerbone'
 
 def ENV = System.getenv()
 def buildNumber = ENV.BUILD_NUMBER ? "${ENV.BUILD_NUMBER}" : "0"
-version = "0.0+build." + buildNumber
+version = ("0.0+build." + buildNumber).replace("\\", "")
 sourceCompatibility = 1.8
 
 repositories {
