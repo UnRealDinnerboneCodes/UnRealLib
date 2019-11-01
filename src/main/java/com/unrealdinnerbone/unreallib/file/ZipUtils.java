@@ -28,17 +28,6 @@ public class ZipUtils {
         return null;
     }
 
-//    public static boolean unZipFolder(File theZipFile, String output) {
-//        try {
-//            ZipFile zipFile = new ZipFile(theZipFile);
-//            zipFile.extractAll(output);
-//            return true;
-//        } catch (IOException e) {
-//            log.error("There was and error while trying to unzip {}", theZipFile.getName());
-//            return false;
-//        }
-//    }
-
     public static InputStream getFileFromZip(File theZip, String file) {
         try {
             ZipFile zipFile = new ZipFile(theZip);

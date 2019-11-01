@@ -3,7 +3,7 @@ package com.unrealdinnerbone.unreallib;
 public class ShutdownUtils {
     private static int count = 1;
 
-    public static void addShutdownHook(Thread thread) {
+    private static void addShutdownHook(Thread thread) {
         Runtime.getRuntime().addShutdownHook(thread);
     }
 
