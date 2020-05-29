@@ -22,7 +22,8 @@ public class EventManager<T> {
         interactions.get(eventClass).add((Consumer<T>) eventConsumer);
     }
 
-    public <B extends T> void post(Class<B> eventClass, B eClass) {
+    public <B extends T> void post(B eClass) {
+        Class<B> eventClass = (Class<B>) eClass.getClass();
         if (interactions.containsKey(eventClass)) {
             log.debug("Posting event {}", eventClass.getName());
             interactions.get(eventClass).forEach(runnable -> runnable.accept(eClass));

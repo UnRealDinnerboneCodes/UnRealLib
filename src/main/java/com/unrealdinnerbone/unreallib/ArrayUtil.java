@@ -4,10 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,6 +33,10 @@ public class ArrayUtil {
             return "{}";
         }
         return JsonUtil.getBasicGson().toJson(tList);
+    }
+
+    public static <A, B, T> T getValueOrElse(HashMap<A, B> hashMap, A a, Function<B, T> function, T t) {
+        return hashMap.containsKey(a) ? function.apply(hashMap.get(a)) : t;
     }
 
     public static <T> T getLastValue(List<T> t) {

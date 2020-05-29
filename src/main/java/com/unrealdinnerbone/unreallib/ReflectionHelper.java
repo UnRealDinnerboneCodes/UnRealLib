@@ -16,11 +16,20 @@ public class ReflectionHelper {
         }
     }
 
+    public static boolean doesFieldExist(Class<?> clazz, String field) {
+        try {
+            clazz.getField(field);
+            return true;
+        } catch (NoSuchFieldException e) {
+            return false;
+        }
+    }
+
     public static boolean doesClassImplementInterface(Class<?> checkClass, Class<?> interfaceClass) {
         return interfaceClass.isAssignableFrom(checkClass);
     }
 
-    public static void setFiled(Field filed, Class clazz, Object o) {
+    public static void setFiled(Field filed, Class<?> clazz, Object o) {
         try {
             filed.set(clazz, o);
         } catch (IllegalAccessException e) {

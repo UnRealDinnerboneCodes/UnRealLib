@@ -32,7 +32,7 @@ public class ZipUtils {
         try {
             ZipFile zipFile = new ZipFile(theZip);
             return zipFile.getInputStream(zipFile.getEntry(file));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

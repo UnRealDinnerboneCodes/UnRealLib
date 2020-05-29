@@ -3,6 +3,8 @@ package com.unrealdinnerbone.unreallib;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.util.function.Consumer;
+
 public class GsonStorageEntry<T> {
     private final static JsonParser PARSER = new JsonParser();
 
@@ -36,6 +38,12 @@ public class GsonStorageEntry<T> {
 
     public T get() {
         return t.getT();
+    }
+
+    public void ifNotNull(Consumer<T> tConsumer) {
+        if(get() != null) {
+            tConsumer.accept(get());
+        }
     }
 
     public String getReformtedJson() {

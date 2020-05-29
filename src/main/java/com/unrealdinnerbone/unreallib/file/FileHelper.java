@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileHelper {
 
+    private static final FileFilter FOLDER_FILTER = File::isDirectory;
+
     private static File createFileIfDoesNotExist(@NonNull File file) {
         try {
             if (file.createNewFile()) {
@@ -192,15 +194,15 @@ public class FileHelper {
         }
     }
 
-    public static List<File> getFilesTypesInFolder(@NonNull File file, String type) {
-        return Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(file1 -> isFileType(type, file1)).collect(Collectors.toList());
-    }
-
     public static void downloadFile(String url, File file) {
         downloadFile(createURL(url), file);
     }
     public static void downloadFile2(String url, File file) {
         writeStringToFile(HttpUtils.get(url), file, false);
+    }
+
+    public static void downloadFile3(String url) {
+        HttpUtils.get(url);
     }
 
     public static void downloadFile(URL url, File file) {
@@ -254,6 +256,26 @@ public class FileHelper {
         return -1;
     }
 
+    public static File[] getSubFiles(File file) {
+        return file.isDirectory() ? file.listFiles() : new File[]{};
+    }
+
+    public static List<File> findFilesInFolder(File file, FileFilter fileFilter, boolean doResuve) {
+        List<File> files = new ArrayList<>();
+        if(file.isDirectory()) {
+            if(doResuve) {
+                for (File file1 : file.listFiles(FOLDER_FILTER)) {
+                    files.addAll(findFilesInFolder(file1, fileFilter, doResuve));
+                }
+            }
+            Collections.addAll(files, file.listFiles(fileFilter));
+            return files;
+        }else {
+            log.error("Not a Dir ");
+            return files;
+        }
+    }
+
     public static String inputToSrring(InputStream inputStream) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return br.lines().collect(Collectors.joining(System.lineSeparator()));
@@ -264,11 +286,12 @@ public class FileHelper {
     }
 
     public static void setFileDate(File file1, long formatTime) {
-
-        file1.setLastModified(formatTime);
+        if(!file1.setLastModified(formatTime)) {
+            log.error("There was and error while setting the date on the file");
+        }
     }
 
-    public static enum FileType {
+    public enum FileType {
         JSON;
     }
 }

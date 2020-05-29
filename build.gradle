@@ -38,12 +38,13 @@ dependencies {
     compile "org.fusesource.jansi:jansi:1.11"
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile "org.apache.commons:commons-compress:1.10"
+    compile "org.apache.commons:commons-lang3:3.7"
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile "org.apache.httpcomponents:httpclient:4.5.9"
 
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
     compile "com.beust:jcommander:1.72"
 
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
     compile "org.projectlombok:lombok:1.18.2"

@@ -23,7 +23,7 @@ public class ValueCache<T> {
     public ValueCache(File file) {
         this.file = file;
         log.debug(file.getName());
-        Cacha cacha = FileHelper.jsonFromFile(file, JsonUtil.getBasicGson(), Cacha.class);
+        Cacha<T> cacha = FileHelper.jsonFromFile(file, JsonUtil.getBasicGson(), Cacha.class);
         if (cacha == null) {
             cacha = new Cacha<>(new ArrayList<>());
         }
@@ -41,13 +41,13 @@ public class ValueCache<T> {
 
     public void add(T value) {
         longList.add(value);
-        if(++count >= 10) {
-            save();
-            count = 0;
-        }
+        save();
+    }
+    public List<T> getList() {
+        return longList;
     }
 
-    public boolean has(String longg) {
+    public boolean has(T longg) {
         return longList.contains(longg);
     }
 
