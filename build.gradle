@@ -24,6 +24,10 @@ def buildNumber = ENV.GITHUB_RUN_NUMBER ? "${ENV.GITHUB_RUN_NUMBER}" : "0"
 version = project.getProperty("version") + ("+build." + buildNumber).replace("\\", "")
 sourceCompatibility = 1.8
 
+println(ENV.GITHUB_RUN_NUMBER)
+println(ENV.MAVEN_USERNAME)
+println(ENV.MAVEN_PASSWORD)
+
 repositories {
     mavenCentral()
     jcenter()
