@@ -27,6 +27,9 @@ sourceCompatibility = 1.8
 println(ENV.GITHUB_RUN_NUMBER)
 println(ENV.MAVEN_USERNAME)
 println(ENV.MAVEN_PASSWORD)
+println(ENV.get("MAVEN_USERNAME"))
+println(ENV.get("MAVEN_PASSWORD"))
+println(ENV.get("GITHUB_RUN_NUMBER"))
 
 repositories {
     mavenCentral()
