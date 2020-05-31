@@ -85,8 +85,8 @@ publishing {
         maven {
             url "https://maven.unreal.codes/repository/unreal/"
             credentials {
-                username ENV.get("MAVEN_USERNAME")
-                password ENV.get("MAVEN_PASSWORD")
+                username ENV.MAVEN_USERNAME
+                password ENV.MAVEN_PASSWORD
             }
 
         }
