@@ -84,14 +84,10 @@ publishing {
     repositories {
         maven {
             url "https://maven.unreal.codes/repository/unreal/"
-            ENV.computeIfAbsent("MAVEN_PASSWORD", mPassword -> {
-                ENV.computeIfAbsent("MAVEN_USERNANE", mUsername -> {
-                    credentials {
-                        username mUsername
-                        password mPassword
-                    }
-                })
-            })
+            credentials {
+                username ENV.get("MAVEN_USERNAME")
+                password ENV.get("MAVEN_PASSWORD")
+            }
 
         }
     }
