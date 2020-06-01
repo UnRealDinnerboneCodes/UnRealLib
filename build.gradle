@@ -1,19 +1,13 @@
 buildscript {
     repositories {
-        maven {
-            name 'Shadow'
-            url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
-        }
         mavenCentral()
         mavenLocal()
     }
 }
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'java'
     id "maven-publish"
-    id "com.jfrog.artifactory" version "4.15.2"
 }
 
 
