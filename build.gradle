@@ -24,13 +24,6 @@ def buildNumber = ENV.GITHUB_RUN_NUMBER ? "${ENV.GITHUB_RUN_NUMBER}" : "0"
 version = project.getProperty("version") + ("+build." + buildNumber).replace("\\", "")
 sourceCompatibility = 1.8
 
-println(ENV.GITHUB_RUN_NUMBER)
-println(ENV.MAVEN_USERNAME)
-println(ENV.MAVEN_PASSWORD)
-println(ENV.get("MAVEN_USERNAME"))
-println(ENV.get("MAVEN_PASSWORD"))
-println(ENV.get("GITHUB_RUN_NUMBER"))
-
 repositories {
     mavenCentral()
     jcenter()
@@ -40,27 +33,21 @@ repositories {
     }
 }
 
-configurations {
-    shade
-    compile.extendsFrom shade
-    shadow.extendsFrom shade
-}
-
 dependencies {
 
-    shade group: 'com.google.guava', name: 'guava', version: 'r05'
+    implementation group: 'com.google.guava', name: 'guava', version: 'r05'
 
-    shade "org.fusesource.jansi:jansi:1.11"
-    shade group: 'commons-io', name: 'commons-io', version: '2.6'
-    shade "org.apache.commons:commons-compress:1.10"
-    shade "org.apache.commons:commons-lang3:3.7"
-    shade group: 'com.google.code.gson', name: 'gson', version: '2.7'
-    shade "org.apache.httpcomponents:httpclient:4.5.9"
+    implementation "org.fusesource.jansi:jansi:1.11"
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation "org.apache.commons:commons-compress:1.10"
+    implementation "org.apache.commons:commons-lang3:3.7"
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation "org.apache.httpcomponents:httpclient:4.5.9"
 
-    shade "com.beust:jcommander:1.72"
+    implementation "com.beust:jcommander:1.72"
 
-    shade group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
-    shade group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
     compile "org.projectlombok:lombok:1.18.2"
     annotationProcessor "org.projectlombok:lombok:1.18.2"
@@ -68,20 +55,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-shadowJar {
-    manifest {
-        inheritFrom project.tasks.jar.manifest
-    }
-    configurations = [project.configurations.shade]
-}
-
-
 
 publishing {
     publications {
-//        shadow(MavenPublication) { publication ->
-//            project.shadow.component(publication)
-//        }
         maven(MavenPublication) {
             from components.java
             version = project.getProperty("version")
