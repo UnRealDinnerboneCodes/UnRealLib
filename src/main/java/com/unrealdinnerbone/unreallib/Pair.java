@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Pair<A, B> {
-    private final A a;
-    private final B b;
+    private final A key;
+    private final B value;
 
 
     public static <A,B> Pair<A, B> of(A a, B b) {

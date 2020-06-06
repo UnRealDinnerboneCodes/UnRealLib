@@ -1,18 +1,29 @@
 package com.unrealdinnerbone.unreallib;
 
+import com.unrealdinnerbone.unreallib.reflection.AIScanner;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 public class ReflectionHelper {
 
-    public static <T> T createInstance(Class<T> classInstance) {
+
+    private static final Reflections REFLECTIONS = new Reflections("com.unrealdinnerbone");
+
+
+    public static <T> Optional<T> createInstance(@NonNull Class<T> classInstance) {
         try {
-            return classInstance.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            log.error("There was and error creating a new instance for the class " + classInstance.getName(), e);
-            return null;
+            return Optional.of(classInstance.getDeclaredConstructor().newInstance());
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |IllegalAccessException e) {
+            log.error("There was and error make and new class instance", e);
+            return Optional.empty();
         }
     }
 
@@ -51,5 +62,19 @@ public class ReflectionHelper {
 
     public static void setFieldAccessible(Field field) {
         field.setAccessible(true);
+    }
+
+    public static <T extends Annotation> Set<Class<?>> getClassWithAnnotation(Class<T> annotationClass) {
+        return getClassWithAnnotation(REFLECTIONS, annotationClass);
+    }
+
+    public static <T extends Annotation> Set<Class<?>> getClassWithAnnotation(Reflections reflections, Class<T> annotationClass) {
+        return reflections.getTypesAnnotatedWith(annotationClass);
+    }
+
+    public static <I, A extends Annotation> AIScanner<I, A> iaScan(Class<I> interfaceClass, Class<A> annotationClass) {
+        AIScanner<I, A> iaScanner = new AIScanner<>(interfaceClass, annotationClass);
+        iaScanner.scan();
+        return iaScanner;
     }
 }

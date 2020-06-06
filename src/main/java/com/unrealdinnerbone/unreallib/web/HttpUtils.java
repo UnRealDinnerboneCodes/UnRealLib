@@ -13,12 +13,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -66,7 +63,7 @@ public class HttpUtils {
             HttpGet httpGet = new HttpGet(url);
             if (headers != null) {
                 for (Pair<String, String> header : headers) {
-                    httpGet.addHeader(header.getA(), header.getB());
+                    httpGet.addHeader(header.getKey(), header.getValue());
                 }
 //                Arrays.stream(header).forEach(httpGet::addHeader);
             }
