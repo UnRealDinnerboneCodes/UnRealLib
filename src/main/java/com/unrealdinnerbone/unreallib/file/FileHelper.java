@@ -101,8 +101,15 @@ public class FileHelper {
         return new File(name, fileName);
     }
 
+    private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*"};
+
+
     public static String fixFileName(String name) {
-        return name.replaceAll("\"[^a-zA-Z0-9\\\\.\\\\-]\"", "");
+        String s = name.replaceAll("\"[^a-zA-Z0-9\\\\.\\\\-]\"", "");
+        for (String c : BAD_CHAR) {
+            s = s.replace(c, "");
+        }
+        return s;
     }
 
     public static <T> T jsonFromFile(File file, Gson gson, Class<T> tClass) {
@@ -194,23 +201,13 @@ public class FileHelper {
         }
     }
 
-    public static void downloadFile(String url, File file) {
+    public static void downloadFile(String url, File file) throws IOException {
         downloadFile(createURL(url), file);
     }
-    public static void downloadFile2(String url, File file) {
-        writeStringToFile(HttpUtils.get(url), file, false);
-    }
 
-    public static void downloadFile3(String url) {
-        HttpUtils.get(url);
-    }
 
-    public static void downloadFile(URL url, File file) {
-        try {
-            FileUtils.copyURLToFile(url, file);
-        } catch (IOException e) {
-            log.error("Error", e);
-        }
+    public static void downloadFile(URL url, File file) throws IOException {
+        FileUtils.copyURLToFile(url, file);
     }
 
     public static boolean fileExist(File file) {

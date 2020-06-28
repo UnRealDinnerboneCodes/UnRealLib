@@ -3,7 +3,12 @@ package com.unrealdinnerbone.unreallib;
 import com.unrealdinnerbone.unreallib.reflection.AIScanner;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Configuration;
 import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -15,8 +20,7 @@ import java.util.Set;
 public class ReflectionHelper {
 
 
-    private static final Reflections REFLECTIONS = new Reflections("com.unrealdinnerbone");
-
+    public static final Reflections REFLECTIONS = new Reflections("com.unrealdinnerbone", new SubTypesScanner(), new MethodAnnotationsScanner(), new TypeAnnotationsScanner());
 
     public static <T> Optional<T> createInstance(@NonNull Class<T> classInstance) {
         try {
@@ -77,4 +81,5 @@ public class ReflectionHelper {
         iaScanner.scan();
         return iaScanner;
     }
+
 }
