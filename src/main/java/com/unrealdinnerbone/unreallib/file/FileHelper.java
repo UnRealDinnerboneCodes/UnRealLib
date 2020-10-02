@@ -101,7 +101,7 @@ public class FileHelper {
         return new File(name, fileName);
     }
 
-    private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*"};
+    private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
 
 
     public static String fixFileName(String name) {
