@@ -23,11 +23,7 @@ public class CompletableFutureUtil {
         }
     }
 
-    public static <T> CompletableFuture<List<T>> join(List<CompletableFuture<T>> executionPromises) {
-        return join(executionPromises.toArray(CompletableFuture[]::new));
-    }
-
-    public static <T> CompletableFuture<List<T>> join(CompletableFuture<T>... executionPromises) {
+    public static CompletableFuture<?> join(CompletableFuture<?>... executionPromises) {
         CompletableFuture<Void> joinedPromise = CompletableFuture.allOf(executionPromises);
         return joinedPromise.thenApply(voit -> Arrays.stream(executionPromises).map(CompletableFuture::join).collect(Collectors.toList()));
     }
