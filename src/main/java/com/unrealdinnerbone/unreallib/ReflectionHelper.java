@@ -1,26 +1,14 @@
 package com.unrealdinnerbone.unreallib;
 
-import com.unrealdinnerbone.unreallib.reflection.AIScanner;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.reflections.Configuration;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ConfigurationBuilder;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 public class ReflectionHelper {
-
-
-    public static final Reflections REFLECTIONS = new Reflections("com.unrealdinnerbone", new SubTypesScanner(), new MethodAnnotationsScanner(), new TypeAnnotationsScanner());
 
     public static <T> Optional<T> createInstance(@NonNull Class<T> classInstance) {
         try {
@@ -68,18 +56,5 @@ public class ReflectionHelper {
         field.setAccessible(true);
     }
 
-    public static <T extends Annotation> Set<Class<?>> getClassWithAnnotation(Class<T> annotationClass) {
-        return getClassWithAnnotation(REFLECTIONS, annotationClass);
-    }
-
-    public static <T extends Annotation> Set<Class<?>> getClassWithAnnotation(Reflections reflections, Class<T> annotationClass) {
-        return reflections.getTypesAnnotatedWith(annotationClass);
-    }
-
-    public static <I, A extends Annotation> AIScanner<I, A> iaScan(Class<I> interfaceClass, Class<A> annotationClass) {
-        AIScanner<I, A> iaScanner = new AIScanner<>(interfaceClass, annotationClass);
-        iaScanner.scan();
-        return iaScanner;
-    }
 
 }

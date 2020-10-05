@@ -8,7 +8,6 @@ buildscript {
 plugins {
     id 'java'
     id "maven-publish"
-    id "com.github.ben-manes.versions" version "0.28.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_14
@@ -27,30 +26,27 @@ repositories {
         name = "The Name"
         url = "https://jitpack.io"
     }
+    maven {
+        url = "https://maven.unreal.codes/repository/unreal/"
+        name = "UnReal Maven"
+    }
+    maven { url "https://oss.jfrog.org/artifactory/libs-release"}
 }
 
 dependencies {
-
-    compile "com.google.guava:guava:29.0-jre"
-    compile "org.reflections:reflections:0.9.12"
-    compile "org.fusesource.jansi:jansi:1.18"
-    compile "commons-io:commons-io:2.7"
-    compile "org.apache.commons:commons-compress:1.20"
-    compile "org.apache.commons:commons-lang3:3.10"
-    compile "com.google.code.gson:gson:2.8.6"
-    compile "org.apache.httpcomponents:httpclient:4.5.12"
-
-
-    compile "com.beust:jcommander:1.72"
-
-    compile "org.slf4j:slf4j-api:1.7.30"
-    compile "ch.qos.logback:logback-classic:1.2.3"
-
-    implementation group: 'org.jetbrains', name: 'annotations', version: '15.0'
+    implementation "org.fusesource.jansi:jansi:1.18"
+    implementation "commons-io:commons-io:2.8.0"
+    implementation "org.apache.commons:commons-lang3:3.11"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "org.apache.httpcomponents:httpclient:4.5.12"
+    implementation "com.beust:jcommander:1.78"
+    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+    implementation "org.jetbrains:annotations:20.0"
     implementation "org.projectlombok:lombok:1.18.12"
     annotationProcessor "org.projectlombok:lombok:1.18.12"
 
-    testCompile "junit:junit:4.13"
+    testImplementation "junit:junit:4.13"
 }
 
 
