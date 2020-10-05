@@ -34,17 +34,17 @@ repositories {
 }
 
 dependencies {
-    implementation "com.google.guava:guava:29.0-jre"
-    implementation "org.fusesource.jansi:jansi:1.18"
-    implementation "commons-io:commons-io:2.8.0"
-    implementation "org.apache.commons:commons-lang3:3.11"
-    implementation "com.google.code.gson:gson:2.8.6"
-    implementation "org.apache.httpcomponents:httpclient:4.5.12"
-    implementation "com.beust:jcommander:1.78"
-    implementation "org.slf4j:slf4j-api:1.7.30"
-    implementation "ch.qos.logback:logback-classic:1.2.3"
-    implementation "org.jetbrains:annotations:20.1.0"
-    implementation "org.projectlombok:lombok:1.18.12"
+    apiElements "com.google.guava:guava:29.0-jre"
+    apiElements "org.fusesource.jansi:jansi:1.18"
+    apiElements "commons-io:commons-io:2.8.0"
+    apiElements "org.apache.commons:commons-lang3:3.11"
+    apiElements "com.google.code.gson:gson:2.8.6"
+    apiElements "org.apache.httpcomponents:httpclient:4.5.12"
+    apiElements "com.beust:jcommander:1.78"
+    apiElements "org.slf4j:slf4j-api:1.7.30"
+    apiElements "ch.qos.logback:logback-classic:1.2.3"
+    apiElements "org.jetbrains:annotations:20.1.0"
+    apiElements "org.projectlombok:lombok:1.18.12"
     annotationProcessor "org.projectlombok:lombok:1.18.12"
 
     testImplementation "junit:junit:4.13"
