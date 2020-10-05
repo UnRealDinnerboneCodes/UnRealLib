@@ -34,6 +34,7 @@ repositories {
 }
 
 dependencies {
+    implementation "com.google.guava:guava:29.0-jre"
     implementation "org.fusesource.jansi:jansi:1.18"
     implementation "commons-io:commons-io:2.8.0"
     implementation "org.apache.commons:commons-lang3:3.11"
