@@ -34,23 +34,23 @@ repositories {
 }
 
 configurations {
-    cake
-    implementation.extendsFrom cake
-    apiElements.extendsFrom cake
+    api
+    implementation.extendsFrom api
+    apiElements.extendsFrom api
 }
 
 dependencies {
-    cake "com.google.guava:guava:29.0-jre"
-    cake "org.fusesource.jansi:jansi:1.18"
-    cake "commons-io:commons-io:2.8.0"
-    cake "org.apache.commons:commons-lang3:3.11"
-    cake "com.google.code.gson:gson:2.8.6"
-    cake "org.apache.httpcomponents:httpclient:4.5.12"
-    cake "com.beust:jcommander:1.78"
-    cake "org.slf4j:slf4j-api:1.7.30"
-    cake "ch.qos.logback:logback-classic:1.2.3"
-    cake "org.jetbrains:annotations:20.1.0"
-    cake "org.projectlombok:lombok:1.18.12"
+    api "com.google.guava:guava:29.0-jre"
+    api "org.fusesource.jansi:jansi:1.18"
+    api "commons-io:commons-io:2.8.0"
+    api "org.apache.commons:commons-lang3:3.11"
+    api "com.google.code.gson:gson:2.8.6"
+    api "org.apache.httpcomponents:httpclient:4.5.12"
+    api "com.beust:jcommander:1.78"
+    api "org.slf4j:slf4j-api:1.7.30"
+    api "ch.qos.logback:logback-classic:1.2.3"
+    api "org.jetbrains:annotations:20.1.0"
+    api "org.projectlombok:lombok:1.18.12"
     annotationProcessor "org.projectlombok:lombok:1.18.12"
 
     testImplementation "junit:junit:4.13"
