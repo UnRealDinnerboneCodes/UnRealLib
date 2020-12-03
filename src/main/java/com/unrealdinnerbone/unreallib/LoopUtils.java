@@ -2,7 +2,7 @@ package com.unrealdinnerbone.unreallib;
 
 public class LoopUtils {
 
-    public static void loop(ExceptionSuppler<Boolean> next, ExceptionRunnable onGood) {
+    public static void loop(ExceptionSuppler<Boolean, Exception> next, ExceptionRunnable onGood) {
         try {
             while (next.get()) {
                 onGood.run();

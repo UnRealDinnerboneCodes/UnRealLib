@@ -14,15 +14,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CompletableFutureUtil {
 
-    public static <T> T get(CompletableFuture<T> completableFuture) {
-        try {
-            return completableFuture.get();
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("Error while running completable future", e);
-            return null;
-        }
-    }
-
     public static CompletableFuture<?> join(CompletableFuture<?>... executionPromises) {
         CompletableFuture<Void> joinedPromise = CompletableFuture.allOf(executionPromises);
         return joinedPromise.thenApply(voit -> Arrays.stream(executionPromises).map(CompletableFuture::join).collect(Collectors.toList()));

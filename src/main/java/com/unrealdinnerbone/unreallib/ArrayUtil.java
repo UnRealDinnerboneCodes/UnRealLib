@@ -10,6 +10,7 @@ import java.util.function.Function;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArrayUtil {
+
     public static long[] conventLongSetToArray(Set<Long> longs) {
         List<Long> longsList = new ArrayList<>(longs);
         long[] longArray = new long[longsList.size()];

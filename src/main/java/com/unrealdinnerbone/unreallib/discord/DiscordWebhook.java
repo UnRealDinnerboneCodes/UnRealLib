@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib.discord;
 
+import com.unrealdinnerbone.unreallib.web.HttpUtils;
 import lombok.*;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -21,8 +22,9 @@ public class DiscordWebhook {
     private String avatarUrl;
     private boolean tts;
 
-    public void addEmbed(EmbedObject embed) {
+    public DiscordWebhook addEmbed(EmbedObject embed) {
         this.embeds.add(embed);
+        return this;
     }
 
     public void execute() throws IOException {
