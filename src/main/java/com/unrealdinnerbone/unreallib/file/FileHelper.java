@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Deprecated
 public class FileHelper {
 
     private static final FileFilter FOLDER_FILTER = File::isDirectory;

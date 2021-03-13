@@ -10,8 +10,8 @@ plugins {
     id "maven-publish"
 }
 
-sourceCompatibility = JavaVersion.VERSION_14
-targetCompatibility = JavaVersion.VERSION_14
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
 
 group 'com.unrealdinnerbone'
 
