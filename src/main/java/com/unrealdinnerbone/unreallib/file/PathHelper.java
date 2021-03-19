@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,22 @@ import java.util.stream.Collectors;
 public class PathHelper {
 
     private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
+
+    public static Path getOrCreateFolder(String name) throws IOException {
+        Path path = Path.of(name);
+        if(!Files.exists(path)) {
+            Files.createDirectory(path);
+        }
+        return path;
+    }
+
+    public static Path getOrCreateFile(String name) throws IOException {
+        Path path = Path.of(name);
+        if(!Files.exists(path)) {
+            Files.createFile(path);
+        }
+        return path;
+    }
 
     public static void downloadFile(String url, Path path) throws IOException {
         downloadFile(new URL(url), path);
