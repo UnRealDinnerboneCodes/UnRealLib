@@ -67,8 +67,8 @@ public class DiscordWebhook {
                 if (footer != null) {
                     JSONObject jsonFooter = new JSONObject();
 
-                    jsonFooter.put("text", footer.getText());
-                    jsonFooter.put("icon_url", footer.getIconUrl());
+                    jsonFooter.put("text", footer.text());
+                    jsonFooter.put("icon_url", footer.iconUrl());
                     jsonEmbed.put("footer", jsonFooter);
                 }
 
@@ -89,9 +89,9 @@ public class DiscordWebhook {
                 if (author != null) {
                     JSONObject jsonAuthor = new JSONObject();
 
-                    jsonAuthor.put("name", author.getName());
-                    jsonAuthor.put("url", author.getUrl());
-                    jsonAuthor.put("icon_url", author.getIconUrl());
+                    jsonAuthor.put("name", author.name());
+                    jsonAuthor.put("url", author.url());
+                    jsonAuthor.put("icon_url", author.iconUrl());
                     jsonEmbed.put("author", jsonAuthor);
                 }
 
@@ -99,9 +99,9 @@ public class DiscordWebhook {
                 for (EmbedObject.Field field : fields) {
                     JSONObject jsonField = new JSONObject();
 
-                    jsonField.put("name", field.getName());
-                    jsonField.put("value", field.getValue());
-                    jsonField.put("inline", field.isInline());
+                    jsonField.put("name", field.name());
+                    jsonField.put("value", field.value());
+                    jsonField.put("inline", field.inline());
 
                     jsonFields.add(jsonField);
                 }

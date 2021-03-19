@@ -1,6 +1,5 @@
 package com.unrealdinnerbone.unreallib.discord;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -24,26 +23,9 @@ public class EmbedObject {
     @Nullable private final Author author;
     private final List<Field> fields = new ArrayList<>();
 
-    @AllArgsConstructor
-    @Getter
-    public static class Footer {
-        private final String text;
-        private final String iconUrl;
-    }
+    public record Footer(String text, String iconUrl) {}
 
-    @AllArgsConstructor
-    @Getter
-    public static class Author {
-        private final String name;
-        private final String url;
-        private final String iconUrl;
-    }
+    public record Author(String name, String url, String iconUrl) {}
 
-    @AllArgsConstructor
-    @Getter
-    public static class Field {
-        private final String name;
-        private final String value;
-        private final boolean inline;
-    }
+    public record Field(String name, String value, boolean inline) {}
 }

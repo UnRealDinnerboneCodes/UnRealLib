@@ -25,8 +25,6 @@ public class HttpUtils {
     static {
         BasicCookieStore cookieStore = new BasicCookieStore();
         httpClient = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build();
-
-
     }
 
     public static BasicClientCookie getCookie(String name, String value, String domain) {
@@ -62,10 +60,7 @@ public class HttpUtils {
         try {
             HttpGet httpGet = new HttpGet(url);
             if (headers != null) {
-                for (Pair<String, String> header : headers) {
-                    httpGet.addHeader(header.getKey(), header.getValue());
-                }
-//                Arrays.stream(header).forEach(httpGet::addHeader);
+                headers.forEach(header -> httpGet.addHeader(header.key(), header.value()));
             }
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
@@ -82,8 +77,7 @@ public class HttpUtils {
     }
 
     public static String get(String url) {
-        String value = get(url, null);
-        return value;
+        return get(url, null);
     }
 
     private static StringEntity createStringEntity(Object hashMap) {

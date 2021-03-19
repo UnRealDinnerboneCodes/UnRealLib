@@ -42,7 +42,6 @@ public class Cache {
     public void add(Integer integer, String s) {
         map.put(integer, s);
         if(++count >= 10) {
-
             count = 0;
         }
     }

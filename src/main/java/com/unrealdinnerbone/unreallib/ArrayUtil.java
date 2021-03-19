@@ -1,14 +1,14 @@
 package com.unrealdinnerbone.unreallib;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArrayUtil {
 
     public static long[] conventLongSetToArray(Set<Long> longs) {
