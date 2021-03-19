@@ -50,12 +50,9 @@ dependencies {
     api "org.slf4j:slf4j-api:1.7.30"
     api "ch.qos.logback:logback-classic:1.2.3"
     api "org.jetbrains:annotations:20.1.0"
-    api "org.projectlombok:lombok:1.18.12"
-    annotationProcessor "org.projectlombok:lombok:1.18.12"
 
     testImplementation "junit:junit:4.13"
 }
-
 
 publishing {
     publications {

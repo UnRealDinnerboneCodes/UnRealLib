@@ -2,7 +2,6 @@ package com.unrealdinnerbone.unreallib.web;
 
 import com.unrealdinnerbone.unreallib.JsonUtil;
 import com.unrealdinnerbone.unreallib.Pair;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,11 +14,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-@Slf4j
 public class HttpUtils {
+
+    private static final Logger LOOGER = LoggerFactory.getLogger(HttpUtils.class);
+
     private static final CloseableHttpClient httpClient;
 
     static {
@@ -48,10 +51,10 @@ public class HttpUtils {
             if (entity != null) {
                 return EntityUtils.toString(entity);
             } else {
-                log.error("Post to {} was null", url);
+                LOOGER.error("Post to {} was null", url);
             }
         } catch (Exception e) {
-            log.error("Error while posting", e);
+            LOOGER.error("Error while posting", e);
         }
         return null;
     }
@@ -67,11 +70,11 @@ public class HttpUtils {
             if (entity != null) {
                 return EntityUtils.toString(entity);
             } else {
-                log.error("Get to {} was null", url);
+                LOOGER.error("Get to {} was null", url);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("Error on get", e);
+            LOOGER.error("Error on get", e);
         }
         return null;
     }
@@ -81,7 +84,7 @@ public class HttpUtils {
     }
 
     private static StringEntity createStringEntity(Object hashMap) {
-        return new StringEntity(JsonUtil.getBasicGson().toJson(hashMap), ContentType.APPLICATION_JSON);
+        return new StringEntity(JsonUtil.GSON.toJson(hashMap), ContentType.APPLICATION_JSON);
     }
 
 }

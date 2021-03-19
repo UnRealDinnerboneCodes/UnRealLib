@@ -1,13 +1,15 @@
 package com.unrealdinnerbone.unreallib;
 
-import lombok.RequiredArgsConstructor;
 
 import java.util.function.Supplier;
 
-@RequiredArgsConstructor
 public class LazyValue<T> {
     private final Supplier<T> tSupplier;
     private T t;
+
+    public LazyValue(Supplier<T> tSupplier) {
+        this.tSupplier = tSupplier;
+    }
 
     public T getT() {
         if(t == null) {

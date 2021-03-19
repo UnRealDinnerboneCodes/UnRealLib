@@ -1,13 +1,10 @@
 package com.unrealdinnerbone.unreallib;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Slf4j
 public class DateFormatter {
 
     private static final DateFormat LOGGER_FORMAT = new SimpleDateFormat("LLLL dd YYYY KK:mm:ss a");
@@ -25,12 +22,7 @@ public class DateFormatter {
         return fileDateFormat.format(new Date());
     }
 
-    public static long parseData(DateFormat dataFormat, String date) {
-        try {
-            return dataFormat.parse(date).getTime();
-        } catch (ParseException e) {
-            log.error("There was and error while trying to parse the date", e);
-        }
-        return -1;
+    public static long parseData(DateFormat dataFormat, String date) throws ParseException{
+        return dataFormat.parse(date).getTime();
     }
 }

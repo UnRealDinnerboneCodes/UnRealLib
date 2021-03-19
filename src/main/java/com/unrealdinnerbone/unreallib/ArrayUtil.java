@@ -1,14 +1,11 @@
 package com.unrealdinnerbone.unreallib;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-@Slf4j
 public class ArrayUtil {
 
     public static long[] conventLongSetToArray(Set<Long> longs) {
@@ -33,7 +30,7 @@ public class ArrayUtil {
         if (tList == null) {
             return "{}";
         }
-        return JsonUtil.getBasicGson().toJson(tList);
+        return JsonUtil.GSON.toJson(tList);
     }
 
     public static <A, B, T> T getValueOrElse(HashMap<A, B> hashMap, A a, Function<B, T> function, T t) {

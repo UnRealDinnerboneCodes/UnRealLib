@@ -1,8 +1,5 @@
 package com.unrealdinnerbone.unreallib.discord;
 
-import com.unrealdinnerbone.unreallib.web.HttpUtils;
-import lombok.*;
-
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.Color;
 import java.io.IOException;
@@ -11,8 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Setter
 public class DiscordWebhook {
 
     private final String url;
@@ -22,9 +17,33 @@ public class DiscordWebhook {
     private String avatarUrl;
     private boolean tts;
 
+    private DiscordWebhook(String url) {
+        this.url = url;
+    }
+
+    public static DiscordWebhook webhookFor(String url) {
+        return new DiscordWebhook(url);
+    }
+
     public DiscordWebhook addEmbed(EmbedObject embed) {
         this.embeds.add(embed);
         return this;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTts(boolean tts) {
+        this.tts = tts;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void execute() throws IOException {
@@ -45,12 +64,12 @@ public class DiscordWebhook {
             for (EmbedObject embed : this.embeds) {
                 JSONObject jsonEmbed = new JSONObject();
 
-                jsonEmbed.put("title", embed.getTitle());
-                jsonEmbed.put("description", embed.getDescription());
-                jsonEmbed.put("url", embed.getUrl());
+                jsonEmbed.put("title", embed.title());
+                jsonEmbed.put("description", embed.description());
+                jsonEmbed.put("url", embed.url());
 
-                if (embed.getColor() != null) {
-                    Color color = embed.getColor();
+                if (embed.color() != null) {
+                    Color color = embed.color();
                     int rgb = color.getRed();
                     rgb = (rgb << 8) + color.getGreen();
                     rgb = (rgb << 8) + color.getBlue();
@@ -58,11 +77,11 @@ public class DiscordWebhook {
                     jsonEmbed.put("color", rgb);
                 }
 
-                EmbedObject.Footer footer = embed.getFooter();
-                String image = embed.getImage();
-                String thumbnail = embed.getThumbnail();
-                EmbedObject.Author author = embed.getAuthor();
-                List<EmbedObject.Field> fields = embed.getFields();
+                EmbedObject.Footer footer = embed.footer();
+                String image = embed.image();
+                String thumbnail = embed.thumbnail();
+                EmbedObject.Author author = embed.author();
+                List<EmbedObject.Field> fields = embed.fields();
 
                 if (footer != null) {
                     JSONObject jsonFooter = new JSONObject();

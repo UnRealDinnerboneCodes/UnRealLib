@@ -1,7 +1,8 @@
 package com.unrealdinnerbone.unreallib;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
 
@@ -29,12 +30,13 @@ public class TaskScheduler {
         return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 1, TimeUnit.SECONDS, new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("task-%d").setUncaughtExceptionHandler(new TaskExceptionHandler()).build());
     }
 
-    @Slf4j
     public static class TaskExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+        public static Logger LOGGER = LoggerFactory.getLogger(TaskExceptionHandler.class);
+
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            log.error("Error while running task", e);
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 }
