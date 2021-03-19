@@ -23,16 +23,14 @@ public class PathHelper {
 
     private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
 
-    public static Path getOrCreateFolder(String name) throws IOException {
-        Path path = Path.of(name);
+    public static Path getOrCreateFolder(Path path) throws IOException {
         if(!Files.exists(path)) {
             Files.createDirectory(path);
         }
         return path;
     }
 
-    public static Path getOrCreateFile(String name) throws IOException {
-        Path path = Path.of(name);
+    public static Path getOrCreateFile(Path path) throws IOException {
         if(!Files.exists(path)) {
             Files.createFile(path);
         }
