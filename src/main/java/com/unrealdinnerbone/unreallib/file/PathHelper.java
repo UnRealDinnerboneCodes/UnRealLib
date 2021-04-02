@@ -24,17 +24,11 @@ public class PathHelper {
     private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
 
     public static Path getOrCreateFolder(Path path) throws IOException {
-        if(!Files.exists(path)) {
-            Files.createDirectory(path);
-        }
-        return path;
+        return !Files.exists(path) ? Files.createDirectory(path) : path;
     }
 
     public static Path getOrCreateFile(Path path) throws IOException {
-        if(!Files.exists(path)) {
-            Files.createFile(path);
-        }
-        return path;
+        return !Files.exists(path) ? Files.createFile(path) : path;
     }
 
     public static void downloadFile(String url, Path path) throws IOException {

@@ -21,7 +21,7 @@ public class DiscordWebhook {
         this.url = url;
     }
 
-    public static DiscordWebhook webhookFor(String url) {
+    public static DiscordWebhook of(String url) {
         return new DiscordWebhook(url);
     }
 

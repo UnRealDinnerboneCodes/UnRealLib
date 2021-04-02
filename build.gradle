@@ -21,16 +21,9 @@ version = project.getProperty("version") + ("+build." + buildNumber).replace("\\
 
 repositories {
     mavenCentral()
-    jcenter()
-    maven {
-        name = "The Name"
-        url = "https://jitpack.io"
-    }
-    maven {
-        url = "https://maven.unreal.codes/repository/unreal/"
-        name = "UnReal Maven"
-    }
-    maven { url "https://oss.jfrog.org/artifactory/libs-release"}
+    maven { url "https://jitpack.io" }
+    maven { url "https://maven.unreal.codes/repository/unreal/" }
+    maven { url "https://oss.jfrog.org/artifactory/libs-release" }
 }
 
 configurations {
@@ -40,15 +33,16 @@ configurations {
 }
 
 dependencies {
-    api "com.google.guava:guava:29.0-jre"
     api "org.fusesource.jansi:jansi:1.18"
-    api "commons-io:commons-io:2.8.0"
-    api "org.apache.commons:commons-lang3:3.11"
-    api "com.google.code.gson:gson:2.8.6"
-    api "org.apache.httpcomponents:httpclient:4.5.12"
-    api "com.beust:jcommander:1.78"
     api "org.slf4j:slf4j-api:1.7.30"
     api "ch.qos.logback:logback-classic:1.2.3"
+
+    api "com.google.code.gson:gson:2.8.6"
+
+    api "commons-io:commons-io:2.8.0"
+
+//    api "com.beust:jcommander:1.78"
+
     api "org.jetbrains:annotations:20.1.0"
 
     testImplementation "junit:junit:4.13"
