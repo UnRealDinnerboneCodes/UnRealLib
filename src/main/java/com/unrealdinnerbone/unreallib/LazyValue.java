@@ -11,7 +11,7 @@ public class LazyValue<T> {
         this.tSupplier = tSupplier;
     }
 
-    public T getT() {
+    public T get() {
         if(t == null) {
             t = tSupplier.get();
         }

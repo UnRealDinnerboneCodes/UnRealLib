@@ -14,7 +14,7 @@ public class HttpUtils {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(map))
                 .uri(URI.create(url))
-                .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+                .setHeader("User-Agent", "Java") // add request header
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .build();
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
