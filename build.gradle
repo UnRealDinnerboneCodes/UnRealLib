@@ -30,17 +30,12 @@ configurations {
 }
 
 dependencies {
-    api "org.fusesource.jansi:jansi:1.18"
+    api "org.fusesource.jansi:jansi:2.3.2"
     api "org.slf4j:slf4j-api:1.7.30"
     api "ch.qos.logback:logback-classic:1.2.3"
-
     api "com.google.code.gson:gson:2.8.6"
-
     api "commons-io:commons-io:2.8.0"
-
     api "org.jetbrains:annotations:20.1.0"
-
-    testImplementation "junit:junit:4.13"
 }
 
 publishing {
