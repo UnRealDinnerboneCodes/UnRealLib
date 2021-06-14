@@ -18,6 +18,11 @@ public class StringUtils {
         return msg;
     }
 
+    public static String trim(String string, int size) {
+        return string.length() > size ? string.substring(0, size - 1) : string;
+    }
+
+
     public static String removePunstion(String s) {
         return s.replaceAll("[^a-zA-Z ]", "");
     }

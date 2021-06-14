@@ -1,10 +1,12 @@
 package com.unrealdinnerbone.unreallib;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.stream.Collectors;
 
 public class ArrayUtil {
 
@@ -34,6 +36,37 @@ public class ArrayUtil {
 
     public static <T> T getLastValue(List<T> t) {
         return t.get(t.size() - 1);
+    }
+
+    @Nullable
+    public static <T> T getRandomValue(List<T> tList) {
+        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(0, tList.size() - 1));
+    }
+
+    public static <T> T getRandomValueAndRemove(List<T> tList) {
+        T t = getRandomValue(tList);
+        if(t != null) {
+            tList.remove(t);
+        }
+        return t;
+    }
+
+
+    public static <T> List<T> allOf(List<T>... lists) {
+        return Arrays.stream(lists).flatMap(Collection::stream).collect(Collectors.toList());
+    }
+
+
+    public static List<Integer> getRandomInts(int min, int max, int amount, IntPredicate intPredicate) {
+        List<Integer> integers = new ArrayList<>();
+        ThreadLocalRandom.current().ints(min, max).filter(intPredicate).distinct().limit(amount).forEach(integers::add);
+        return integers;
+    }
+
+    public static List<Integer> getRandomInts(int min, int max, int amount) {
+        List<Integer> integers = new ArrayList<>();
+        ThreadLocalRandom.current().ints(min, max).distinct().limit(amount).forEach(integers::add);
+        return integers;
     }
 
 }
