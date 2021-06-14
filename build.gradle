@@ -27,6 +27,12 @@ repositories {
     maven { url "https://oss.jfrog.org/artifactory/libs-release" }
 }
 
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+    from sourceSets.core.allJava
+}
+
 configurations {
     api
     implementation.extendsFrom api
@@ -62,6 +68,7 @@ publishing {
         maven(MavenPublication) {
             artifact jar
             artifact coreJar
+            artifact sourceJar
         }
     }
 
