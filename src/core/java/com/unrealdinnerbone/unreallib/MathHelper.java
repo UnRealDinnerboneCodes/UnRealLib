@@ -1,4 +1,4 @@
-package project.belboz.common.lib;
+package com.unrealdinnerbone.unreallib;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
