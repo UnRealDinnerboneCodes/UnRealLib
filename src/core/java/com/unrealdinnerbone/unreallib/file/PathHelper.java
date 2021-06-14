@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,14 @@ public class PathHelper {
 
     public static Path getOrCreateFile(Path path) throws IOException {
         return !Files.exists(path) ? Files.createFile(path) : path;
+    }
+
+    public static Optional<Path> tryGetOrCreateFile(Path path) {
+        try {
+            return Optional.ofNullable(getOrCreateFile(path));
+        } catch(IOException e) {
+            return Optional.empty();
+        }
     }
 
     public static void downloadFile(String url, Path path) throws IOException {
