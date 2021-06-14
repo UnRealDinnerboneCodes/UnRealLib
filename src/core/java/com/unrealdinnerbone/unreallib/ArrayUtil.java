@@ -26,12 +26,7 @@ public class ArrayUtil {
         return builder.toString();
     }
 
-    public static <T> String listToJsonString(List<T> tList) {
-        if (tList == null) {
-            return "{}";
-        }
-        return JsonUtil.GSON.toJson(tList);
-    }
+
 
     public static <A, B, T> T getValueOrElse(HashMap<A, B> hashMap, A a, Function<B, T> function, T t) {
         return hashMap.containsKey(a) ? function.apply(hashMap.get(a)) : t;

@@ -10,6 +10,10 @@ plugins {
     id "maven-publish"
 }
 
+sourceSets {
+    core
+}
+
 group 'com.unrealdinnerbone'
 
 def ENV = System.getenv()
@@ -30,19 +34,34 @@ configurations {
 }
 
 dependencies {
+    coreCompileOnly("org.jetbrains:annotations:20.1.0")
+    api sourceSets.core.output
     api "org.fusesource.jansi:jansi:2.3.2"
     api "org.slf4j:slf4j-api:1.7.30"
     api "ch.qos.logback:logback-classic:1.2.3"
     api "com.google.code.gson:gson:2.8.6"
-    api "commons-io:commons-io:2.8.0"
     api "org.jetbrains:annotations:20.1.0"
+}
+
+
+task coreJar(type: Jar) {
+    archiveClassifier = "core"
+    from sourceSets.core.output
+}
+
+build {
+    dependsOn coreJar
+}
+
+jar{
+    from sourceSets.core.output
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-            from components.java
-            version = project.getProperty("version")
+            artifact jar
+            artifact coreJar
         }
     }
 
