@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib;
+package com.unrealdinnerbone.unreallib.file;
 
 //This Code is Adopted From
 //https://github.com/tnm/murmurhash-java/blob/master/src/main/java/ie/ucd/murmur/MurmurHash.java

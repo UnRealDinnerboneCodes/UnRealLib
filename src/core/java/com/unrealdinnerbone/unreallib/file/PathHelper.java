@@ -1,8 +1,5 @@
 package com.unrealdinnerbone.unreallib.file;
 
-import com.google.gson.Gson;
-import com.unrealdinnerbone.unreallib.MurmurHash;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -38,10 +35,6 @@ public class PathHelper {
             s = s.replace(c, "");
         }
         return s;
-    }
-
-    public static <T> T parsePath(Path file, Gson gson, Class<T> tClass) throws IOException {
-        return gson.fromJson(Files.readString(file), tClass);
     }
 
     public static long getFilesMurmurHash(File file) throws IOException {
