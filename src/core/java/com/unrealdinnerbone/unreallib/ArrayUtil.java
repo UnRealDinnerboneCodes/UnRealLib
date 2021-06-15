@@ -43,6 +43,10 @@ public class ArrayUtil {
         return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(0, tList.size() - 1));
     }
 
+    public static <T> Optional<T> getRandomValueOptionally(List<T> tList) {
+        return Optional.ofNullable(getRandomValue(tList));
+    }
+
     public static <T> T getRandomValueAndRemove(List<T> tList) {
         T t = getRandomValue(tList);
         if(t != null) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -14,17 +15,17 @@ public class PathHelper {
 
     private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
 
-    public static Path getOrCreateFolder(Path path) throws IOException {
+    public static Path tryGetOrCreateFolder(Path path) throws IOException {
         return !Files.exists(path) ? Files.createDirectory(path) : path;
     }
 
-    public static Path getOrCreateFile(Path path) throws IOException {
+    public static Path tryGetOrCreateFile(Path path) throws IOException {
         return !Files.exists(path) ? Files.createFile(path) : path;
     }
 
-    public static Optional<Path> tryGetOrCreateFile(Path path) {
+    public static Optional<Path> getOrCreateFile(Path path) {
         try {
-            return Optional.ofNullable(getOrCreateFile(path));
+            return Optional.ofNullable(tryGetOrCreateFile(path));
         } catch(IOException e) {
             return Optional.empty();
         }

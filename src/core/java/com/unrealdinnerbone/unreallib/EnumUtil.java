@@ -3,11 +3,12 @@ package com.unrealdinnerbone.unreallib;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EnumUtil
 {
     public static <T extends Enum<?>> T getRandomEnum(Class<T> clazz) {
-        return clazz.getEnumConstants()[MathHelper.getRandom().nextInt(clazz.getEnumConstants().length)];
+        return clazz.getEnumConstants()[ThreadLocalRandom.current().nextInt(clazz.getEnumConstants().length)];
     }
 
     public static <T extends Enum<?>> List<T> getEnumsFromClass(Class<T> clazz) {
