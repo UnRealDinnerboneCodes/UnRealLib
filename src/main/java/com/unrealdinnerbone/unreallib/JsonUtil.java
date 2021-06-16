@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonUtil {
@@ -17,7 +18,7 @@ public class JsonUtil {
 
     public static <T> String listToJsonString(List<T> tList) {
         if (tList == null) {
-            return "{}";
+            tList = new ArrayList<>();
         }
         return JsonUtil.GSON.toJson(tList);
     }
