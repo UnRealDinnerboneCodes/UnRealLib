@@ -40,13 +40,13 @@ configurations {
 }
 
 dependencies {
-    coreCompileOnly("org.jetbrains:annotations:20.1.0")
+    coreCompileOnly 'org.jetbrains:annotations:21.0.1'
     api sourceSets.core.output
     api "org.fusesource.jansi:jansi:2.3.2"
-    api "org.slf4j:slf4j-api:1.7.30"
+    api 'org.slf4j:slf4j-api:1.7.31'
     api "ch.qos.logback:logback-classic:1.2.3"
-    api "com.google.code.gson:gson:2.8.6"
-    api "org.jetbrains:annotations:20.1.0"
+    api 'com.google.code.gson:gson:2.8.7'
+    api 'org.jetbrains:annotations:21.0.1'
 }
 
 

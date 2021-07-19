@@ -2,9 +2,11 @@ package com.unrealdinnerbone.unreallib.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
@@ -53,5 +55,11 @@ public class PathHelper {
 
     public static List<Path> getOfPathsInFolder(Path path, Predicate<Path> fileFilter) throws IOException {
         return Files.walk(path).filter(fileFilter).collect(Collectors.toList());
+    }
+
+    public void streamToFile(InputStream inputStream, Path path) throws IOException {
+        Files.createDirectory(path.getParent());
+        Files.createFile(path);
+        Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
     }
 }
