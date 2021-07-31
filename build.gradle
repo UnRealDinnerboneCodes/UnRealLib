@@ -27,9 +27,14 @@ repositories {
     maven { url "https://oss.jfrog.org/artifactory/libs-release" }
 }
 
-task sourceJar(type: Jar) {
+task sourceJarMain(type: Jar) {
     classifier 'sources'
     from sourceSets.main.allJava
+}
+
+task sourceJarCore(type: Jar) {
+    archiveBaseName = "UnRealCore"
+    classifier 'sources'
     from sourceSets.core.allJava
 }
 
@@ -42,16 +47,16 @@ configurations {
 dependencies {
     coreCompileOnly 'org.jetbrains:annotations:21.0.1'
     api sourceSets.core.output
-    api "org.fusesource.jansi:jansi:2.3.2"
-    api 'org.slf4j:slf4j-api:1.7.31'
-    api "ch.qos.logback:logback-classic:1.2.3"
+    api 'org.fusesource.jansi:jansi:2.3.4'
+    api 'org.slf4j:slf4j-api:1.7.32'
+    api 'ch.qos.logback:logback-classic:1.2.5'
     api 'com.google.code.gson:gson:2.8.7'
     api 'org.jetbrains:annotations:21.0.1'
 }
 
 
 task coreJar(type: Jar) {
-    archiveClassifier = "core"
+    archiveBaseName = "UnRealCore"
     from sourceSets.core.output
 }
 
@@ -68,7 +73,8 @@ publishing {
         maven(MavenPublication) {
             artifact jar
             artifact coreJar
-            artifact sourceJar
+            artifact sourceJarCore
+            artifact sourceJarMain
         }
     }
 
