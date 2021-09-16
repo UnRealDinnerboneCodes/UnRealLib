@@ -69,7 +69,7 @@ public class PathHelper {
         return lastIndex == -1 ? "" : "." + fileName.substring(lastIndex + 1);
     }
 
-    public void copyFile(Path src, Path dest, Map<String, String> replacements) throws IOException {
+    public static void copyFile(Path src, Path dest, Map<String, String> replacements) throws IOException {
         String content = Files.readString(src, StandardCharsets.UTF_8);
         for (Map.Entry<String, String> entry : replacements.entrySet()) {
             content = content.replace(entry.getKey(), entry.getValue());
@@ -77,7 +77,7 @@ public class PathHelper {
         Files.writeString(dest, content);
     }
 
-    public void copyFolder(Path src, Path dest, Map<String, String> replacements) throws IOException {
+    public static void copyFolder(Path src, Path dest, Map<String, String> replacements) throws IOException {
         try (Stream<Path> stream = Files.walk(src)) {
             for (Path source: stream.toList()) {
                 Path newFile = dest.resolve(src.relativize(source));
