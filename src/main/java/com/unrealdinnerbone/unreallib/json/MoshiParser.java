@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.json;
 
 import com.squareup.moshi.Moshi;
+import com.unrealdinnerbone.unreallib.json.moshi.OptionalFactory;
 import com.unrealdinnerbone.unreallib.json.moshi.UUIDFactory;
 import dev.zacsweers.moshix.records.RecordsJsonAdapterFactory;
 
@@ -11,7 +12,7 @@ public class MoshiParser implements IJsonParser<IOException> {
 
     private static final Moshi MOSHI = new Moshi.Builder()
             .add(new RecordsJsonAdapterFactory())
-            .add(new UUIDFactory())
+            .add(new OptionalFactory())
             .build();
     public static final MoshiParser INSTANCE = new MoshiParser();
 
@@ -26,5 +27,5 @@ public class MoshiParser implements IJsonParser<IOException> {
     public <T> String toJson(Class<T> tClass, T value) {
         return MOSHI.adapter(tClass).lenient().toJson(value);
     }
-    
+
 }
