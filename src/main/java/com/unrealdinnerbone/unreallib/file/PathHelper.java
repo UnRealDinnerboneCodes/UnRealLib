@@ -56,6 +56,10 @@ public class PathHelper {
         return MurmurHash.murmurHashHash32(MurmurHash.removeBadValuesFromArray(Files.readAllBytes(file.toPath())), 1);
     }
 
+    private static long getMurmurHash(Path path) throws IOException {
+        return PathHelper.getFilesMurmurHash(path.toFile());
+    }
+
     public static List<Path> getOfPathsInFolder(Path path, Predicate<Path> fileFilter) throws IOException {
         return Files.walk(path).filter(fileFilter).collect(Collectors.toList());
     }
