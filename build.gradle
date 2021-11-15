@@ -60,8 +60,4 @@ publishing {
     }
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
-    }
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
