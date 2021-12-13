@@ -1,10 +1,13 @@
 package com.unrealdinnerbone.unreallib.discord;
 
+import com.unrealdinnerbone.unreallib.web.HttpUtils;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class DiscordWebhook {
         this.username = username;
     }
 
-    public void execute() throws IOException {
+    public HttpResponse<String> execute() throws IOException, InterruptedException {
         if (this.content == null && this.embeds.isEmpty()) {
             throw new IllegalArgumentException("Set content or add at least one EmbedObject");
         }
@@ -132,20 +135,7 @@ public class DiscordWebhook {
             json.put("embeds", embedObjects.toArray());
         }
 
-        URL url = new URL(this.url);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.addRequestProperty("Content-Type", "application/json");
-        connection.addRequestProperty("User-Agent", "Java-DiscordWebhook-BY-Gelox_");
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-
-        OutputStream stream = connection.getOutputStream();
-        stream.write(json.toString().getBytes());
-        stream.flush();
-        stream.close();
-
-        connection.getInputStream().close(); //I'm not sure why but it doesn't work without getting the InputStream
-        connection.disconnect();
+        return HttpUtils.post(this.url, json.toString());
     }
 
 }

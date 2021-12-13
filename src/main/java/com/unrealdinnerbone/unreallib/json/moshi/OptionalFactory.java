@@ -14,17 +14,11 @@ public final class OptionalFactory implements JsonAdapter.Factory {
     @Nullable
     @Override
     public JsonAdapter<?> create(Type type, Set<? extends Annotation> annotations, Moshi moshi) {
-        if (!annotations.isEmpty()) {
-            return null;
-        }
-        if (!(type instanceof ParameterizedType)) {
-            return null;
-        }
+        if (!annotations.isEmpty()) return null;
+        if (!(type instanceof ParameterizedType)) return null;
 
         Class<?> rawType = Types.getRawType(type);
-        if (rawType != Optional.class) {
-            return null;
-        }
+        if (rawType != Optional.class) return null;
 
         Type optionalType = ((ParameterizedType) type).getActualTypeArguments()[0];
 
@@ -32,7 +26,6 @@ public final class OptionalFactory implements JsonAdapter.Factory {
 
         return new OptionalJsonAdapter<>(optionalTypeAdapter);
     }
-
 
     private static class OptionalJsonAdapter<T> extends JsonAdapter<Optional<T>> {
 
@@ -51,15 +44,10 @@ public final class OptionalFactory implements JsonAdapter.Factory {
 
         @Override
         public void toJson(JsonWriter writer, @Nullable Optional<T> value) throws IOException {
-            if(value == null){
+            if (value.isPresent()) {
+                optionalTypeAdapter.toJson(writer, value.get());
+            } else {
                 writer.nullValue();
-            }else {
-                if (value.isPresent()) {
-                    optionalTypeAdapter.toJson(writer, value.get());
-                } else {
-                    writer.nullValue();
-                }
-
             }
         }
     }
