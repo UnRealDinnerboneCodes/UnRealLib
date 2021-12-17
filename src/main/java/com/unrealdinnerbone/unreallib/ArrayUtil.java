@@ -55,11 +55,9 @@ public class ArrayUtil {
         return t;
     }
 
-
     public static <T> List<T> allOf(List<T>... lists) {
         return Arrays.stream(lists).flatMap(Collection::stream).collect(Collectors.toList());
     }
-
 
     public static List<Integer> getRandomInts(int min, int max, int amount, IntPredicate intPredicate) {
         List<Integer> integers = new ArrayList<>();
@@ -71,6 +69,20 @@ public class ArrayUtil {
         List<Integer> integers = new ArrayList<>();
         ThreadLocalRandom.current().ints(min, max).distinct().limit(amount).forEach(integers::add);
         return integers;
+    }
+
+    public static Integer getRandomInt(List<Integer> alreadyTaken, int min, int max) {
+        int total = max - min;
+        if(alreadyTaken.size() == total) {
+            throw new RuntimeException("Cant add more!");
+        }else {
+            int random = MathHelper.randomInt(min, max);
+            if(alreadyTaken.contains(random)) {
+                return getRandomInt(alreadyTaken, min, max);
+            }else {
+                return random;
+            }
+        }
     }
 
 }
