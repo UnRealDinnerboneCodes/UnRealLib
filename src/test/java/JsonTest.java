@@ -18,7 +18,6 @@ public class JsonTest
 //        UUID uuid = UUID.randomUUID();
 
         String value = JsonUtil.DEFAULT.toJson(TestClass.class, new TestClass("cake", new Cake("s")));
-
         Object testClass = JsonUtil.DEFAULT.parse(Object.class, value);
 
         TestClass testClassTwo = JsonUtil.DEFAULT.parse(TestClass.class, value);
