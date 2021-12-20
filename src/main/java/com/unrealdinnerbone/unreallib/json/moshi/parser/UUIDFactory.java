@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib.json.moshi;
+package com.unrealdinnerbone.unreallib.json.moshi.parser;
 
 import com.squareup.moshi.*;
 
@@ -19,7 +19,7 @@ public class UUIDFactory extends JsonAdapter<UUID> {
     @Override
     @ToJson
     public void toJson(JsonWriter writer, UUID value) throws IOException {
-        if(value == null) {
+        if(value != null) {
             writer.value(value.toString());
         }else {
             writer.nullValue();

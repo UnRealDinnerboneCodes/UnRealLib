@@ -1,6 +1,7 @@
-package com.unrealdinnerbone.unreallib.json.moshi;
+package com.unrealdinnerbone.unreallib.json.moshi.parser;
 
 import com.squareup.moshi.*;
+import com.unrealdinnerbone.unreallib.json.moshi.IID;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

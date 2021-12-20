@@ -1,7 +1,7 @@
 package com.unrealdinnerbone.unreallib.json;
 
 import com.squareup.moshi.Moshi;
-import com.unrealdinnerbone.unreallib.json.moshi.UUIDFactory;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.UUIDFactory;
 
 import java.io.IOException;
 
