@@ -13,7 +13,6 @@ public class JsonTest
 {
 
 
-    @Test
     public void testJson() throws Exception {
 
 //        UUID uuid = UUID.randomUUID();
@@ -38,7 +37,6 @@ public class JsonTest
 
     public record Cake(String s) {}
 
-    @Test
     public void testJsonObject() throws IOException {
         Moshi MOSHI = new Moshi.Builder().build();
         Path path = Path.of("tests", "jobject.json");
@@ -51,7 +49,6 @@ public class JsonTest
     public static record Testy(String test, Object object) { }
 
 
-    @Test
     public void cake() throws IOException {
         Moshi MOSHI = new Moshi.Builder()
                 .add(new TestAdapter())
