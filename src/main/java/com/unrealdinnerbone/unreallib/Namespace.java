@@ -24,6 +24,6 @@ public record Namespace(String key, String value)  {
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, value);
+        return Objects.hash(key.toLowerCase(), value.toLowerCase());
     }
 }
