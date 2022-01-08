@@ -24,4 +24,9 @@ public class MoshiParser implements IJsonParser<IOException> {
         return MOSHI.adapter(tClass).lenient().toJson(value);
     }
 
+    @Override
+    public <T> String toFancyJson(Class<T> tClass, T value) {
+        return MOSHI.adapter(tClass).indent("    ").toJson(value);
+    }
+
 }
