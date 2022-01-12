@@ -5,28 +5,23 @@ import com.unrealdinnerbone.unreallib.json.moshi.parser.UUIDFactory;
 
 import java.io.IOException;
 
-public class MoshiParser implements IJsonParser<IOException> {
+public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
 
-    private static final Moshi MOSHI = new Moshi.Builder()
-            .add(new UUIDFactory())
-            .build();
-    public static final MoshiParser INSTANCE = new MoshiParser();
-
-    protected MoshiParser() {}
+    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder().add(new UUIDFactory()).build());
 
     @Override
     public <T> T parse(Class<T> tClass, String value) throws IOException {
-        return MOSHI.adapter(tClass).fromJson(value);
+        return moshi.adapter(tClass).fromJson(value);
     }
 
     @Override
     public <T> String toJson(Class<T> tClass, T value) {
-        return MOSHI.adapter(tClass).lenient().toJson(value);
+        return moshi.adapter(tClass).lenient().toJson(value);
     }
 
     @Override
     public <T> String toFancyJson(Class<T> tClass, T value) {
-        return MOSHI.adapter(tClass).indent("    ").toJson(value);
+        return moshi.adapter(tClass).indent("    ").toJson(value);
     }
 
 }
