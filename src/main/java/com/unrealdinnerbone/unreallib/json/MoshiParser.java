@@ -1,7 +1,9 @@
 package com.unrealdinnerbone.unreallib.json;
 
+import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.UUIDFactory;
+import okio.BufferedSource;
 
 import java.io.IOException;
 
@@ -24,4 +26,12 @@ public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
         return moshi.adapter(tClass).indent("    ").toJson(value);
     }
 
+    public <T> T parse(Class<T> tClass, JsonReader value) throws IOException {
+        return moshi.adapter(tClass).fromJson(value);
+    }
+
+    public <T> T parse(Class<T> tClass, BufferedSource value) throws IOException {
+        return moshi.adapter(tClass).fromJson(value);
+    }
+    
 }
