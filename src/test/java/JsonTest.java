@@ -3,6 +3,8 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.ToJson;
 import com.unrealdinnerbone.unreallib.discord.JSONObject;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
+import com.unrealdinnerbone.unreallib.json.moshi.DataString;
+import com.unrealdinnerbone.unreallib.json.moshi.RawJsonAdapter;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -63,4 +65,25 @@ public class JsonTest
 
         System.out.println(world2);
     }
+
+    @Test
+    public void testDataString() throws IOException {
+        Moshi MOSHI = new Moshi.Builder()
+                .add(new RawJsonAdapter())
+                .build();
+
+        System.out.println(MOSHI.adapter(DataTest.class).fromJson("{\n" +
+                "    \"json\": {\n" +
+                "        \"test\": [\n" +
+                "            \"cake\"\n" +
+                "        ],\n" +
+                "        \"cheese\": {\n" +
+                "            \"a\": \"b\",\n" +
+                "            \"b\": \"a\"\n" +
+                "        }\n" +
+                "    }\n" +
+                "}"));
+    }
+
+    public record DataTest(@DataString String json) {}
 }

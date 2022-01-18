@@ -33,5 +33,5 @@ public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
     public <T> T parse(Class<T> tClass, BufferedSource value) throws IOException {
         return moshi.adapter(tClass).fromJson(value);
     }
-    
+
 }
