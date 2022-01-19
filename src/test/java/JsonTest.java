@@ -86,4 +86,10 @@ public class JsonTest
     }
 
     public record DataTest(@DataString String json) {}
+
+
+    @Test
+    public void testFile() throws IOException {
+        JsonTest.class.getResourceAsStream("/css/stats.css").read();
+    }
 }

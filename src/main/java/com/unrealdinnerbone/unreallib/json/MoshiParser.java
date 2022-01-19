@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
 
-    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder().add(new UUIDFactory()).build());
+    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder().build());
 
     @Override
     public <T> T parse(Class<T> tClass, String value) throws IOException {
