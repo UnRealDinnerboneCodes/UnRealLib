@@ -33,20 +33,25 @@ public class DiscordWebhook {
         return this;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
+    public DiscordWebhook setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+        return this;
     }
 
-    public void setContent(String content) {
+    public DiscordWebhook setContent(String content)
+    {
         this.content = content;
+        return this;
     }
 
-    public void setTts(boolean tts) {
+    public DiscordWebhook setTts(boolean tts) {
         this.tts = tts;
+        return this;
     }
 
-    public void setUsername(String username) {
+    public DiscordWebhook setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public HttpResponse<String> execute() throws IOException, InterruptedException {
@@ -135,7 +140,7 @@ public class DiscordWebhook {
             json.put("embeds", embedObjects.toArray());
         }
 
-        return HttpUtils.post(this.url, json.toString());
+        return HttpUtils.postJson(this.url, json.toString());
     }
 
 }

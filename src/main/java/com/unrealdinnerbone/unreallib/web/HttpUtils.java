@@ -20,6 +20,16 @@ public class HttpUtils {
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    public static HttpResponse<String> postJson(String url, String map) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(map))
+                .uri(URI.create(url))
+                .setHeader("User-Agent", "Java") // add request header
+                .header("Content-Type", "application/json")
+                .build();
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     public static HttpResponse<String> get(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
