@@ -30,18 +30,30 @@ public class ActiveList<T> {
     public void setActiveValue(T t) throws IllegalArgumentException {
         if (list.contains(t)) {
             this.activeValue = t;
+            this.spot = list.indexOf(t);
         }else {
             throw new IllegalArgumentException("List does not contain" + t.toString());
         }
     }
 
-    public void setActiveNext() {
+    public T next() {
         if (list.size() > ++spot) {
             this.activeValue = list.get(spot);
         } else {
             this.activeValue = list.get(0);
             this.spot = 0;
         }
+        return activeValue;
+    }
+
+    public T previous() {
+        if (list.size() > --spot && spot >= 0) {
+            this.activeValue = list.get(spot);
+        } else {
+            this.activeValue = list.get(list.size() - 1);
+            this.spot = list.size() - 1;
+        }
+        return activeValue;
     }
 
     public int getSpot() {

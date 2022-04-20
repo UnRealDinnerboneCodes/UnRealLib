@@ -16,6 +16,6 @@ public class EnumUtil
     }
 
     public static <T extends Enum<T>> Optional<T> getEnumValueFromName(Class<T> enumClass, String name) {
-        return EnumUtil.getEnumsFromClass(enumClass).stream().filter(enumValue -> enumValue.name().equalsIgnoreCase(name)).findFirst();
+        return getEnumsFromClass(enumClass).stream().filter(enumValue -> enumValue.name().equalsIgnoreCase(name)).findFirst();
     }
 }

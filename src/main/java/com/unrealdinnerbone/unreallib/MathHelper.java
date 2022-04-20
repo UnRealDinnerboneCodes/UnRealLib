@@ -11,7 +11,7 @@ public class MathHelper {
         return ThreadLocalRandom.current().nextInt((max - min) + 1) + min;
     }
 
-    public static boolean randomYes() {
+    public static boolean randomBoolean() {
         return randomInt(0, 1) == RANDOM;
     }
 

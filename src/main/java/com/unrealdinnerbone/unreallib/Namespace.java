@@ -4,11 +4,6 @@ import java.util.Objects;
 
 public record Namespace(String key, String value)  {
 
-    @Override
-    public String toString() {
-        return key().toLowerCase() + ":" + value().toLowerCase();
-    }
-
     public boolean is(Namespace namespace) {
         return namespace.equals(this);
     }
@@ -20,6 +15,11 @@ public record Namespace(String key, String value)  {
 
     public boolean is(String key, String value) {
         return this.key.equalsIgnoreCase(key) && this.value.equalsIgnoreCase(value);
+    }
+
+    @Override
+    public String toString() {
+        return key().toLowerCase() + ":" + value().toLowerCase();
     }
 
     @Override

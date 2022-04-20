@@ -90,6 +90,5 @@ public class JsonTest
 
     @Test
     public void testFile() throws IOException {
-        JsonTest.class.getResourceAsStream("/css/stats.css").read();
     }
 }
