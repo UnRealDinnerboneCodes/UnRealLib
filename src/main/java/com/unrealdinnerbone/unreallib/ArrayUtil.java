@@ -43,6 +43,12 @@ public class ArrayUtil {
         return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(0, tList.size() - 1));
     }
 
+    @Nullable
+    public static <T> T getRandomValue(Random random, List<T> tList) {
+        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
+    }
+
+
     public static <T> Optional<T> getRandomValueOptionally(List<T> tList) {
         return Optional.ofNullable(getRandomValue(tList));
     }
@@ -54,6 +60,15 @@ public class ArrayUtil {
         }
         return t;
     }
+
+    public static <T> T getRandomValueAndRemove(Random random, List<T> tList) {
+        T t = getRandomValue(random, tList);
+        if(t != null) {
+            tList.remove(t);
+        }
+        return t;
+    }
+
 
     public static <T> List<T> allOf(List<T>... lists) {
         return Arrays.stream(lists).flatMap(Collection::stream).collect(Collectors.toList());
