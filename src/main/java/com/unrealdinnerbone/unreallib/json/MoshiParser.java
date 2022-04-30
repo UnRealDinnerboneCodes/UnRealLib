@@ -2,14 +2,19 @@ package com.unrealdinnerbone.unreallib.json;
 
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
+import com.unrealdinnerbone.unreallib.json.moshi.RawJsonAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.UUIDFactory;
+import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
 
 import java.io.IOException;
 
 public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
 
-    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder().build());
+    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder()
+            .add(new RawJsonAdapter())
+            .add(new RecordsJsonAdapterFactory())
+            .build());
 
     @Override
     public <T> T parse(Class<T> tClass, String value) throws IOException {
