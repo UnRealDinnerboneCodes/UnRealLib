@@ -16,7 +16,10 @@ public class LazyHashMap<T, B> {
     }
 
     public B get(T t) {
-        return !theMap.containsKey(t) ? theMap.put(t, function.apply(t)) : theMap.get(t);
+        if(!theMap.containsKey(t)) {
+            theMap.put(t, function.apply(t));
+        }
+        return theMap.get(t);
     }
 
     public void remove(T t) {

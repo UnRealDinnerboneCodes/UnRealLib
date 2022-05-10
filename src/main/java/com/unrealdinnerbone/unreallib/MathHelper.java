@@ -16,8 +16,11 @@ public class MathHelper {
         return random.nextInt((max - min) + 1) + min;
     }
 
+    public static boolean randomBoolean(Random random) {
+        return random.nextBoolean();
+    }
     public static boolean randomBoolean() {
-        return randomInt(0, 1) == RANDOM;
+        return randomBoolean(ThreadLocalRandom.current());
     }
 
     public static boolean isDisableByX(int number, int divisor) {

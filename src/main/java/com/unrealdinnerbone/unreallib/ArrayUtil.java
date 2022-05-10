@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -34,7 +35,7 @@ public class ArrayUtil {
         return hashMap.containsKey(a) ? function.apply(hashMap.get(a)) : t;
     }
 
-    public static <T> T getLastValue(List<T> t) {
+    public static <T> T getLastValue(@NotNull List<T> t) {
         return t.get(t.size() - 1);
     }
 

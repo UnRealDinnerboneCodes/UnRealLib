@@ -12,5 +12,4 @@ dependencies {
     implementation 'org.fusesource.jansi:jansi:2.4.0'
     implementation 'ch.qos.logback:logback-classic:1.2.7'
     api "com.squareup.moshi:moshi:1.13.0"
-//    implementation 'dev.zacsweers.moshix:moshi-records-reflect:0.14.1'
 }

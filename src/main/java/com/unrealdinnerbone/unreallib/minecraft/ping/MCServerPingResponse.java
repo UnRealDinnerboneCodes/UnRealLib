@@ -1,2 +1,10 @@
-package com.unrealdinnerbone.unreallib.minecraft.ping;public class MCServerPingResponse {
+package com.unrealdinnerbone.unreallib.minecraft.ping;
+
+import com.unrealdinnerbone.unreallib.json.moshi.DataString;
+
+public record MCServerPingResponse(@DataString String description, Players players, Version version, String favicon) {
+
+    public record Players(int max, int online) {}
+    public record Version(String name, int protocol) {}
 }
+
