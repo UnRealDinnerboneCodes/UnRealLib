@@ -13,12 +13,20 @@ public record EmbedObject(@Nullable String title, @Nullable String description, 
         return new EmbedObjectBuilder();
     }
 
-    public record Footer(String text, String iconUrl) {}
+    public record Footer(String text, String iconUrl) {
+        public static Footer of(String text, String iconUrl) {
+            return new Footer(text, iconUrl);
+        }
+    }
 
 
     public record Author(String name, String url, String iconUrl) {}
 
-    public record Field(String name, String value, boolean inline) {}
+    public record Field(String name, String value, boolean inline) {
+        public static Field of(String name, String value, boolean inline) {
+            return new Field(name, value, inline);
+        }
+    }
 
     public static class EmbedObjectBuilder {
         @Nullable private String title;

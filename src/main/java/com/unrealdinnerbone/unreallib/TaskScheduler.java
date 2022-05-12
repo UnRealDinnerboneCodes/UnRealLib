@@ -1,7 +1,10 @@
 package com.unrealdinnerbone.unreallib;
 
+import com.unrealdinnerbone.unreallib.exception.ExceptionRunnable;
+
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
@@ -44,6 +47,24 @@ public class TaskScheduler {
                 }
             }
         });
+    }
+
+    public static <T extends Exception> CompletableFuture<Void> runAsync(ExceptionRunnable<T> runnable) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        handleTaskOnThread(() -> {
+            try {
+                runnable.run();
+                future.complete(null);
+            }catch(Exception e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
+    }
+
+
+    public static <T> CompletableFuture<Void> allAsync(List<CompletableFuture<T>> futures) {
+        return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
     }
 
     public static void handleTaskOnThread(Runnable runnable) {
