@@ -15,6 +15,7 @@ public record EmbedObject(@Nullable String title, @Nullable String description, 
 
     public record Footer(String text, String iconUrl) {}
 
+
     public record Author(String name, String url, String iconUrl) {}
 
     public record Field(String name, String value, boolean inline) {}
