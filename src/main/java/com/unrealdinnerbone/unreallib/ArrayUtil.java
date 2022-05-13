@@ -70,6 +70,11 @@ public class ArrayUtil {
         return t;
     }
 
+    public static <T> Comparator<T> shuffle() {
+        final Map<Object, UUID> uniqueIds = new IdentityHashMap<>();
+        return Comparator.comparing(e -> uniqueIds.computeIfAbsent(e, k -> UUID.randomUUID()));
+    }
+
 
     public static <T> List<T> allOf(List<T>... lists) {
         return Arrays.stream(lists).flatMap(Collection::stream).collect(Collectors.toList());
