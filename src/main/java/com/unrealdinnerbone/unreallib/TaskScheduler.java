@@ -19,13 +19,15 @@ public class TaskScheduler {
         return task;
     }
 
-    public static void scheduleTask(Instant timeToRun, Task task) {
-        TIMER.schedule(new TimerTask() {
+    public static TimerTask scheduleTask(Instant timeToRun, Task task) {
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 task.run(this);
             }
-        }, Date.from(timeToRun));
+        };
+        TIMER.schedule(timerTask, Date.from(timeToRun));
+        return timerTask;
     }
     public static TimerTask scheduleRepeatingTask(int time, TimeUnit timeUnit, Task task) {
         return scheduleRepeatingTask(time, timeUnit, new TimerTask() {
