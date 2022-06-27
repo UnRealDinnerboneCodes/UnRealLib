@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib;
 
 import com.unrealdinnerbone.unreallib.exception.ExceptionRunnable;
+import com.unrealdinnerbone.unreallib.exception.ExceptionSuppler;
 
 import java.time.Instant;
 import java.util.Date;
@@ -64,6 +65,31 @@ public class TaskScheduler {
         return future;
     }
 
+    public static <T, E extends Exception> CompletableFuture<T> getAsync(ExceptionSuppler<T, E> runnable, Executor executor) {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        handleTaskOnThread(() -> {
+            try {
+                future.complete(runnable.get());
+            }catch(Exception e) {
+                future.completeExceptionally(e);
+            }
+        }, executor);
+        return future;
+    }
+
+    public static <T extends Exception> CompletableFuture<Void> runAsync(ExceptionRunnable<T> runnable, Executor executor) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        handleTaskOnThread(() -> {
+            try {
+                runnable.run();
+                future.complete(null);
+            }catch(Exception e) {
+                future.completeExceptionally(e);
+            }
+        }, executor);
+        return future;
+    }
+
 
     public static <T> CompletableFuture<Void> allAsync(List<CompletableFuture<T>> futures) {
         return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
@@ -71,6 +97,10 @@ public class TaskScheduler {
 
     public static void handleTaskOnThread(Runnable runnable) {
         CompletableFuture.runAsync(runnable);
+    }
+
+    public static void handleTaskOnThread(Runnable runnable, Executor executor) {
+        CompletableFuture.runAsync(runnable, executor);
     }
 
     public static Timer getTimer() {

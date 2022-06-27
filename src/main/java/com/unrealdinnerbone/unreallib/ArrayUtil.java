@@ -40,13 +40,13 @@ public class ArrayUtil {
     }
 
     @Nullable
-    public static <T> T getRandomValue(List<T> tList) {
-        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(0, tList.size() - 1));
+    public static <T> T getRandomValue(Random random, List<T> tList) {
+        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
     }
 
     @Nullable
-    public static <T> T getRandomValue(Random random, List<T> tList) {
-        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
+    public static <T> T getRandomValue(List<T> tList) {
+        return getRandomValue(ThreadLocalRandom.current(), tList);
     }
 
 

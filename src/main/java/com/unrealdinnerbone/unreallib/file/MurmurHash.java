@@ -42,7 +42,7 @@ public final class MurmurHash {
 
 
         long returnValue = h;
-        //I Don't know why this works but it does ok SO PLEASE DON'T BREAK IT
+        //I Don't know why this works, but it does ok SO PLEASE DON'T BREAK IT
         if (returnValue < 0) {
             long temp = Integer.MAX_VALUE + returnValue;
             returnValue = Integer.MAX_VALUE + temp + 2;

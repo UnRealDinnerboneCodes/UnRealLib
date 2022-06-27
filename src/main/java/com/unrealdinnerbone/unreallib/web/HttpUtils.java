@@ -8,7 +8,9 @@ import java.net.http.HttpResponse;
 
 public class HttpUtils {
 
-    private static final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+    private static final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .build();
 
     public static HttpResponse<String> post(String url, String map) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
