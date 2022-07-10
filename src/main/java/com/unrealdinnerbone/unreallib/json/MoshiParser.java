@@ -19,9 +19,9 @@ public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
 
     public static MoshiParser createBasic(Function<Moshi.Builder, Moshi.Builder> builderConsumer) {
         return new MoshiParser(builderConsumer.apply(new Moshi.Builder()
-                .add(new RawJsonAdapter())
-                .add(new RecordsJsonAdapterFactory()))
-                .add(Namespace.class, new NamespaceAdapter())
+                        .add(Namespace.class, new NamespaceAdapter())
+                        .add(new RawJsonAdapter())
+                        .add(new RecordsJsonAdapterFactory()))
                 .build());
     }
 
