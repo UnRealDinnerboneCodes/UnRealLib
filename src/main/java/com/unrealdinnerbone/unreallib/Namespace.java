@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public record Namespace(String key, String value)  {
 
+    public static Namespace of(String key, String value) {
+        return new Namespace(key, value);
+    }
     public boolean is(Namespace namespace) {
         return namespace.equals(this);
     }

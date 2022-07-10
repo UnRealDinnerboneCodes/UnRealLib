@@ -2,7 +2,9 @@ package com.unrealdinnerbone.unreallib.json;
 
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
+import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.moshi.RawJsonAdapter;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.NamespaceAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.UUIDFactory;
 import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
@@ -19,6 +21,7 @@ public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
         return new MoshiParser(builderConsumer.apply(new Moshi.Builder()
                 .add(new RawJsonAdapter())
                 .add(new RecordsJsonAdapterFactory()))
+                .add(Namespace.class, new NamespaceAdapter())
                 .build());
     }
 
