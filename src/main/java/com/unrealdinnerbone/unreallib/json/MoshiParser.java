@@ -8,13 +8,19 @@ import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
 
 import java.io.IOException;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
 
-    public static final MoshiParser INSTANCE = new MoshiParser(new Moshi.Builder()
-            .add(new RawJsonAdapter())
-            .add(new RecordsJsonAdapterFactory())
-            .build());
+    public static final MoshiParser INSTANCE = createBasic(builder -> builder);
+
+    public static MoshiParser createBasic(Function<Moshi.Builder, Moshi.Builder> builderConsumer) {
+        return new MoshiParser(builderConsumer.apply(new Moshi.Builder()
+                .add(new RawJsonAdapter())
+                .add(new RecordsJsonAdapterFactory()))
+                .build());
+    }
 
     @Override
     public <T> T parse(Class<T> tClass, String value) throws IOException {
@@ -29,6 +35,11 @@ public record MoshiParser(Moshi moshi) implements IJsonParser<IOException> {
     @Override
     public <T> String toFancyJson(Class<T> tClass, T value) {
         return moshi.adapter(tClass).indent("    ").toJson(value);
+    }
+
+    @Override
+    public <T> Object toJsonObject(Class<T> tClass, T value) {
+        return moshi.adapter(tClass).toJsonValue(value);
     }
 
     public <T> T parse(Class<T> tClass, JsonReader value) throws IOException {

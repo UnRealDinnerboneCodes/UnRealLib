@@ -6,4 +6,6 @@ public interface IJsonParser<E extends Exception> {
     <T> String toJson(Class<T> tClass, T value);
 
     <T> String toFancyJson(Class<T> tClass, T value);
+
+    <T> Object toJsonObject(Class<T> tClass, T value);
 }
