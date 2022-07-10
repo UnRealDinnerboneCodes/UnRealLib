@@ -19,6 +19,9 @@ public abstract class InterfaceSerializer extends JsonAdapter<IHasClazz<?>> {
 
     @Override
     public void toJson(JsonWriter writer, @Nullable IHasClazz value) throws IOException {
+        if(value.getClazz() == null) {
+            throw new IOException("Clazz is null for " + value.getClass().getName());
+        }
         writer.jsonValue(getJsonParser().toJsonObject(value.getClazz(), value));
     }
 
