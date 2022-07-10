@@ -9,13 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
-public class InterfaceSerializer extends JsonAdapter<IHasClazz<?>> {
-
-    private IJsonParser<?> iJsonParser;
-
-    public InterfaceSerializer(IJsonParser<?> iJsonParser) {
-        this.iJsonParser = iJsonParser;
-    }
+public abstract class InterfaceSerializer extends JsonAdapter<IHasClazz<?>> {
 
     @Nullable
     @Override
@@ -25,7 +19,8 @@ public class InterfaceSerializer extends JsonAdapter<IHasClazz<?>> {
 
     @Override
     public void toJson(JsonWriter writer, @Nullable IHasClazz value) throws IOException {
-        writer.jsonValue(iJsonParser.toJsonObject(value.getClazz(), value));
+        writer.jsonValue(getJsonParser().toJsonObject(value.getClazz(), value));
     }
 
+    public abstract IJsonParser<?> getJsonParser();
 }
