@@ -1,8 +1,10 @@
 package com.unrealdinnerbone.unreallib;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-public record Namespace(String key, String value)  {
+public record Namespace(String key, String value) implements Comparable<Namespace>  {
 
     public static Namespace of(String key, String value) {
         return new Namespace(key, value);
@@ -28,5 +30,10 @@ public record Namespace(String key, String value)  {
     @Override
     public int hashCode() {
         return Objects.hash(key.toLowerCase(), value.toLowerCase());
+    }
+
+    @Override
+    public int compareTo(@NotNull Namespace o) {
+        return toString().compareTo(o.toString());
     }
 }
