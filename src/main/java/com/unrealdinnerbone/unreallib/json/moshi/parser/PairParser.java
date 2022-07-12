@@ -30,7 +30,7 @@ public abstract class PairParser extends JsonAdapter<Pair<?, ?>> {
     @Override
     @ToJson
     public void toJson(JsonWriter writer, Pair<?, ?> value) throws IOException {
-        writer.jsonValue(getJsonParser().toJsonObject(Map.class, Map.of(value.key(), value.value())));
+        writer.jsonValue(getJsonParser().toJsonObject(Map.class, Map.of(String.valueOf(value.key()), String.valueOf(value.value()))));
     }
 
     public abstract MoshiParser getJsonParser();
