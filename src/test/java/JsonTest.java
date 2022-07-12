@@ -1,10 +1,15 @@
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.ToJson;
+import com.unrealdinnerbone.unreallib.Pair;
 import com.unrealdinnerbone.unreallib.discord.JSONObject;
+import com.unrealdinnerbone.unreallib.json.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
+import com.unrealdinnerbone.unreallib.json.MoshiParser;
 import com.unrealdinnerbone.unreallib.json.moshi.DataString;
 import com.unrealdinnerbone.unreallib.json.moshi.RawJsonAdapter;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.PairParser;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -90,5 +95,25 @@ public class JsonTest
 
     @Test
     public void testFile() throws IOException {
+    }
+
+
+    @Test
+    public void testPairJson() throws IOException {
+        IJsonParser<IOException> exceptionIJsonParser = MoshiParser.createBasic(builder -> builder.add(Pair.class, new FixedPairParser()));
+        Pair<String, String> thing = Pair.of("a", "b");
+        String json = exceptionIJsonParser.toFancyJson(Pair.class, thing);
+        System.out.println(json);
+        Pair<String, String> pair = exceptionIJsonParser.parse(Pair.class, json);
+        Assert.assertEquals(pair, thing);
+
+    }
+
+    public static class FixedPairParser extends PairParser {
+
+        @Override
+        public MoshiParser getJsonParser() {
+            return MoshiParser.INSTANCE;
+        }
     }
 }
