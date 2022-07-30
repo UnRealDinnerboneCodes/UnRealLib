@@ -65,13 +65,12 @@ public class PathHelper {
         return Files.walk(path).filter(fileFilter).collect(Collectors.toList());
     }
 
-    public static String findExtensions(String fileName) {
-        int lastIndex = fileName.indexOf('.');
-        return lastIndex == -1 ? "" : "." + fileName.substring(lastIndex + 1);
+    public static String findExtension(Path path) {
+        return findExtension(path.getFileName());
     }
     public static String findExtension(String fileName) {
         int lastIndex = fileName.lastIndexOf('.');
-        return lastIndex == -1 ? "" : "." + fileName.substring(lastIndex + 1);
+        return lastIndex == -1 ? "" : fileName.substring(lastIndex + 1);
     }
 
     public static void copyFile(Path src, Path dest, Map<String, String> replacements) throws IOException {
