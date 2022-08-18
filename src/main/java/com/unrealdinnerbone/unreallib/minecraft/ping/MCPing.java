@@ -30,11 +30,6 @@ public class MCPing
 
         return future;
     }
-
-    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException, TimeoutException {
-        System.out.println(getPing("apollouhc.com", 25565).description());
-    }
-
     private static MCServerPingResponse getPing(final String address, final int port) throws IOException, TimeoutException {
 
         if (address == null) {

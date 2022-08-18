@@ -30,6 +30,17 @@ public class TaskScheduler {
         TIMER.schedule(timerTask, Date.from(timeToRun));
         return timerTask;
     }
+
+    public static TimerTask scheduleTask(int time, TimeUnit timeUnit, Task task) {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                task.run(this);
+            }
+        };
+        TIMER.schedule(timerTask, 0, timeUnit.toMillis(time));
+        return timerTask;
+    }
     public static TimerTask scheduleRepeatingTask(int time, TimeUnit timeUnit, Task task) {
         return scheduleRepeatingTask(time, timeUnit, new TimerTask() {
             @Override

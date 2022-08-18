@@ -3,12 +3,17 @@ package com.unrealdinnerbone.unreallib;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EnumUtil
 {
     public static <T extends Enum<?>> T getRandomEnum(Class<T> clazz) {
-        return clazz.getEnumConstants()[ThreadLocalRandom.current().nextInt(clazz.getEnumConstants().length)];
+        return getRandomEnum(ThreadLocalRandom.current(), clazz);
+    }
+
+    public static <T extends Enum<?>> T getRandomEnum(Random random, Class<T> clazz) {
+        return clazz.getEnumConstants()[random.nextInt(clazz.getEnumConstants().length)];
     }
 
     public static <T extends Enum<?>> List<T> getEnumsFromClass(Class<T> clazz) {
@@ -16,6 +21,8 @@ public class EnumUtil
     }
 
     public static <T extends Enum<T>> Optional<T> getEnumValueFromName(Class<T> enumClass, String name) {
-        return getEnumsFromClass(enumClass).stream().filter(enumValue -> enumValue.name().equalsIgnoreCase(name)).findFirst();
+        return getEnumsFromClass(enumClass).stream()
+                .filter(enumValue -> enumValue.name().equalsIgnoreCase(name))
+                .findFirst();
     }
 }
