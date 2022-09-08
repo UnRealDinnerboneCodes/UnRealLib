@@ -2,9 +2,11 @@ package com.unrealdinnerbone.unreallib.web;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 public class HttpUtils {
 
@@ -35,5 +37,9 @@ public class HttpUtils {
     public static HttpResponse<String> get(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public static String encode(String url) {
+        return URLEncoder.encode(url, StandardCharsets.UTF_8);
     }
 }
