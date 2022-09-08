@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.json.moshi;
 
 import com.squareup.moshi.*;
+import com.unrealdinnerbone.unreallib.json.api.DataString;
 import okio.Buffer;
 
 import java.io.IOException;

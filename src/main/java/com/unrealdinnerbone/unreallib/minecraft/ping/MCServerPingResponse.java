@@ -1,6 +1,6 @@
 package com.unrealdinnerbone.unreallib.minecraft.ping;
 
-import com.unrealdinnerbone.unreallib.json.moshi.DataString;
+import com.unrealdinnerbone.unreallib.json.api.DataString;
 
 public record MCServerPingResponse(@DataString String description, Players players, Version version, String favicon) {
 

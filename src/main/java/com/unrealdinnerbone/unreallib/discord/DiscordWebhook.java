@@ -139,7 +139,6 @@ public class DiscordWebhook {
 
             json.put("embeds", embedObjects.toArray());
         }
-
         return HttpUtils.postJson(this.url, json.toString());
     }
 

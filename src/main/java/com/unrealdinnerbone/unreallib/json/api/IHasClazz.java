@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib.json.moshi;
+package com.unrealdinnerbone.unreallib.json.api;
 
 public interface IHasClazz<T extends IHasClazz<T>> {
 

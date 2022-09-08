@@ -38,7 +38,7 @@ public class TaskScheduler {
                 task.run(this);
             }
         };
-        TIMER.schedule(timerTask, 0, timeUnit.toMillis(time));
+        TIMER.schedule(timerTask, timeUnit.toMillis(time));
         return timerTask;
     }
     public static TimerTask scheduleRepeatingTask(int time, TimeUnit timeUnit, Task task) {

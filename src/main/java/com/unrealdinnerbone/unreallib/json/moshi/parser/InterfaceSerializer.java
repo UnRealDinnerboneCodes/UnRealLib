@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.JsonWriter;
 import com.unrealdinnerbone.unreallib.json.IJsonParser;
-import com.unrealdinnerbone.unreallib.json.moshi.IHasClazz;
+import com.unrealdinnerbone.unreallib.json.api.IHasClazz;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -25,5 +25,5 @@ public abstract class InterfaceSerializer extends JsonAdapter<IHasClazz<?>> {
         writer.jsonValue(getJsonParser().toJsonObject(value.getClazz(), value));
     }
 
-    public abstract IJsonParser<?> getJsonParser();
+    public abstract IJsonParser getJsonParser();
 }
