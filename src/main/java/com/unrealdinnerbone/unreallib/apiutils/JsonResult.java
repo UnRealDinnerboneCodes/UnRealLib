@@ -6,9 +6,10 @@ import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-public class ReturnResult<T> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReturnResult.class);
+public class JsonResult<T> implements IReturnResult<T> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonResult.class);
 
     private final String value;
     private final Class<T> tClass;
@@ -16,13 +17,14 @@ public class ReturnResult<T> {
     private final IJsonParser jsonParser;
     private T t;
 
-    public ReturnResult(IJsonParser parser, String value, Class<T> tClass) {
+
+    public JsonResult(IJsonParser parser, String value, Class<T> tClass) {
         this.jsonParser = parser;
         this.value = value;
         this.tClass = tClass;
     }
 
-    public ReturnResult(String value, Class<T> tClass) {
+    public JsonResult(String value, Class<T> tClass) {
         this(JsonUtil.DEFAULT, value, tClass);
     }
 
@@ -34,13 +36,14 @@ public class ReturnResult<T> {
     public T get() {
         if (t == null) {
             try {
-                t = getExceptionally();
+                return getExceptionally();
             } catch (JsonParseException e) {
                 LOGGER.error("There was an error parsing the json", e);
                 return null;
             }
+        }else {
+            return t;
         }
-        return t;
     }
 
 
@@ -51,17 +54,11 @@ public class ReturnResult<T> {
         return t;
     }
 
+
     public Class<T> getClazz() {
         return tClass;
     }
 
 
-    public static <T> ReturnResult<T> createException(Throwable throwable) {
-        return new ReturnResult<>(null, null) {
-            @Override
-            public T getExceptionally() {
-                throw new RuntimeException(throwable);
-            }
-        };
-    }
+
 }
