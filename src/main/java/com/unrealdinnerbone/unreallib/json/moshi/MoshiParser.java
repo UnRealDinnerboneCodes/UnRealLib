@@ -6,6 +6,7 @@ import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.NamespaceAdapter;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.RawJsonAdapter;
 import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
 

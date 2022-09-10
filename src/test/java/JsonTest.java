@@ -1,7 +1,7 @@
 import com.squareup.moshi.Moshi;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import com.unrealdinnerbone.unreallib.json.api.DataString;
-import com.unrealdinnerbone.unreallib.json.moshi.RawJsonAdapter;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.RawJsonAdapter;
 import org.junit.Test;
 
 import java.io.IOException;
