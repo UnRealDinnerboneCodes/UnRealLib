@@ -1,6 +1,8 @@
 package com.unrealdinnerbone.unreallib.web;
 
 
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -8,8 +10,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 public class HttpHelper {
+
+    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(HttpHelper.class);
 
     public static final HttpHelper DEFAULT = new HttpHelper(HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build(), "Java-HttpClient");
 
@@ -33,12 +39,17 @@ public class HttpHelper {
     }
 
 
+
     public HttpResponse<String> get(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(url))
+                .timeout(java.time.Duration.ofSeconds(10))
                 .setHeader("User-Agent", userAgent)
                 .build();
+        for (Map.Entry<String, List<String>> stringListEntry : request.headers().map().entrySet()) {
+            LOGGER.info("{}: {}", stringListEntry.getKey(), stringListEntry.getValue());
+        }
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 

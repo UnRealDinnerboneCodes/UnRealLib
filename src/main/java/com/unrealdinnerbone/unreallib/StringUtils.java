@@ -1,5 +1,8 @@
 package com.unrealdinnerbone.unreallib;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class StringUtils {
     public static final String FORMAT_CODE_START = "{";
     public static final String FORMAT_CODE_END = "}";
@@ -33,5 +36,11 @@ public class StringUtils {
 
     public static String capitalizeFirstLetter(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+    }
+
+    public static String toCamelCase(String s){
+        return Arrays.stream(s.split(" "))
+                .map(StringUtils::capitalizeFirstLetter)
+                .collect(Collectors.joining());
     }
 }
