@@ -10,8 +10,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
 
 public class HttpHelper {
 
@@ -47,9 +45,6 @@ public class HttpHelper {
                 .timeout(java.time.Duration.ofSeconds(10))
                 .setHeader("User-Agent", userAgent)
                 .build();
-        for (Map.Entry<String, List<String>> stringListEntry : request.headers().map().entrySet()) {
-            LOGGER.info("{}: {}", stringListEntry.getKey(), stringListEntry.getValue());
-        }
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
