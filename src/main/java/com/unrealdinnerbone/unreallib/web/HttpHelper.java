@@ -10,12 +10,16 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 public class HttpHelper {
 
     private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(HttpHelper.class);
 
-    public static final HttpHelper DEFAULT = new HttpHelper(HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build(), "Java-HttpClient");
+    public static final HttpHelper DEFAULT = new HttpHelper(HttpClient
+            .newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .build(), "Java-HttpClient");
 
     protected final HttpClient client;
     protected final String userAgent;
@@ -25,27 +29,57 @@ public class HttpHelper {
         this.userAgent = userAgent;
     }
 
-    //"application/x-www-form-urlencoded"
     public HttpResponse<String> post(String url, String map, IContentType contentType) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofString(map))
-                .uri(URI.create(url))
-                .setHeader("User-Agent", userAgent)
-                .header("Content-Type", contentType.getType())
-                .build();
-        return client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpRequest request = createDefaultPostRequestBuilder(URI.create(url), map, contentType);
+        return send(request);
+    }
+
+    public CompletableFuture<HttpResponse<String>> postAsync(String url, String map, IContentType contentType) {
+        return createURI(url)
+                .thenApply(uri -> createDefaultPostRequestBuilder(uri, map, contentType))
+                .thenCompose(this::sendAsync);
     }
 
 
 
-    public HttpResponse<String> get(String url) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(url))
-                .timeout(java.time.Duration.ofSeconds(10))
-                .setHeader("User-Agent", userAgent)
-                .build();
+    public HttpResponse<String> get(String url) throws IOException, InterruptedException, IllegalArgumentException {
+        return send(createDefaultGetRequestBuilder(URI.create(url)));
+    }
+
+
+    public CompletableFuture<HttpResponse<String>> getAsync(String url) {
+        return createURI(url)
+                .thenApply(this::createDefaultGetRequestBuilder)
+                .thenCompose(this::sendAsync);
+    }
+    public HttpResponse<String> send(HttpRequest request) throws IOException, InterruptedException {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public CompletableFuture<HttpResponse<String>> sendAsync(HttpRequest request) {
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpRequest createDefaultPostRequestBuilder(URI url, String map, IContentType type) {
+        return createDefaultRequestBuilder(url).POST(HttpRequest.BodyPublishers.ofString(map))
+                .setHeader("Content-Type", type.getType()).build();
+    }
+    public HttpRequest createDefaultGetRequestBuilder(URI url) {
+        return createDefaultRequestBuilder(url).GET().build();
+    }
+
+    public HttpRequest.Builder createDefaultRequestBuilder(URI uri) {
+        return HttpRequest.newBuilder()
+                .uri(uri)
+                .setHeader("User-Agent", userAgent);
+    }
+
+    public CompletableFuture<URI> createURI(String url) {
+        try {
+            return CompletableFuture.completedFuture(URI.create(url));
+        }catch (IllegalArgumentException e) {
+            return CompletableFuture.failedFuture(e);
+        }
     }
 
     public static String encode(String url) {
@@ -53,7 +87,7 @@ public class HttpHelper {
     }
 
 
-    public enum ContentType implements IContentType{
+    public enum ContentType implements IContentType {
         JSON("application/json"),
         FORM("application/x-www-form-urlencoded");
 

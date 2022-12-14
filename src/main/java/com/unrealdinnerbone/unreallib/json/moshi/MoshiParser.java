@@ -2,11 +2,11 @@ package com.unrealdinnerbone.unreallib.json.moshi;
 
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
-import com.unrealdinnerbone.unreallib.JustAString;
+import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.Namespace;
-import com.unrealdinnerbone.unreallib.json.IJsonParser;
-import com.unrealdinnerbone.unreallib.json.JsonParseException;
-import com.unrealdinnerbone.unreallib.json.moshi.parser.JustAStringAdapter;
+import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
+import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.JsonStringAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.NamespaceAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.RawJsonAdapter;
 import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
@@ -21,7 +21,7 @@ public record MoshiParser(Moshi moshi) implements IJsonParser{
 
     public static MoshiParser createBasic(Function<Moshi.Builder, Moshi.Builder> builderConsumer) {
         return new MoshiParser(builderConsumer.apply(new Moshi.Builder())
-                .add(JustAString.class, new JustAStringAdapter())
+                .add(JsonString.class, new JsonStringAdapter())
                 .add(Namespace.class, new NamespaceAdapter())
                 .add(new RawJsonAdapter())
                 .add(new RecordsJsonAdapterFactory())

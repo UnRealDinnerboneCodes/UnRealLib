@@ -122,7 +122,7 @@ public class TaskScheduler {
         void run(TimerTask task);
     }
 
-    public interface ExceptionTask extends ExceptionRunnable<Exception> {
+    public interface ExceptionTask {
         void run(TimerTask task) throws Exception;
     }
 

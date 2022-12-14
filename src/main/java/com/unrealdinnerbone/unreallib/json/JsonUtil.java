@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib.json;
 
+import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.moshi.MoshiParser;
 
 import java.nio.file.Files;

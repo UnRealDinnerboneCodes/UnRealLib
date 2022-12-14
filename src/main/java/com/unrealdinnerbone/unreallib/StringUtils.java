@@ -43,4 +43,8 @@ public class StringUtils {
                 .map(StringUtils::capitalizeFirstLetter)
                 .collect(Collectors.joining());
     }
+
+    public static boolean containsUpperCase(String string) {
+        return string.chars().anyMatch(Character::isUpperCase);
+    }
 }

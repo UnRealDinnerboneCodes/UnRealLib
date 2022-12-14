@@ -9,10 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,8 +21,19 @@ public class PathHelper {
 
     private static final String[] BAD_CHAR = new String[]{",", "!", "|", ":", "?", "'", "*", "<", ">", "+"};
 
+    public static boolean containsInvalidChar(Path path) {
+        String name = path.getFileName().toString();
+        return Arrays.stream(BAD_CHAR).anyMatch(name::contains);
+    }
+
     public static Path tryGetOrCreateFolder(Path path) throws IOException {
-        return !Files.exists(path) ? Files.createDirectory(path) : path;
+        if(Files.isRegularFile(path)) {
+            throw new IOException("Path already exist as a file, it can't be created a folder");
+        }else if (containsInvalidChar(path)) {
+            throw new IOException("Invalid char in file name " + path.getFileName());
+        } else {
+            return !Files.exists(path) ? Files.createDirectory(path) : path;
+        }
     }
 
     public static Path tryGetOrCreateFile(Path path) throws IOException {
@@ -95,6 +106,22 @@ public class PathHelper {
                     }
                 }
             }
+        }
+    }
+
+    public static Stream<Path> getAllFiles(Path path) {
+        if(Files.exists(path)) {
+            if(!Files.isDirectory(path)) {
+                return Stream.of(path);
+            }else {
+                try(Stream<Path> pathStream = Files.list(path)) {
+                    return pathStream;
+                } catch (IOException e) {
+                    return Stream.empty();
+                }
+            }
+        }else {
+            return Stream.empty();
         }
     }
 

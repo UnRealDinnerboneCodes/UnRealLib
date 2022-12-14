@@ -10,7 +10,9 @@ public class RawJsonAdapter
 {
     @ToJson
     public void toJson(JsonWriter writer, @DataString String string) throws IOException {
-        writer.value(new Buffer().writeUtf8(string).readUtf8());
+        try(Buffer buffer = new Buffer()) {
+            writer.value(buffer.writeUtf8(string).readUtf8());
+        }
     }
 
     @FromJson
