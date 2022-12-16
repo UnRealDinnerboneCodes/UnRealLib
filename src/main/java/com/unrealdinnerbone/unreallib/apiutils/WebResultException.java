@@ -7,4 +7,8 @@ public class WebResultException extends Exception {
         super(url + " returned an " + code + " with body: " + body);
     }
 
+    public WebResultException(Exception e) {
+        super(e);
+    }
+
 }

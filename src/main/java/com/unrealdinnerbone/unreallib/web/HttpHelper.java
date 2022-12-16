@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.web;
 
 
+import com.unrealdinnerbone.unreallib.apiutils.WebResultException;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -44,6 +45,19 @@ public class HttpHelper {
 
     public HttpResponse<String> get(String url) throws IOException, InterruptedException, IllegalArgumentException {
         return send(createDefaultGetRequestBuilder(URI.create(url)));
+    }
+
+    public String getOrThrow(String url) throws WebResultException {
+        try {
+            HttpResponse<String> response = send(createDefaultGetRequestBuilder(URI.create(url)));
+            if(response.statusCode() == 200) {
+                return response.body();
+            }else {
+                throw new WebResultException(url, response.body(), response.statusCode());
+            }
+        }catch (IOException | InterruptedException e) {
+            throw new WebResultException(e);
+        }
     }
 
 

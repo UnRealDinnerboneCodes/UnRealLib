@@ -33,6 +33,11 @@ public class LazyHashMap<T, B> {
         }
     }
 
+
+    public Map<T, B> getCurrentMap() {
+        return Map.copyOf(theMap);
+    }
+
     public void reset() {
         theMap.clear();
     }

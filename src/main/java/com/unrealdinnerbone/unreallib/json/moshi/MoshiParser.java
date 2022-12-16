@@ -13,6 +13,8 @@ import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 public record MoshiParser(Moshi moshi) implements IJsonParser{
@@ -35,6 +37,11 @@ public record MoshiParser(Moshi moshi) implements IJsonParser{
         }catch (IOException e) {
             throw new JsonParseException(e);
         }
+    }
+
+    @Override
+    public <T> List<T> parseList(Class<T[]> tClass, String value) throws JsonParseException {
+        return Arrays.stream(parse(tClass, value)).toList();
     }
 
     @Override
