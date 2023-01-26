@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib.apiutils;
 
+import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import com.unrealdinnerbone.unreallib.web.HttpHelper;
@@ -9,33 +10,33 @@ import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 
 public class APIUtils {
-    @NotNull
-    public static <T> CompletableFuture<T> get(HttpHelper httpHelper, Class<T> tClass, String urlData) {
-        return mapJson(httpHelper.getAsync(urlData), tClass);
+
+    private static <T> CompletableFuture<T> mapJson(CompletableFuture<HttpResponse<String>> responseCompletableFuture, Class<T> tClass) {
+        return responseCompletableFuture.thenApply(response -> {
+            if (response.statusCode() == 200) {
+                return JsonUtil.DEFAULT.parse(tClass, response.body());
+            } else {
+                throw new WebResultException(response.uri().toString(), response.body(), response.statusCode());
+            }
+        });
     }
 
-    public static <T> CompletableFuture<T> mapJson(CompletableFuture<HttpResponse<String>> responseCompletableFuture, Class<T> tClass) {
-        CompletableFuture<T> completableFuture = new CompletableFuture<>();
-        responseCompletableFuture.whenComplete((response, throwable) -> {
-                    if (throwable != null) {
-                        completableFuture.completeExceptionally(throwable);
-                    } else {
-                        if (response.statusCode() == 200) {
-                            try {
-                                completableFuture.complete(JsonUtil.DEFAULT.parse(tClass, response.body()));
-                            } catch (JsonParseException e) {
-                                completableFuture.completeExceptionally(e);
-                            }
-                        } else {
-                            completableFuture.completeExceptionally(new WebResultException(response.uri().toString(), response.body(), response.statusCode()));
-                        }
-                    }
-                });
-        return completableFuture;
+    public static <T> IResult<T> getResult(HttpHelper httpHelper, Class<T> tClass, String urlData, IJsonParser parser) {
+        return new IResult<>() {
+            @Override
+            public T getNow() throws WebResultException, JsonParseException {
+                return parser.parse(tClass, httpHelper.getOrThrow(urlData));
+            }
+
+            @Override
+            public CompletableFuture<T> get() {
+                return mapJson(httpHelper.getAsync(urlData), tClass);
+            }
+        };
     }
     @NotNull
-    public static <T> CompletableFuture<T> get(Class<T> tClass, String urlData) {
-       return get(HttpHelper.DEFAULT, tClass, urlData);
+    public static <T> IResult<T> get(Class<T> tClass, String urlData) {
+       return getResult(HttpHelper.DEFAULT, tClass, urlData, JsonUtil.DEFAULT);
     }
 
 }

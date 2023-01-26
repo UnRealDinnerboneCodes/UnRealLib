@@ -9,10 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -77,7 +74,7 @@ public class PathHelper {
     }
 
     public static String findExtension(Path path) {
-        return findExtension(path.getFileName());
+        return findExtension(path.getFileName().toString());
     }
     public static String findExtension(String fileName) {
         int lastIndex = fileName.lastIndexOf('.');
@@ -109,19 +106,19 @@ public class PathHelper {
         }
     }
 
-    public static Stream<Path> getAllFiles(Path path) {
+    public static List<Path> getAllFiles(Path path) {
         if(Files.exists(path)) {
             if(!Files.isDirectory(path)) {
-                return Stream.of(path);
+                return Collections.singletonList(path);
             }else {
                 try(Stream<Path> pathStream = Files.list(path)) {
-                    return pathStream;
+                    return pathStream.toList();
                 } catch (IOException e) {
-                    return Stream.empty();
+                    return Collections.emptyList();
                 }
             }
         }else {
-            return Stream.empty();
+            return Collections.emptyList();
         }
     }
 

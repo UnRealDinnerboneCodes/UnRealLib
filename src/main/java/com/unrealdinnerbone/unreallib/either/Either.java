@@ -10,6 +10,19 @@ import java.util.function.Function;
 @NotNull
 public class Either<L,R> {
 
+    public static <L, R> Either<L, R> of(L left, R right) throws IllegalArgumentException {
+        if(left != null && right != null) {
+            throw new IllegalArgumentException("Left and Right can't be both not null");
+        }
+        if(left != null) {
+            return left(left);
+        }
+        if(right != null) {
+            return right(right);
+        }
+        return new Either<>(Optional.empty(), Optional.empty());
+    }
+
     public static <L, R> Either<L, R> left(L value) {
         return new Either<>(Optional.of(Optional.ofNullable(value)), Optional.empty());
     }
@@ -18,10 +31,12 @@ public class Either<L,R> {
         return new Either<>(Optional.empty(), Optional.of(Optional.ofNullable(value)));
     }
 
+    @NotNull
     private final Optional<Optional<L>> left;
+    @NotNull
     private final Optional<Optional<R>> right;
 
-    private Either(Optional<Optional<L>> l, Optional<Optional<R>> r) {
+    private Either(@NotNull Optional<Optional<L>> l, @NotNull Optional<Optional<R>> r) {
         left = l;
         right = r;
     }
@@ -41,6 +56,10 @@ public class Either<L,R> {
     public void apply(Consumer<? super L> lFunc, Consumer<? super R> rFunc) {
         left.ifPresent(l -> lFunc.accept(l.orElse(null)));
         right.ifPresent(r -> rFunc.accept(r.orElse(null)));
+    }
+
+    public boolean isEmpty() {
+        return left.isEmpty() && right.isEmpty();
     }
 
 }

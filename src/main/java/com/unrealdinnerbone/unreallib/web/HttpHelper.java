@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.web;
 
 
+import com.unrealdinnerbone.unreallib.LogHelper;
 import com.unrealdinnerbone.unreallib.apiutils.WebResultException;
 import org.slf4j.Logger;
 
@@ -15,19 +16,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class HttpHelper {
 
-    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(HttpHelper.class);
-
-    public static final HttpHelper DEFAULT = new HttpHelper(HttpClient
-            .newBuilder()
-            .version(HttpClient.Version.HTTP_2)
-            .build(), "Java-HttpClient");
+    private static final Logger LOGGER = LogHelper.getLogger();
 
     protected final HttpClient client;
-    protected final String userAgent;
 
-    public HttpHelper(HttpClient client, String userAgent) {
+    public HttpHelper(HttpClient client) {
         this.client = client;
-        this.userAgent = userAgent;
     }
 
     public HttpResponse<String> post(String url, String map, IContentType contentType) throws IOException, InterruptedException {
@@ -47,7 +41,13 @@ public class HttpHelper {
         return send(createDefaultGetRequestBuilder(URI.create(url)));
     }
 
-    public String getOrThrow(String url) throws WebResultException {
+    public CompletableFuture<HttpResponse<String>> getAsync(String url) {
+        return createURI(url)
+                .thenApply(this::createDefaultGetRequestBuilder)
+                .thenCompose(this::sendAsync);
+    }
+
+    protected String getOrThrow(String url) throws WebResultException {
         try {
             HttpResponse<String> response = send(createDefaultGetRequestBuilder(URI.create(url)));
             if(response.statusCode() == 200) {
@@ -61,11 +61,7 @@ public class HttpHelper {
     }
 
 
-    public CompletableFuture<HttpResponse<String>> getAsync(String url) {
-        return createURI(url)
-                .thenApply(this::createDefaultGetRequestBuilder)
-                .thenCompose(this::sendAsync);
-    }
+
     public HttpResponse<String> send(HttpRequest request) throws IOException, InterruptedException {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
@@ -83,9 +79,7 @@ public class HttpHelper {
     }
 
     public HttpRequest.Builder createDefaultRequestBuilder(URI uri) {
-        return HttpRequest.newBuilder()
-                .uri(uri)
-                .setHeader("User-Agent", userAgent);
+        return HttpRequest.newBuilder().uri(uri);
     }
 
     public CompletableFuture<URI> createURI(String url) {
@@ -99,7 +93,6 @@ public class HttpHelper {
     public static String encode(String url) {
         return URLEncoder.encode(url, StandardCharsets.UTF_8);
     }
-
 
     public enum ContentType implements IContentType {
         JSON("application/json"),

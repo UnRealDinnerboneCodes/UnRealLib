@@ -4,7 +4,7 @@ package com.unrealdinnerbone.unreallib;
 import java.util.function.Supplier;
 
 public class LazyValue<T> {
-    private final Supplier<T> tSupplier;
+    private Supplier<T> tSupplier;
     private T t;
 
     public LazyValue(Supplier<T> tSupplier) {
@@ -14,6 +14,7 @@ public class LazyValue<T> {
     public T get() {
         if(t == null) {
             t = tSupplier.get();
+            tSupplier = null;
         }
         return t;
     }
