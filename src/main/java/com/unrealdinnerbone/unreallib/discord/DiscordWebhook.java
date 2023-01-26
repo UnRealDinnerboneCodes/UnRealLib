@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib.discord;
 
+import com.unrealdinnerbone.unreallib.web.BasicHttpHelper;
 import com.unrealdinnerbone.unreallib.web.HttpHelper;
 
 import java.awt.Color;
@@ -136,7 +137,7 @@ public class DiscordWebhook {
 
             json.put("embeds", embedObjects.toArray());
         }
-        return HttpHelper.DEFAULT.post(this.url, json.toString(), HttpHelper.ContentType.JSON);
+        return BasicHttpHelper.DEFAULT.post(this.url, json.toString(), HttpHelper.ContentType.JSON);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.unrealdinnerbone.unreallib.apiutils;
 
-import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
-import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
+import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
+import com.unrealdinnerbone.unreallib.web.BasicHttpHelper;
 import com.unrealdinnerbone.unreallib.web.HttpHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public class APIUtils {
     public static <T> IResult<T> getResult(HttpHelper httpHelper, Class<T> tClass, String urlData, IJsonParser parser) {
         return new IResult<>() {
             @Override
-            public T getNow() throws WebResultException, JsonParseException {
+            public T getNow() throws WebResultException {
                 return parser.parse(tClass, httpHelper.getOrThrow(urlData));
             }
 
@@ -36,7 +36,7 @@ public class APIUtils {
     }
     @NotNull
     public static <T> IResult<T> get(Class<T> tClass, String urlData) {
-       return getResult(HttpHelper.DEFAULT, tClass, urlData, JsonUtil.DEFAULT);
+       return getResult(BasicHttpHelper.DEFAULT, tClass, urlData, JsonUtil.DEFAULT);
     }
 
 }

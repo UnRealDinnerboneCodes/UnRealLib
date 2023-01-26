@@ -47,7 +47,7 @@ public class HttpHelper {
                 .thenCompose(this::sendAsync);
     }
 
-    protected String getOrThrow(String url) throws WebResultException {
+    public String getOrThrow(String url) throws WebResultException {
         try {
             HttpResponse<String> response = send(createDefaultGetRequestBuilder(URI.create(url)));
             if(response.statusCode() == 200) {
