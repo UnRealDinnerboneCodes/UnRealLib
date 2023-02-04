@@ -1,6 +1,5 @@
 package com.unrealdinnerbone.unreallib.web;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -40,6 +39,10 @@ public class WebUtils {
                 """);
         return base.toString();
 
+    }
+
+    public static String formatAsClickableLink(String name, String url) {
+        return "<a href=\"" + url + "\">" + name + "</a>";
     }
 
     public static <T extends Supplier<List<String>>> String getTable(List<T> tList) {
