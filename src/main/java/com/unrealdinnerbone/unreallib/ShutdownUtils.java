@@ -12,4 +12,8 @@ public class ShutdownUtils {
     private static String getName() {
         return "shutdown-" + count++;
     }
+
+    public static void shutdown() {
+        Runtime.getRuntime().exit(0);
+    }
 }

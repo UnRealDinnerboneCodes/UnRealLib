@@ -29,8 +29,6 @@ public class NamespaceAdapter extends JsonAdapter<Namespace> {
     @Override
     @ToJson
     public void toJson(JsonWriter writer, Namespace value) throws IOException {
-        if (value != null) {
-            writer.value(value.toString());
-        }
+        writer.value(value != null ? value.toString() : null);
     }
 }

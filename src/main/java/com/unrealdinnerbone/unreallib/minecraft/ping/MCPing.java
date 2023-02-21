@@ -2,8 +2,8 @@ package com.unrealdinnerbone.unreallib.minecraft.ping;
 
 import com.unrealdinnerbone.unreallib.TaskScheduler;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
+import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
 
-import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,6 +30,7 @@ public class MCPing
 
         return future;
     }
+
     private static MCServerPingResponse getPing(final String address, final int port) throws IOException, TimeoutException {
 
         if (address == null) {
@@ -40,8 +41,7 @@ public class MCPing
 
         var ping = System.currentTimeMillis();
 
-        try (var socket = new Socket()) {
-
+        try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(address, port), 5000);
             ping = System.currentTimeMillis() - ping;
 
@@ -91,12 +91,10 @@ public class MCPing
             io(id != 0x01, "Server returned invalid packet"); // Check Ping Packet
 
         }
-
-
         try {
             return JsonUtil.DEFAULT.parse(MCServerPingResponse.class, json);
-        }catch(Exception e) {
-            throw new RuntimeException(e);
+        }catch(JsonParseException e) {
+            throw new IOException(e);
         }
     }
 

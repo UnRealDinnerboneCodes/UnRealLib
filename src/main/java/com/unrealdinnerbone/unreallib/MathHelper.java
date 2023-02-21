@@ -21,6 +21,10 @@ public class MathHelper {
         return randomBoolean(ThreadLocalRandom.current());
     }
 
+    public static boolean randomBoolean(int chance) {
+        return randomInt(0, 100) <= chance;
+    }
+
     public static boolean isDisableByX(int number, int divisor) {
         return number % divisor == 0;
     }

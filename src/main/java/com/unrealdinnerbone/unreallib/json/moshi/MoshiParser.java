@@ -2,16 +2,18 @@ package com.unrealdinnerbone.unreallib.json.moshi;
 
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
-import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
+import com.unrealdinnerbone.unreallib.json.api.JsonString;
+import com.unrealdinnerbone.unreallib.json.moshi.parser.ColorAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.JsonStringAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.NamespaceAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.RawJsonAdapter;
 import com.unrealdinnerbone.unreallib.json.temp.RecordsJsonAdapterFactory;
 import okio.BufferedSource;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +27,7 @@ public record MoshiParser(Moshi moshi) implements IJsonParser{
         return new MoshiParser(builderConsumer.apply(new Moshi.Builder())
                 .add(JsonString.class, new JsonStringAdapter())
                 .add(Namespace.class, new NamespaceAdapter())
+                .add(Color.class, new ColorAdapter())
                 .add(new RawJsonAdapter())
                 .add(new RecordsJsonAdapterFactory())
                 .build());

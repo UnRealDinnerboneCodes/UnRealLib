@@ -105,7 +105,6 @@ public class TaskScheduler {
     public static <T> CompletableFuture<Void> allAsync(List<CompletableFuture<T>> futures) {
         return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
     }
-
     public static void handleTaskOnThread(Runnable runnable) {
         CompletableFuture.runAsync(runnable);
     }

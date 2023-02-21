@@ -13,20 +13,9 @@ public record EmbedObject(@Nullable String title, @Nullable String description, 
         return new EmbedObjectBuilder();
     }
 
-    public record Footer(String text, String iconUrl) {
-        public static Footer of(String text, String iconUrl) {
-            return new Footer(text, iconUrl);
-        }
-    }
-
-
+    public record Footer(String text, String iconUrl) {}
     public record Author(String name, String url, String iconUrl) {}
-
-    public record Field(String name, String value, boolean inline) {
-        public static Field of(String name, String value, boolean inline) {
-            return new Field(name, value, inline);
-        }
-    }
+    public record Field(String name, String value, boolean inline) {}
 
     public static class EmbedObjectBuilder {
         @Nullable private String title;
@@ -64,6 +53,17 @@ public record EmbedObject(@Nullable String title, @Nullable String description, 
             return this;
         }
 
+        public EmbedObjectBuilder footer(@Nullable String text, @Nullable String iconUrl) {
+            this.footer = new Footer(text, iconUrl);
+            return this;
+        }
+
+
+        public EmbedObjectBuilder footer(@Nullable String text) {
+            this.footer = new Footer(text, null);
+            return this;
+        }
+
         public EmbedObjectBuilder thumbnail(@Nullable String thumbnail) {
             this.thumbnail = thumbnail;
             return this;
@@ -79,8 +79,28 @@ public record EmbedObject(@Nullable String title, @Nullable String description, 
             return this;
         }
 
+        public EmbedObjectBuilder author(@Nullable String name, @Nullable String url, @Nullable String iconUrl) {
+            this.author = new Author(name, url, iconUrl);
+            return this;
+        }
+
+        public EmbedObjectBuilder author(@Nullable String name, @Nullable String url) {
+            this.author = new Author(name, url, null);
+            return this;
+        }
+
+        public EmbedObjectBuilder author(@Nullable String name) {
+            this.author = new Author(name, null, null);
+            return this;
+        }
+
         public EmbedObjectBuilder field(@NotNull Field field) {
             this.fields.add(field);
+            return this;
+        }
+
+        public EmbedObjectBuilder field(@NotNull String name, @NotNull String value, boolean inline) {
+            this.fields.add(new Field(name, value, inline));
             return this;
         }
 

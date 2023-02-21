@@ -7,14 +7,14 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 
-public class EnumJsonAdapter<T extends Enum<T> & IID> extends JsonAdapter<T> {
+public class IIDJsonAdapter<T extends Enum<T> & IID> extends JsonAdapter<T> {
     private final T[] constants;
 
-    public static <T extends Enum<T> & IID> EnumJsonAdapter<T> create(Class<T> enumType) {
-        return new EnumJsonAdapter<>(enumType);
+    public static <T extends Enum<T> & IID> IIDJsonAdapter<T> create(Class<T> enumType) {
+        return new IIDJsonAdapter<>(enumType);
     }
 
-    public EnumJsonAdapter(Class<T> enumType) {
+    public IIDJsonAdapter(Class<T> enumType) {
         constants = enumType.getEnumConstants();
     }
 

@@ -1,4 +1,4 @@
-import com.unrealdinnerbone.unreallib.ActiveList;
+import com.unrealdinnerbone.unreallib.list.ActiveList;
 import org.junit.Assert;
 import org.junit.Test;
 
