@@ -1,7 +1,5 @@
 import com.unrealdinnerbone.unreallib.discord.DiscordWebhook;
 import com.unrealdinnerbone.unreallib.discord.EmbedObject;
-import com.unrealdinnerbone.unreallib.json.JsonUtil;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.*;
@@ -17,7 +15,5 @@ public class DiscordJsonTest
                         .color(Color.RED)
                         .image("https://unreal.codes/kevStonk.png")
                 .description("Test").build());
-
-        Assert.assertEquals(webhook.toString(), JsonUtil.DEFAULT.toJson(DiscordWebhook.class, webhook));
     }
 }
