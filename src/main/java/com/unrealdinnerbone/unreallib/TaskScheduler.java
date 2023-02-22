@@ -70,7 +70,7 @@ public class TaskScheduler {
                 runnable.run();
                 future.complete(null);
             }catch(Exception e) {
-                future.completeExceptionally(e);
+                future.completeExceptionally(e.getCause() != null ? e.getCause() : e);
             }
         });
         return future;
