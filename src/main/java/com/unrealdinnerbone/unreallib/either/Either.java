@@ -12,7 +12,7 @@ public class Either<L,R> {
 
     public static <L, R> Either<L, R> of(L left, R right) throws IllegalArgumentException {
         if(left != null && right != null) {
-            throw new IllegalArgumentException("Left and Right can't be both not null");
+            throw new IllegalArgumentException("Both left and right can't contain a value");
         }
         if(left != null) {
             return left(left);

@@ -1,10 +1,11 @@
 package com.unrealdinnerbone.unreallib.discord;
 
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
-import com.unrealdinnerbone.unreallib.web.BasicHttpHelper;
+import com.unrealdinnerbone.unreallib.web.ContentType;
 import com.unrealdinnerbone.unreallib.web.HttpHelper;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class DiscordWebhook {
             throw new IllegalArgumentException("Set content or add at least one EmbedObject");
         }
         String json = JsonUtil.DEFAULT.toJson(DiscordWebhook.class, this);
-        return BasicHttpHelper.DEFAULT.post(url, json, HttpHelper.ContentType.JSON);
+        return HttpHelper.post(HttpHelper.DEFAULT, URI.create(url), json, ContentType.JSON);
     }
 
 }

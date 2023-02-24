@@ -32,9 +32,6 @@ public class ResultTest {
         stringCompletableFuture.whenComplete((s1, throwable) -> Assert.assertThrows(JsonParseException.class, () -> {
             throw throwable;
         }));
-//        Assert.assertEquals("2", testResult2.getNow());
-//        Assert.assertThrows(JsonParseException.class, testResult2::get);
-//        Assert.assertThrows(JsonParseException.class, testResult2::getNow);
 
 
     }

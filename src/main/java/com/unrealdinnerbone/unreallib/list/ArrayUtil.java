@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
@@ -22,18 +21,9 @@ public class ArrayUtil {
     }
 
     public static <T> String listToString(List<T> tList) {
-        if (tList == null) {
-            return "";
-        }
-        StringBuilder builder = new StringBuilder();
-        tList.forEach(t -> builder.append(t.toString()).append("\n"));
-        return builder.toString();
-    }
-
-
-
-    public static <A, B, T> T getValueOrElse(HashMap<A, B> hashMap, A a, Function<B, T> function, T t) {
-        return hashMap.containsKey(a) ? function.apply(hashMap.get(a)) : t;
+        return tList.stream()
+                .map(T::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     public static <T> T getLastValue(@NotNull List<T> t) {

@@ -24,8 +24,6 @@ public class StringUtils {
     public static String trim(String string, int size) {
         return string.length() > size ? string.substring(0, size - 1) : string;
     }
-
-
     public static String removePunstion(String s) {
         return s.replaceAll("[^a-zA-Z ]", "");
     }
@@ -37,7 +35,6 @@ public class StringUtils {
     public static String capitalizeFirstLetter(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
     }
-
     public static String toCamelCase(String s){
         return Arrays.stream(s.split(" "))
                 .map(StringUtils::capitalizeFirstLetter)

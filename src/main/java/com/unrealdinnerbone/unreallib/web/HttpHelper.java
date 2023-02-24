@@ -1,6 +1,5 @@
 package com.unrealdinnerbone.unreallib.web;
 
-
 import com.unrealdinnerbone.unreallib.LogHelper;
 import com.unrealdinnerbone.unreallib.apiutils.WebResultException;
 import org.slf4j.Logger;
@@ -13,47 +12,98 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 public class HttpHelper {
 
+    public static final HttpClient DEFAULT = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .build();
     private static final Logger LOGGER = LogHelper.getLogger();
 
-    protected final HttpClient client;
-
-    public HttpHelper(HttpClient client) {
-        this.client = client;
+    public static HttpResponse<String> post(HttpClient client, URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
+        HttpRequest.Builder requestBuilder = builder.apply(HttpRequest.newBuilder()
+                .uri(url)
+                .POST(HttpRequest.BodyPublishers.ofString(map))
+                .setHeader("Content-Type", contentType.getType()));
+        return client.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
+    }
+    public static HttpResponse<String> post(HttpClient client, URI url, String map, IContentType contentType) throws IOException, InterruptedException {
+        return post(client, url, map, contentType, builder -> builder);
     }
 
-    public HttpResponse<String> post(String url, String map, IContentType contentType) throws IOException, InterruptedException {
-        HttpRequest request = createDefaultPostRequestBuilder(URI.create(url), map, contentType);
-        return send(request);
+    public static HttpResponse<String> post(URI url, String map, IContentType contentType) throws IOException, InterruptedException {
+        return post(DEFAULT, url, map, contentType, builder -> builder);
     }
 
-    public CompletableFuture<HttpResponse<String>> postAsync(String url, String map, IContentType contentType) {
-        return createURI(url)
-                .thenApply(uri -> createDefaultPostRequestBuilder(uri, map, contentType))
-                .thenCompose(this::sendAsync);
+    public static HttpResponse<String> post(URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
+        return post(DEFAULT, url, map, contentType, builder);
     }
 
 
-
-    public HttpResponse<String> get(String url) throws IOException, InterruptedException, IllegalArgumentException {
-        return send(createDefaultGetRequestBuilder(URI.create(url)));
+    public static CompletableFuture<HttpResponse<String>> postAsync(HttpClient client, URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
+        HttpRequest.Builder requestBuilder = builder.apply(HttpRequest.newBuilder()
+                .uri(url)
+                .POST(HttpRequest.BodyPublishers.ofString(map))
+                .setHeader("Content-Type", contentType.getType()));
+        return client.sendAsync(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
-    public CompletableFuture<HttpResponse<String>> getAsync(String url) {
-        return createURI(url)
-                .thenApply(this::createDefaultGetRequestBuilder)
-                .thenCompose(this::sendAsync);
+    public static CompletableFuture<HttpResponse<String>> postAsync(HttpClient client, URI url, String map, IContentType contentType) {
+        return postAsync(client, url, map, contentType, builder -> builder);
     }
 
-    public String getOrThrow(String url) throws WebResultException {
+    public static CompletableFuture<HttpResponse<String>> postAsync(URI url, String map, IContentType contentType) {
+        return postAsync(DEFAULT, url, map, contentType, builder -> builder);
+    }
+
+    public static CompletableFuture<HttpResponse<String>> postAsync(URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
+        return postAsync(DEFAULT, url, map, contentType, builder);
+    }
+
+
+
+    public static HttpResponse<String> get(HttpClient client, URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
+        return client.send(builder.apply(HttpRequest.newBuilder().uri(uri)).build(), HttpResponse.BodyHandlers.ofString());
+    }
+
+    public static HttpResponse<String> get(HttpClient client, URI uri) throws IOException, InterruptedException {
+        return get(client, uri, builder -> builder);
+    }
+
+    public static HttpResponse<String> get(URI uri) throws IOException, InterruptedException {
+        return get(DEFAULT, uri, builder -> builder);
+    }
+
+
+    public static HttpResponse<String> get(URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
+        return get(DEFAULT, uri, builder);
+    }
+
+
+    public static CompletableFuture<HttpResponse<String>> getAsync(HttpClient client, URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
+        return client.sendAsync(builder.apply(HttpRequest.newBuilder().uri(uri)).build(), HttpResponse.BodyHandlers.ofString());
+    }
+    public static CompletableFuture<HttpResponse<String>> getAsync(HttpClient client, URI uri) {
+        return getAsync(client, uri, builder -> builder);
+    }
+
+    public static CompletableFuture<HttpResponse<String>> getAsync(URI uri) {
+        return getAsync(DEFAULT, uri, builder -> builder);
+    }
+
+    public static CompletableFuture<HttpResponse<String>> getAsync(URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
+        return getAsync(DEFAULT, uri, builder);
+    }
+
+
+    public static String getOrThrow(HttpClient client, URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws WebResultException {
         try {
-            HttpResponse<String> response = send(createDefaultGetRequestBuilder(URI.create(url)));
+            HttpResponse<String> response = get(client, uri, builder);
             if(response.statusCode() == 200) {
                 return response.body();
             }else {
-                throw new WebResultException(url, response.body(), response.statusCode());
+                throw new WebResultException(uri.toString(), response.body(), response.statusCode());
             }
         }catch (IOException | InterruptedException e) {
             throw new WebResultException(e);
@@ -61,56 +111,43 @@ public class HttpHelper {
     }
 
 
-
-    public HttpResponse<String> send(HttpRequest request) throws IOException, InterruptedException {
-        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    public static String getOrThrow(HttpClient client, URI uri) throws WebResultException {
+        return getOrThrow(client, uri, builder -> builder);
     }
 
-    public CompletableFuture<HttpResponse<String>> sendAsync(HttpRequest request) {
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    public static String getOrThrow(URI uri) throws WebResultException {
+        return getOrThrow(DEFAULT, uri, builder -> builder);
     }
 
-    public HttpRequest createDefaultPostRequestBuilder(URI url, String map, IContentType type) {
-        return createDefaultRequestBuilder(url).POST(HttpRequest.BodyPublishers.ofString(map))
-                .setHeader("Content-Type", type.getType()).build();
-    }
-    public HttpRequest createDefaultGetRequestBuilder(URI url) {
-        return createDefaultRequestBuilder(url).GET().build();
+    public static String getOrThrow(URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws WebResultException {
+        return getOrThrow(DEFAULT, uri, builder);
     }
 
-    public HttpRequest.Builder createDefaultRequestBuilder(URI uri) {
-        return HttpRequest.newBuilder().uri(uri);
+    public static CompletableFuture<String> getOrThrowAsync(HttpClient client, URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws WebResultException {
+        return getAsync(client, uri, builder)
+                .thenCompose(response1 -> {
+                    if (response1.statusCode() == 200) {
+                        return CompletableFuture.completedFuture(response1.body());
+                    } else {
+                        return CompletableFuture.failedFuture(new WebResultException(uri.toString(), response1.body(), response1.statusCode()));
+                    }
+                });
+    }
+    public static CompletableFuture<String> getOrThrowAsync(HttpClient client, URI uri) throws WebResultException {
+        return getOrThrowAsync(client, uri, builder -> builder);
     }
 
-    public CompletableFuture<URI> createURI(String url) {
-        try {
-            return CompletableFuture.completedFuture(URI.create(url));
-        }catch (IllegalArgumentException e) {
-            return CompletableFuture.failedFuture(e);
-        }
+    public static CompletableFuture<String> getOrThrowAsync(URI uri, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws WebResultException {
+        return getOrThrowAsync(DEFAULT, uri, builder);
+    }
+
+    public static CompletableFuture<String> getOrThrowAsync(URI uri) throws WebResultException {
+        return getOrThrowAsync(DEFAULT, uri);
     }
 
     public static String encode(String url) {
         return URLEncoder.encode(url, StandardCharsets.UTF_8);
     }
 
-    public enum ContentType implements IContentType {
-        JSON("application/json"),
-        FORM("application/x-www-form-urlencoded");
-
-        private final String type;
-
-        ContentType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
-    }
-
-    public interface IContentType {
-        String getType();
-    }
 
 }
