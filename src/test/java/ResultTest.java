@@ -1,5 +1,5 @@
 import com.unrealdinnerbone.unreallib.apiutils.IResult;
-import com.unrealdinnerbone.unreallib.apiutils.WebResultException;
+import com.unrealdinnerbone.unreallib.exception.WebResultException;
 import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
 import org.junit.Assert;
 import org.junit.Test;

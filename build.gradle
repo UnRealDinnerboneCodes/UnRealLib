@@ -6,10 +6,19 @@ plugins {
 
 apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/helpers/base.gradle'
 
+
 dependencies {
     implementation 'org.fusesource.jansi:jansi:2.4.0'
     implementation 'ch.qos.logback:logback-classic:1.4.5'
-    api 'org.slf4j:slf4j-api:2.0.6'
-    api 'org.jetbrains:annotations:24.0.0'
-    api "com.squareup.moshi:moshi:1.14.0"
+    api("com.unrealdinnerbone:UnRealLib-json:${getVersion()}")
 }
+
+allprojects {
+        configurations.configureEach {
+            resolutionStrategy.dependencySubstitution {
+                substitute module("com.unrealdinnerbone:UnRealLib-json") using project(":UnRealLib-json") because "We are in Dev"
+                substitute module("com.unrealdinnerbone:UnRealLib-core") using project(":UnRealLib-core") because "We are in Dev"
+            }
+        }
+    }
+

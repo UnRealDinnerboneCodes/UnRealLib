@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id "maven-publish"
+    id 'java-library'
+    id("org.gradlex.extra-java-module-info") version "1.3"
+}
+
+apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/helpers/base.gradle'
+
+version = parent.getVersion()
+
+
+sourceSets.main.java.srcDirs = [projectDir.parentFile.parentFile.absolutePath + "\\src\\json\\java"]
+
+dependencies {
+    api "com.squareup.moshi:moshi:1.14.0"
+    implementation "com.squareup.moshi:moshi:1.14.0"
+    api("com.unrealdinnerbone:UnRealLib-core:${parent.getVersion()}")
+
+}
+
+
+extraJavaModuleInfo {
+    // failOnMissingModuleInfo.set(false)
+    automaticModule("com.squareup.moshi:moshi", "com.squareup.moshi.moshi")
+    automaticModule("org.jetbrains.kotlin:kotlin-stdlib-common", "org.jetbrains.kotlin.kotlin-stdlib-common")
+}
