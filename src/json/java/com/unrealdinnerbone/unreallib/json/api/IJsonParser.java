@@ -1,5 +1,7 @@
 package com.unrealdinnerbone.unreallib.json.api;
 
+import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
+
 import java.util.List;
 
 public interface IJsonParser {

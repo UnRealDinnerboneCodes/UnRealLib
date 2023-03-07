@@ -9,7 +9,6 @@ apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/he
 
 version = parent.getVersion()
 
-
 sourceSets.main.java.srcDirs = [projectDir.parentFile.parentFile.absolutePath + "\\src\\json\\java"]
 
 dependencies {
@@ -19,9 +18,8 @@ dependencies {
 
 }
 
-
 extraJavaModuleInfo {
-    // failOnMissingModuleInfo.set(false)
     automaticModule("com.squareup.moshi:moshi", "com.squareup.moshi.moshi")
     automaticModule("org.jetbrains.kotlin:kotlin-stdlib-common", "org.jetbrains.kotlin.kotlin-stdlib-common")
 }
+

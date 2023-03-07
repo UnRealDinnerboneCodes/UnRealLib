@@ -2,7 +2,7 @@ package com.unrealdinnerbone.unreallib.apiutils;
 
 import com.unrealdinnerbone.unreallib.exception.ExceptionFunction;
 import com.unrealdinnerbone.unreallib.exception.WebResultException;
-import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
+import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
-import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
+import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.ColorAdapter;
 import com.unrealdinnerbone.unreallib.json.moshi.parser.JsonStringAdapter;

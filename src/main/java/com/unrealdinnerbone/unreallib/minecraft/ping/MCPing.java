@@ -3,7 +3,7 @@ package com.unrealdinnerbone.unreallib.minecraft.ping;
 
 import com.unrealdinnerbone.unreallib.TaskScheduler;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
-import com.unrealdinnerbone.unreallib.json.api.JsonParseException;
+import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

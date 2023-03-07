@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.unreallib.json.api;
+package com.unrealdinnerbone.unreallib.json.exception;
 
 public class JsonParseException extends RuntimeException {
 
