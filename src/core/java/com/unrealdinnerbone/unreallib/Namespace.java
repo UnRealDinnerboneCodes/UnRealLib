@@ -24,7 +24,11 @@ public record Namespace(String key, String value) implements Comparable<Namespac
 
     @Override
     public String toString() {
-        return key().toLowerCase() + ":" + value().toLowerCase();
+        return toString(":");
+    }
+
+    public String toString(String split) {
+        return key().toLowerCase() + split + value().toLowerCase();
     }
 
     @Override
