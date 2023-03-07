@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id "maven-publish"
     id 'java-library'
+    id 'me.champeau.mrjar' version "0.1"
 }
 
 apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/helpers/base.gradle'
@@ -14,11 +15,15 @@ dependencies {
 }
 
 allprojects {
-        configurations.configureEach {
-            resolutionStrategy.dependencySubstitution {
-                substitute module("com.unrealdinnerbone:UnRealLib-json") using project(":UnRealLib-json") because "We are in Dev"
-                substitute module("com.unrealdinnerbone:UnRealLib-core") using project(":UnRealLib-core") because "We are in Dev"
-            }
+    configurations.configureEach {
+        resolutionStrategy.dependencySubstitution {
+            substitute module("com.unrealdinnerbone:UnRealLib-json") using project(":UnRealLib-json") because "We are in Dev"
+            substitute module("com.unrealdinnerbone:UnRealLib-core") using project(":UnRealLib-core") because "We are in Dev"
         }
     }
+}
+
+compileJava {
+    options.release = 17
+}
 

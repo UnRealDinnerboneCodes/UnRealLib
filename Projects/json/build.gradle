@@ -23,3 +23,7 @@ extraJavaModuleInfo {
     automaticModule("org.jetbrains.kotlin:kotlin-stdlib-common", "org.jetbrains.kotlin.kotlin-stdlib-common")
 }
 
+
+compileJava {
+    options.release = 17
+}
