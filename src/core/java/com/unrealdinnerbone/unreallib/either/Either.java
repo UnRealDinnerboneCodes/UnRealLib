@@ -45,6 +45,7 @@ public class Either<L,R> {
         return left.<T>map(l -> lFunc.apply(l.orElse(null))).orElseGet(() -> right.map(r -> rFunc.apply(r.orElse(null))).get());
     }
 
+
     public <T> Either<T, R> mapLeft(Function<? super L, ? extends T> lFunc) {
         return new Either<>(left.map(l -> l.map(lFunc)), right);
     }
@@ -56,6 +57,24 @@ public class Either<L,R> {
     public void apply(Consumer<? super L> lFunc, Consumer<? super R> rFunc) {
         left.ifPresent(l -> lFunc.accept(l.orElse(null)));
         right.ifPresent(r -> rFunc.accept(r.orElse(null)));
+    }
+
+    public Object getValue() {
+        if(left.isPresent()) {
+            if(left.get().isPresent()) {
+                return left.get().get();
+            }else {
+                return null;
+            }
+        }
+        if(right.isPresent()) {
+            if(right.get().isPresent()) {
+                return right.get().get();
+            }else {
+                return null;
+            }
+        }
+        return null;
     }
 
     public boolean isEmpty() {

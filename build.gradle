@@ -11,13 +11,13 @@ apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/he
 dependencies {
     implementation 'org.fusesource.jansi:jansi:2.4.0'
     implementation 'ch.qos.logback:logback-classic:1.4.5'
-    api("com.unrealdinnerbone:UnRealLib-json:${getVersion()}")
+    api("com.unrealdinnerbone:UnRealLib-gson:${getVersion()}")
 }
 
 allprojects {
     configurations.configureEach {
         resolutionStrategy.dependencySubstitution {
-            substitute module("com.unrealdinnerbone:UnRealLib-json") using project(":UnRealLib-json") because "We are in Dev"
+            substitute module("com.unrealdinnerbone:UnRealLib-gson") using project(":UnRealLib-gson") because "We are in Dev"
             substitute module("com.unrealdinnerbone:UnRealLib-core") using project(":UnRealLib-core") because "We are in Dev"
         }
     }

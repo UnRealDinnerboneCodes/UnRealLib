@@ -9,6 +9,14 @@ public record Namespace(String key, String value) implements Comparable<Namespac
     public static Namespace of(String key, String value) {
         return new Namespace(key, value);
     }
+
+    public static Namespace of(String namespace) {
+        String[] split = namespace.split(":");
+        if(split.length == 2) {
+            return new Namespace(split[0], split[1]);
+        }
+        throw new IllegalArgumentException("Invalid namespace: " + namespace);
+    }
     public boolean is(Namespace namespace) {
         return namespace.equals(this);
     }

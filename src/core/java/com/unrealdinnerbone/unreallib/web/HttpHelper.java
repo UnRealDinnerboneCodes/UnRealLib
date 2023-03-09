@@ -25,23 +25,23 @@ public class HttpHelper {
                 .setHeader("Content-Type", contentType.getType()));
         return client.send(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
-    public static HttpResponse<String> post(HttpClient client, URI url, String map, IContentType contentType) throws IOException, InterruptedException {
-        return post(client, url, map, contentType, builder -> builder);
+    public static HttpResponse<String> post(HttpClient client, URI url, String data, IContentType contentType) throws IOException, InterruptedException {
+        return post(client, url, data, contentType, builder -> builder);
     }
 
-    public static HttpResponse<String> post(URI url, String map, IContentType contentType) throws IOException, InterruptedException {
-        return post(DEFAULT, url, map, contentType, builder -> builder);
+    public static HttpResponse<String> post(URI url, String data, IContentType contentType) throws IOException, InterruptedException {
+        return post(DEFAULT, url, data, contentType, builder -> builder);
     }
 
-    public static HttpResponse<String> post(URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
-        return post(DEFAULT, url, map, contentType, builder);
+    public static HttpResponse<String> post(URI url, String data, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws IOException, InterruptedException {
+        return post(DEFAULT, url, data, contentType, builder);
     }
 
 
-    public static CompletableFuture<HttpResponse<String>> postAsync(HttpClient client, URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
+    public static CompletableFuture<HttpResponse<String>> postAsync(HttpClient client, URI url, String data, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) {
         HttpRequest.Builder requestBuilder = builder.apply(HttpRequest.newBuilder()
                 .uri(url)
-                .POST(HttpRequest.BodyPublishers.ofString(map))
+                .POST(HttpRequest.BodyPublishers.ofString(data))
                 .setHeader("Content-Type", contentType.getType()));
         return client.sendAsync(requestBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
@@ -116,6 +116,14 @@ public class HttpHelper {
         }catch (IOException | InterruptedException e) {
             throw new WebResultException(e);
         }
+    }
+
+    public static String postOrThrow(HttpClient client, URI url, String map, IContentType contentType) throws WebResultException {
+        return postOrThrow(client, url, map, contentType, builder -> builder);
+    }
+
+    public static String postOrThrow(URI url, String dat, IContentType contentType) throws WebResultException {
+        return postOrThrow(DEFAULT, url, dat, contentType, builder -> builder);
     }
 
 
