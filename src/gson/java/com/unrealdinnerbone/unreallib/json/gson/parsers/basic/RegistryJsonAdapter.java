@@ -25,7 +25,11 @@ public class RegistryJsonAdapter<B, T extends JsonRegistry<B>> extends TypeAdapt
 
     @Override
     public void write(JsonWriter out, B value) throws IOException {
-        out.value(registry.toString(value));
+        if(value != null) {
+            out.value(registry.toString(value));
+        }else {
+            out.nullValue();
+        }
     }
 
     @Override
