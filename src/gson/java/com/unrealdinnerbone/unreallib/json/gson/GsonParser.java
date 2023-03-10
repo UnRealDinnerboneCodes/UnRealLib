@@ -7,8 +7,10 @@ import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.gson.factory.GsonWarpedFactory;
+import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.ColorAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.NamespaceAdapter;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -26,6 +28,7 @@ public class GsonParser implements IJsonParser {
 
     private GsonBuilder addDefaultAdapters(GsonBuilder builder) {
         return builder
+                .registerTypeAdapter(Color.class, new ColorAdapter())
                 .registerTypeAdapterFactory(new GsonWarpedFactory())
                 .registerTypeAdapter(Namespace.class, new NamespaceAdapter());
     }
