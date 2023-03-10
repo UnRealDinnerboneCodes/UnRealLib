@@ -7,19 +7,13 @@ import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.GsonParser;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import java.awt.*;
 
 public class AdapterTests {
 
-    private IJsonParser parser;
-
-    @Before
-    public void setup() {
-        parser = new GsonParser(builder -> {
-            return builder;
-        });
-    }
+    private final IJsonParser parser = new GsonParser(builder -> builder);
 
     @Test
     public void testJsonString() {
@@ -62,6 +56,14 @@ public class AdapterTests {
         TestRegistryObject testRegistryObject = parser.parse(TestRegistryObject.class, json);
         Assert.assertEquals(test2, testRegistryObject);
 
+    }
+
+    @Test
+    public void testColor() {
+        String json = parser.toJson(Color.RED);
+        Assert.assertEquals("16711680", json);
+        Color color = parser.parse(Color.class, json);
+        Assert.assertEquals(Color.RED, color);
     }
 
 

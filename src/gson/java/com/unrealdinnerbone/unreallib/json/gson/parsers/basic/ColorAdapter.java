@@ -10,11 +10,24 @@ import java.io.IOException;
 public class ColorAdapter extends TypeAdapter<Color> {
     @Override
     public void write(JsonWriter out, Color value) throws IOException {
-        out.value(value.getRGB());
+        if (value != null) {
+            int rgb = value.getRed();
+            rgb = (rgb << 8) + value.getGreen();
+            rgb = (rgb << 8) + value.getBlue();
+            out.value(rgb);
+        } else {
+            out.nullValue();
+        }
     }
 
     @Override
     public Color read(JsonReader in) throws IOException {
-        return new Color(in.nextInt());
+        int rgb = in.nextInt();
+        int blue = rgb & 0xFF;
+        rgb >>= 8;
+        int green = rgb & 0xFF;
+        rgb >>= 8;
+        int red = rgb & 0xFF;
+        return new Color(red, green, blue);
     }
 }
