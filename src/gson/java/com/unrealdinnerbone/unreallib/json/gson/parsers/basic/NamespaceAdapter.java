@@ -15,7 +15,11 @@ public class NamespaceAdapter extends TypeAdapter<Namespace> {
 
     @Override
     public void write(JsonWriter out, Namespace value) throws IOException {
-        out.value(value != null ? value.toString() : null);
+        if(value != null) {
+            out.value(value.toString());
+        }else {
+            out.nullValue();
+        }
     }
 
     @Override

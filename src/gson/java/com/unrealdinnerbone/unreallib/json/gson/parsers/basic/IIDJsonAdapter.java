@@ -18,7 +18,11 @@ public class IIDJsonAdapter<T extends Enum<T> & IID> extends TypeAdapter<T> {
 
     @Override
     public void write(JsonWriter out, T value) throws IOException {
-        out.value(value.getId());
+        if (value != null) {
+            out.value(value.getId());
+        } else {
+            out.nullValue();
+        }
     }
 
     @Override
