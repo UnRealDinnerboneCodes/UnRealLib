@@ -62,4 +62,8 @@ public class GsonParser implements IJsonParser {
         return GSON.toJsonTree(value);
     }
 
+
+    public Gson getGson() {
+        return GSON;
+    }
 }

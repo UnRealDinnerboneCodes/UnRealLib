@@ -106,6 +106,24 @@ public class PathHelper {
         }
     }
 
+    public static void copyFolder(Path src, Path dest) throws IOException {
+        try(Stream<Path> walk = Files.walk(src)) {
+            for (Path path : walk.toList()) {
+                Path targetPath = dest.resolve(src.relativize(path));
+                Files.copy(path, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+    }
+
+    public static void deleteFolder(Path path) throws IOException {
+        try (Stream<Path> stream = Files.walk(path)) {
+            for (Path source: stream.sorted(Comparator.reverseOrder()).toList()) {
+                Files.delete(source);
+            }
+        }
+    }
+
+
     public static List<Path> getAllFiles(Path path) {
         if(Files.exists(path)) {
             if(!Files.isDirectory(path)) {

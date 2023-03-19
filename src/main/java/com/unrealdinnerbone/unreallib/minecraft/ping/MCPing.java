@@ -40,14 +40,14 @@ public class MCPing
 
         String json;
 
-        var ping = System.currentTimeMillis();
+        long ping = System.currentTimeMillis();
 
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(address, port), 5000);
             ping = System.currentTimeMillis() - ping;
 
-            var handshakeStream = new ByteArrayOutputStream();
-            var handshake = new DataOutputStream(handshakeStream);
+            ByteArrayOutputStream handshakeStream = new ByteArrayOutputStream();
+            DataOutputStream handshake = new DataOutputStream(handshakeStream);
 
             handshake.write(0x00); // Handshake Packet
             writeVarInt(handshake, 4); // Protocol Version
@@ -56,7 +56,7 @@ public class MCPing
             handshake.writeShort(port);
             writeVarInt(handshake, 1); // Status Handshake
 
-            var out = new DataOutputStream(socket.getOutputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             writeVarInt(out, handshakeStream.size());
             out.write(handshakeStream.toByteArray());
 
@@ -65,18 +65,18 @@ public class MCPing
             out.writeByte(0x00); // Packet Status Request
 
             // <- STATUS RESPONSE
-            var in = new DataInputStream(socket.getInputStream());
+            DataInputStream in = new DataInputStream(socket.getInputStream());
             readVarInt(in);
-            var id = readVarInt(in);
+            int id = readVarInt(in);
 
             io(id == -1, "Server ended data stream unexpectedly.");
             io(id != 0x00, "Server returned invalid packet.");
 
-            var length = readVarInt(in);
+            int length = readVarInt(in);
             io(length == -1, "Server ended data stream unexpectedly.");
             io(length == 0, "Server returned unexpected value.");
 
-            var data = new byte[length];
+            byte[] data = new byte[length];
             in.readFully(data);
             json = new String(data, StandardCharsets.UTF_8);
 
@@ -120,8 +120,8 @@ public class MCPing
         while (true) {
             AtomicInteger k = new AtomicInteger();
 
-            var executor = Executors.newSingleThreadExecutor();
-            var future = executor.submit(() -> {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<?> future = executor.submit(() -> {
                 try {
                     k.set(in.readByte());
                 } catch (IOException e) {
@@ -157,7 +157,7 @@ public class MCPing
     }
 
     private static void writeVarInt(DataOutputStream out, int inputParamInt) throws IOException {
-        var paramInt = inputParamInt;
+        int paramInt = inputParamInt;
         while (true) {
             if ((paramInt & 0xFFFFFF80) == 0) {
                 out.writeByte(paramInt);

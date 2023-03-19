@@ -2,7 +2,6 @@ package com.unrealdinnerbone.gson.test;
 
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.either.Either;
-import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.GsonParser;
@@ -13,7 +12,7 @@ import java.awt.*;
 
 public class AdapterTests {
 
-    private final IJsonParser parser = new GsonParser(builder -> builder);
+    private final GsonParser parser = new GsonParser(builder -> builder);
 
     @Test
     public void testJsonString() {
@@ -64,6 +63,13 @@ public class AdapterTests {
         Assert.assertEquals("16711680", json);
         Color color = parser.parse(Color.class, json);
         Assert.assertEquals(Color.RED, color);
+    }
+
+    @Test
+    public void testEitherFromJson() {
+        Either<String, Integer> either = Either.left("Test");
+        Either<String, Integer> asd = parser.getGson().fromJson("\"Test\"", either.getClass());
+
     }
 
 

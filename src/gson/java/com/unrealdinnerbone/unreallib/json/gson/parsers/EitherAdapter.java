@@ -23,7 +23,7 @@ public class EitherAdapter extends TypeAdapter<Either<?, ?>> {
 
     @Override
     public Either<?, ?> read(JsonReader in) throws IOException {
-        throw new IOException("Unsupported");
+        return null;
     }
 
 }

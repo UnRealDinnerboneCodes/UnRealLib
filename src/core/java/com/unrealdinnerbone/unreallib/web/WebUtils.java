@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class WebUtils {
-    public static <T extends Supplier<List<String>>> String makeHTML(String title, String icon,  List<String> heads, List<T> tList) {
+    public static <T extends Supplier<List<String>>> String makeHtmlTable(String title, String icon, List<String> heads, List<T> tList) {
         StringBuilder base = new StringBuilder("""           
                 <html>
                 <head>
