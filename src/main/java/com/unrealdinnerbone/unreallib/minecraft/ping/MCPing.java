@@ -24,7 +24,7 @@ public class MCPing
         TaskScheduler.handleTaskOnThread(() -> {
             try {
                 future.complete(getPing(host, port));
-            }catch(IOException | TimeoutException e) {
+            }catch(IOException | TimeoutException | JsonParseException e) {
                 future.completeExceptionally(e);
             }
         });
@@ -32,7 +32,7 @@ public class MCPing
         return future;
     }
 
-    private static MCServerPingResponse getPing(final String address, final int port) throws IOException, TimeoutException {
+    private static MCServerPingResponse getPing(final String address, final int port) throws IOException, TimeoutException, JsonParseException {
 
         if (address == null) {
             throw new IOException("Hostname cannot be null!");
@@ -92,11 +92,7 @@ public class MCPing
             io(id != 0x01, "Server returned invalid packet"); // Check Ping Packet
 
         }
-        try {
-            return JsonUtil.DEFAULT.parse(MCServerPingResponse.class, json);
-        }catch(JsonParseException e) {
-            throw new IOException(e);
-        }
+        return JsonUtil.DEFAULT.parse(MCServerPingResponse.class, json);
     }
 
 

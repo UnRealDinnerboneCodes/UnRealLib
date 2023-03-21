@@ -33,6 +33,12 @@ public class LazyHashMap<T, B> {
         }
     }
 
+    public void ifPresent(T t, Consumer<B> bConsumer) {
+        if(theMap.containsKey(t)) {
+            bConsumer.accept(theMap.get(t));
+        }
+    }
+
 
     public Map<T, B> getCurrentMap() {
         return Map.copyOf(theMap);
