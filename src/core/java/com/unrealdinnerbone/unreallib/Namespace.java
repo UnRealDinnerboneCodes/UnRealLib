@@ -7,13 +7,13 @@ import java.util.Objects;
 public record Namespace(String key, String value) implements Comparable<Namespace>  {
 
     public static Namespace of(String key, String value) {
-        return new Namespace(key, value);
+        return new Namespace(key.toLowerCase(), value.toLowerCase());
     }
 
     public static Namespace of(String namespace) {
         String[] split = namespace.split(":");
         if(split.length == 2) {
-            return new Namespace(split[0], split[1]);
+            return of(split[0], split[1]);
         }
         throw new IllegalArgumentException("Invalid namespace: " + namespace);
     }
@@ -36,16 +36,16 @@ public record Namespace(String key, String value) implements Comparable<Namespac
     }
 
     public String toString(String split) {
-        return key().toLowerCase() + split + value().toLowerCase();
+        return key() + split + value();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key.toLowerCase(), value.toLowerCase());
+        return Objects.hash(key, value);
     }
 
     @Override
-    public int compareTo(@NotNull Namespace o) {
-        return toString().compareTo(o.toString());
+    public int compareTo(@NotNull Namespace n) {
+        return toString().compareTo(n.toString());
     }
 }

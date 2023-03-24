@@ -36,7 +36,11 @@ public class Either<L,R> {
     @NotNull
     private final Optional<Optional<R>> right;
 
+    @SuppressWarnings("all")
     private Either(@NotNull Optional<Optional<L>> l, @NotNull Optional<Optional<R>> r) {
+        if(l == null || r == null) {
+            throw new IllegalArgumentException("Left or Right can't be null");
+        }
         left = l;
         right = r;
     }

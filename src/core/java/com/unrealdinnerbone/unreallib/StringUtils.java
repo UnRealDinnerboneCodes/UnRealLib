@@ -8,6 +8,8 @@ public class StringUtils {
     public static final String FORMAT_CODE_END = "}";
     public static final String TAB = "\t";
     public static final String NEW_LINE = "\n";
+    public static final String EMPTY = "";
+
 
     public static String replace(String msg, Object... replacements) {
         int count = 0;
