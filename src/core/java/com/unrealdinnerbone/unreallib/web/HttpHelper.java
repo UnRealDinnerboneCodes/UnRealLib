@@ -108,7 +108,7 @@ public class HttpHelper {
     public static String postOrThrow(HttpClient client, URI url, String map, IContentType contentType, Function<HttpRequest.Builder, HttpRequest.Builder> builder) throws WebResultException {
         try {
             HttpResponse<String> response = post(client, url, map, contentType, builder);
-            if(response.statusCode() == 200) {
+            if(response.statusCode() >= 200 && response.statusCode() < 300) {
                 return response.body();
             }else {
                 throw new WebResultException(url.toString(), response.body(), response.statusCode());
