@@ -2,6 +2,7 @@ package com.unrealdinnerbone.gson.test;
 
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.either.Either;
+import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.GsonParser;
@@ -9,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.*;
+import java.time.Instant;
 
 public class AdapterTests {
 
@@ -70,6 +72,12 @@ public class AdapterTests {
         Either<String, Integer> either = Either.left("Test");
         Either<String, Integer> asd = parser.getGson().fromJson("\"Test\"", either.getClass());
 
+    }
+
+    @Test
+    public void testInstant() {
+        Instant parse = JsonUtil.DEFAULT.parse(Instant.class, "\"2023-03-31T18:13:00-05:00\"");
+        Assert.assertEquals(Instant.parse("2023-03-31T18:13:00-05:00"), parse);
     }
 
 
