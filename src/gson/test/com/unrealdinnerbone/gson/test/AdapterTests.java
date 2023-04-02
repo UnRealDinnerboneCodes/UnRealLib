@@ -7,10 +7,12 @@ import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.GsonParser;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 import java.time.Instant;
+import java.util.Map;
 
 public class AdapterTests {
 
@@ -45,20 +47,32 @@ public class AdapterTests {
         Assert.assertEquals("1", json);
     }
 
+    JsonRegistry<TestRegistryObject> registry;
+    TestRegistryObject test;
+    TestRegistryObject test2;
+    TestRegistryObject test3;
+    @Before
+    public void createRegistry() {
+        registry =new JsonRegistry<>(TestRegistryObject::new, TestRegistryObject::value, TestRegistryObject.class, true);
+        test = registry.register("test");
+        test2 = registry.register("test2");
+        test3 = registry.register("test3");
+    }
+
     @Test
     public void registryTest() {
-        JsonRegistry<TestRegistryObject> registry = new JsonRegistry<>(TestRegistryObject::new, TestRegistryObject::value, TestRegistryObject.class, true);
-        TestRegistryObject test = registry.register("test");
-        TestRegistryObject test2 = registry.register("test2");
-        TestRegistryObject test3 = registry.register("test3");
-
         String json = parser.toJson(test2);
         Assert.assertEquals("\"test2\"", json);
         TestRegistryObject testRegistryObject = parser.parse(TestRegistryObject.class, json);
         Assert.assertEquals(test2, testRegistryObject);
-
     }
 
+    @Test
+    public void registryMapTest() {
+        Map<TestRegistryObject, String> testRegistryObjectStringMap = Map.of(test, "test");
+        String json = parser.toJson(testRegistryObjectStringMap);
+        Assert.assertEquals("{\"test\":\"test\"}", json);
+    }
     @Test
     public void testColor() {
         String json = parser.toJson(Color.RED);

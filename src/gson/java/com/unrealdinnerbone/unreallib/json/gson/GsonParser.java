@@ -30,6 +30,7 @@ public class GsonParser implements IJsonParser {
 
     private GsonBuilder addDefaultAdapters(GsonBuilder builder) {
         return builder
+                .enableComplexMapKeySerialization()
                 .registerTypeAdapter(Color.class, new ColorAdapter())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapterFactory(new GsonWarpedFactory())
