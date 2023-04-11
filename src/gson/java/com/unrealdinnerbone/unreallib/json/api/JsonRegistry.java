@@ -18,6 +18,10 @@ public class JsonRegistry<T> extends BasicRegistry<T> {
         REGISTRIES.put(type, this);
     }
 
+    public static <T extends INamed> JsonRegistry<T> of(Class<T> type, Function<String, T> creator) {
+        return new JsonRegistry<>((s, aBoolean) -> creator.apply(s), INamed::name, type, false);
+    }
+
     public static JsonRegistry<?> findForType(Class<?> clazz) {
         return REGISTRIES.get(clazz);
     }
