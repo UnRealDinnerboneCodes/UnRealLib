@@ -1,6 +1,9 @@
 package com.unrealdinnerbone.unreallib;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.StringJoiner;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class StringUtils {
@@ -45,5 +48,11 @@ public class StringUtils {
 
     public static boolean containsUpperCase(String string) {
         return string.chars().anyMatch(Character::isUpperCase);
+    }
+
+    public static <T> String join(Collection<T> collection, Function<T, String> toString, String seperator) {
+        StringJoiner joiner = new StringJoiner(seperator);
+        collection.forEach(t -> joiner.add(toString.apply(t)));
+        return joiner.toString();
     }
 }
