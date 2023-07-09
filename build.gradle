@@ -23,6 +23,7 @@ allprojects {
     }
 }
 
+
 compileJava {
     options.release = 17
 }
