@@ -1,7 +1,7 @@
 //import com.unrealdinnerbone.unreallib.event.EventManager;
-//import org.junit.Assert;
+//import org.junit.jupiter.api.Assertions;
 //import org.junit.Before;
-//import org.junit.Test;
+//import org.junit.jupiter.api.Test;
 //
 //import java.util.UUID;
 //import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,10 +16,10 @@
 //        AtomicBoolean bool = new AtomicBoolean(false);
 //        voidEventManager.registerHandler(TestEvent.class, test -> {
 //            bool.set(true);
-//            Assert.assertEquals(uuid.toString(), test.cake());
+//            Assertions.assertEquals(uuid.toString(), test.cake());
 //        });
 //        voidEventManager.post(new TestEvent(uuid.toString() + "asd"));
-//        Assert.assertTrue(bool.get());
+//        Assertions.assertTrue(bool.get());
 //    }
 //
 //    public static record TestEvent(String cake) implements Cheese  {}

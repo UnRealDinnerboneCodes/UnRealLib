@@ -1,8 +1,8 @@
 import com.unrealdinnerbone.unreallib.apiutils.IResult;
 import com.unrealdinnerbone.unreallib.exception.WebResultException;
 import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -23,13 +23,13 @@ public class ResultTest {
         };
 
         IResult<String> testResult2 = testResult.map(s -> "2");
-        Assert.assertEquals("2", testResult2.getNow());
+        Assertions.assertEquals("2", testResult2.getNow());
         testResult2 = testResult2.map(s -> {
             throw new JsonParseException("Test");
         });
-        Assert.assertThrows(JsonParseException.class, testResult2::getNow);
+        Assertions.assertThrows(JsonParseException.class, testResult2::getNow);
         CompletableFuture<String> stringCompletableFuture = testResult2.get();
-        stringCompletableFuture.whenComplete((s1, throwable) -> Assert.assertThrows(JsonParseException.class, () -> {
+        stringCompletableFuture.whenComplete((s1, throwable) -> Assertions.assertThrows(JsonParseException.class, () -> {
             throw throwable;
         }));
 

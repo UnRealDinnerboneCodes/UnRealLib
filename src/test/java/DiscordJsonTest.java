@@ -1,6 +1,6 @@
 import com.unrealdinnerbone.unreallib.discord.DiscordWebhook;
 import com.unrealdinnerbone.unreallib.discord.EmbedObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 

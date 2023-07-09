@@ -6,9 +6,9 @@ import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.GsonParser;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.time.Instant;
@@ -16,43 +16,43 @@ import java.util.Map;
 
 public class AdapterTests {
 
-    private final GsonParser parser = new GsonParser(builder -> builder);
+    private static final GsonParser parser = new GsonParser(builder -> builder);
 
     @Test
     public void testJsonString() {
         String someTestyJson = "{\"list\":[\"test\",\"test2\",\"test3\"]}";
         JsonString jsonString = parser.parse(JsonString.class, someTestyJson);
-        Assert.assertEquals(someTestyJson, jsonString.json());
+        Assertions.assertEquals(someTestyJson, jsonString.json());
     }
 
     @Test
     public void testEither() {
         Either<String, Integer> either = Either.left("Test");
         String json = parser.toJson(either);
-        Assert.assertEquals("\"Test\"", json);
+        Assertions.assertEquals("\"Test\"", json);
         Either<String, Integer> eitherRight = Either.right(1);
         String jsonRight = parser.toJson(eitherRight);
-        Assert.assertEquals("1", jsonRight);
+        Assertions.assertEquals("1", jsonRight);
     }
 
     @Test
     public void testNamespace() {
         String json = parser.toJson(Namespace.of("minecraft", "test"));
-        Assert.assertEquals("\"minecraft:test\"", json);
+        Assertions.assertEquals("\"minecraft:test\"", json);
     }
 
     @Test
     public void testEnum() {
         String json = parser.toJson(IDTestEnum.ONE);
-        Assert.assertEquals("1", json);
+        Assertions.assertEquals("1", json);
     }
 
-    JsonRegistry<TestRegistryObject> registry;
-    TestRegistryObject test;
-    TestRegistryObject test2;
-    TestRegistryObject test3;
-    @Before
-    public void createRegistry() {
+    private static JsonRegistry<TestRegistryObject> registry;
+    private static TestRegistryObject test;
+    private static TestRegistryObject test2;
+    private static TestRegistryObject test3;
+    @BeforeAll
+    public static void createRegistry() {
         registry =new JsonRegistry<>(TestRegistryObject::new, TestRegistryObject::value, TestRegistryObject.class, true);
         test = registry.register("test");
         test2 = registry.register("test2");
@@ -62,23 +62,23 @@ public class AdapterTests {
     @Test
     public void registryTest() {
         String json = parser.toJson(test2);
-        Assert.assertEquals("\"test2\"", json);
+        Assertions.assertEquals("\"test2\"", json);
         TestRegistryObject testRegistryObject = parser.parse(TestRegistryObject.class, json);
-        Assert.assertEquals(test2, testRegistryObject);
+        Assertions.assertEquals(test2, testRegistryObject);
     }
 
     @Test
     public void registryMapTest() {
         Map<TestRegistryObject, String> testRegistryObjectStringMap = Map.of(test, "test");
         String json = parser.toJson(testRegistryObjectStringMap);
-        Assert.assertEquals("{\"test\":\"test\"}", json);
+        Assertions.assertEquals("{\"test\":\"test\"}", json);
     }
     @Test
     public void testColor() {
         String json = parser.toJson(Color.RED);
-        Assert.assertEquals("16711680", json);
+        Assertions.assertEquals("16711680", json);
         Color color = parser.parse(Color.class, json);
-        Assert.assertEquals(Color.RED, color);
+        Assertions.assertEquals(Color.RED, color);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class AdapterTests {
     @Test
     public void testInstant() {
         Instant parse = JsonUtil.DEFAULT.parse(Instant.class, "\"2023-03-31T18:13:00-05:00\"");
-        Assert.assertEquals(Instant.parse("2023-03-31T18:13:00-05:00"), parse);
+        Assertions.assertEquals(Instant.parse("2023-03-31T18:13:00-05:00"), parse);
     }
 
 
