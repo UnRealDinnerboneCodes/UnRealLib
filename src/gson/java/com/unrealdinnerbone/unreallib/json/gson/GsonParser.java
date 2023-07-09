@@ -2,6 +2,7 @@ package com.unrealdinnerbone.unreallib.json.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
@@ -62,7 +63,7 @@ public class GsonParser implements IJsonParser {
     }
 
     @Override
-    public <T> Object toJsonObject(T value) {
+    public <T> JsonElement toJsonObject(T value) {
         return GSON.toJsonTree(value);
     }
 

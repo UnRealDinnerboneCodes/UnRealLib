@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class JsonUtil {
 
     public static final IJsonParser DEFAULT = new GsonParser(builder -> builder);
-    public static IJsonParser createParser(Function<GsonBuilder, GsonBuilder> builderFunction) {
+    public static GsonParser createParser(Function<GsonBuilder, GsonBuilder> builderFunction) {
         return new GsonParser(builderFunction);
     }
     public static <T> T parsePath(Path file, IJsonParser parser, Class<T> tClass) throws Exception {
