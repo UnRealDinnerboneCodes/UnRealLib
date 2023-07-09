@@ -3,6 +3,8 @@ package com.unrealdinnerbone.unreallib;
 import com.unrealdinnerbone.unreallib.exception.ExceptionSuppler;
 
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public record ErrorableValue<E extends Exception, T>(T value, E exception) implements ExceptionSuppler<T, E> {
 
@@ -19,6 +21,23 @@ public record ErrorableValue<E extends Exception, T>(T value, E exception) imple
             throw exception;
         }
         return value;
+    }
+
+    public void ifPresentOrElse(Consumer<? super T> action, Consumer<E> errorAction) {
+        if (value != null) {
+            action.accept(value);
+        } else {
+            errorAction.accept(exception);
+        }
+    }
+
+    public T getAndRun(Supplier<T> supplier, Consumer<E> errorAction) {
+        if (value != null) {
+            return value;
+        } else {
+            errorAction.accept(exception);
+            return supplier.get();
+        }
     }
 
     public static <E extends Exception, T> ErrorableValue<E, T> of(T value) {
