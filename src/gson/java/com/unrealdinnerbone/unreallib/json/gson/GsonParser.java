@@ -71,4 +71,8 @@ public class GsonParser implements IJsonParser {
     public Gson getGson() {
         return GSON;
     }
+
+    public Gson getGsonFancy() {
+        return GSON_FANCY;
+    }
 }
