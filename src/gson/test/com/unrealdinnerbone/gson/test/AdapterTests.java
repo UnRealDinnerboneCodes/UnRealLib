@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.gson.test;
 
 import com.unrealdinnerbone.unreallib.Namespace;
+import com.unrealdinnerbone.unreallib.SimpleColor;
 import com.unrealdinnerbone.unreallib.either.Either;
 import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
@@ -75,10 +76,11 @@ public class AdapterTests {
     }
     @Test
     public void testColor() {
-        String json = parser.toJson(Color.RED);
-        Assertions.assertEquals("16711680", json);
-        Color color = parser.parse(Color.class, json);
-        Assertions.assertEquals(Color.RED, color);
+        SimpleColor red = SimpleColor.fromRGB(255, 0, 0);
+        String json = parser.toJson(red);
+        Assertions.assertEquals("\"#ff0000\"", json);
+        SimpleColor simpleColor = parser.parse(SimpleColor.class, json);
+        Assertions.assertEquals(red, simpleColor);
     }
 
     @Test

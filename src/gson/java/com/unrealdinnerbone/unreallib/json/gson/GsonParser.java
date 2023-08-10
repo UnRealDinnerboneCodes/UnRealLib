@@ -5,10 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.unrealdinnerbone.unreallib.Namespace;
+import com.unrealdinnerbone.unreallib.SimpleColor;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.gson.factory.GsonWarpedFactory;
-import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.ColorAdapter;
+import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.SimpleColorAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.InstantAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.NamespaceAdapter;
 
@@ -33,7 +34,7 @@ public class GsonParser implements IJsonParser {
         return builder
                 .registerTypeAdapterFactory(new GsonWarpedFactory())
                 .enableComplexMapKeySerialization()
-                .registerTypeAdapter(Color.class, new ColorAdapter())
+                .registerTypeHierarchyAdapter(SimpleColor.class, new SimpleColorAdapter())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(Namespace.class, new NamespaceAdapter());
     }

@@ -32,7 +32,7 @@ public class ArrayUtil {
 
     @Nullable
     public static <T> T getRandomValue(Random random, List<T> tList) {
-        return tList.size() == 0 ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
+        return tList.isEmpty() ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
     }
 
     @Nullable

@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib;
 
+import com.unrealdinnerbone.unreallib.exception.ExceptionConsumer;
 import com.unrealdinnerbone.unreallib.exception.ExceptionRunnable;
 import com.unrealdinnerbone.unreallib.exception.ExceptionSuppler;
 
@@ -20,42 +21,27 @@ public class TaskScheduler {
         return task;
     }
 
-    public static TimerTask scheduleTask(Instant timeToRun, Task task) {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                task.run(this);
-            }
-        };
+    public static TimerTask scheduleTask(Instant timeToRun, Consumer<TimerTask> task) {
+        TimerTask timerTask = createTask(task);
         TIMER.schedule(timerTask, Date.from(timeToRun));
         return timerTask;
     }
 
-    public static TimerTask scheduleTask(int time, TimeUnit timeUnit, Task task) {
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                task.run(this);
-            }
-        };
+    public static TimerTask scheduleTask(int time, TimeUnit timeUnit, Consumer<TimerTask> task) {
+        TimerTask timerTask = createTask(task);
         TIMER.schedule(timerTask, timeUnit.toMillis(time));
         return timerTask;
     }
-    public static TimerTask scheduleRepeatingTask(int time, TimeUnit timeUnit, Task task) {
-        return scheduleRepeatingTask(time, timeUnit, new TimerTask() {
-            @Override
-            public void run() {
-                task.run(this);
-            }
-        });
+    public static TimerTask scheduleRepeatingTask(int time, TimeUnit timeUnit, Consumer<TimerTask> task) {
+        return scheduleRepeatingTask(time, timeUnit, createTask(task));
     }
 
-    public static TimerTask scheduleRepeatingTaskExpectantly(int time, TimeUnit timeUnit, ExceptionTask task, Consumer<Exception> consumer) {
+    public static TimerTask scheduleRepeatingTaskExpectantly(int time, TimeUnit timeUnit, ExceptionConsumer<TimerTask, Exception> task, Consumer<Exception> consumer) {
         return scheduleRepeatingTask(time, timeUnit, new TimerTask() {
             @Override
             public void run() {
                 try {
-                    task.run(this);
+                    task.accept(this);
                 }catch(Exception e) {
                     consumer.accept(e);
                 }
@@ -117,12 +103,13 @@ public class TaskScheduler {
         return TIMER;
     }
 
-    public interface Task {
-        void run(TimerTask task);
-    }
-
-    public interface ExceptionTask {
-        void run(TimerTask task) throws Exception;
+    private static TimerTask createTask(Consumer<TimerTask> task) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                task.accept(this);
+            }
+        };
     }
 
 }

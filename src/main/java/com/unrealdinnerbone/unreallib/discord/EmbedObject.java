@@ -7,7 +7,16 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public record EmbedObject(@Nullable String title, @Nullable String description, @Nullable String url, @Nullable Color color, @Nullable Footer footer, @Nullable String thumbnail, @Nullable String image, @Nullable Author author, List<Field> fields) {
+public record EmbedObject(
+        @Nullable String title,
+        @Nullable String description,
+        @Nullable String url,
+        @Nullable Color color,
+        @Nullable Footer footer,
+        @Nullable String thumbnail,
+        @Nullable String image,
+        @Nullable Author author,
+        List<Field> fields) {
 
     public static EmbedObjectBuilder builder() {
         return new EmbedObjectBuilder();

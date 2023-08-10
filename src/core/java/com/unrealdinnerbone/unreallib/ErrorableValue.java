@@ -1,54 +1,77 @@
 package com.unrealdinnerbone.unreallib;
 
+import com.unrealdinnerbone.unreallib.either.Either;
 import com.unrealdinnerbone.unreallib.exception.ExceptionSuppler;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public record ErrorableValue<E extends Exception, T>(T value, E exception) implements ExceptionSuppler<T, E> {
+public class ErrorableValue<E extends Exception, T> extends Either<E, T> implements ExceptionSuppler<T, E> {
+    @NotNull
+    public static <E extends Exception, T> ErrorableValue<E, T> error(@NotNull E value) {
+        return new ErrorableValue<>(new StoredValue<>(value), null);
+    }
+    @NotNull
+    public static <E extends Exception, T> ErrorableValue<E, T> value(@Nullable T value) {
+        return new ErrorableValue<>(null, new StoredValue<>(value));
+    }
+    @NotNull
+    public static <E extends Exception, T> ErrorableValue<E, T> of(T value) {
+        return value(value);
+    }
+
+    @NotNull
+    public static <E extends Exception, T> ErrorableValue<E, T> of(E exception) {
+        return error(exception);
+    }
+
+    protected ErrorableValue(StoredValue<E> exception, StoredValue<T> value) {
+        super(exception, value);
+    }
 
     public boolean hasException() {
-        return exception != null;
+        return left != null;
     }
 
     public Optional<T> asOptional() {
-        return Optional.ofNullable(value);
+        return right != null ? Optional.ofNullable(right.value()) : Optional.empty();
     }
 
     public T get() throws E {
-        if(exception != null) {
-            throw exception;
+        if (left != null) {
+            throw left.value();
         }
-        return value;
+        return right.value();
     }
 
     public void ifPresentOrElse(Consumer<? super T> action, Consumer<E> errorAction) {
-        if (value != null) {
-            action.accept(value);
+        if (right != null) {
+            action.accept(right.value());
         } else {
-            errorAction.accept(exception);
+            errorAction.accept(left.value());
         }
     }
 
     public T getAndRun(Supplier<T> supplier, Consumer<E> errorAction) {
-        if (value != null) {
-            return value;
+        if (right != null) {
+            return right.value();
         } else {
-            errorAction.accept(exception);
+            errorAction.accept(left.value());
             return supplier.get();
         }
     }
 
-    public static <E extends Exception, T> ErrorableValue<E, T> of(T value) {
-        return new ErrorableValue<>(value, null);
+    public T value() {
+        return right == null ? null : right.value();
     }
 
-    public static <E extends Exception, T> ErrorableValue<E, T> of(E exception) {
-        return new ErrorableValue<>(null, exception);
+    public E exception() {
+        return left == null ? null : left.value();
     }
 
-    public static <E extends Exception, T> ErrorableValue<E, T> of(T value, E exception) {
-        return new ErrorableValue<>(value, exception);
-    }
+
 }
