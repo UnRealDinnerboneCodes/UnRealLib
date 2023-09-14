@@ -6,6 +6,7 @@ import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.web.HttpHelper;
 import com.unrealdinnerbone.unreallib.web.IContentType;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -33,6 +34,7 @@ public class APIUtils {
             public ResponseData<T> getNow() throws WebResultException {
                 try {
                     HttpResponse<String> stringHttpResponse = HttpHelper.get(client, URI.create(urlData), builder);
+                    LoggerFactory.getLogger(APIUtils.class).info("Response: " + stringHttpResponse.body());
                     return new ResponseData<>(parser.parse(tClass, stringHttpResponse.body()), stringHttpResponse.statusCode(), stringHttpResponse.headers().map());
                 } catch (IOException | InterruptedException e) {
                     throw new WebResultException(e);
