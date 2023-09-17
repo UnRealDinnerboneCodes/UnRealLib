@@ -1,4 +1,4 @@
-import com.unrealdinnerbone.unreallib.apiutils.IResult;
+import com.unrealdinnerbone.unreallib.apiutils.result.IResult;
 import com.unrealdinnerbone.unreallib.exception.WebResultException;
 import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 import org.junit.jupiter.api.Assertions;
