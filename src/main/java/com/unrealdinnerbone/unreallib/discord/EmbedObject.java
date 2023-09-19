@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.unreallib.discord;
 
+import com.unrealdinnerbone.unreallib.SimpleColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +12,7 @@ public record EmbedObject(
         @Nullable String title,
         @Nullable String description,
         @Nullable String url,
-        @Nullable Color color,
+        @Nullable SimpleColor color,
         @Nullable Footer footer,
         @Nullable String thumbnail,
         @Nullable String image,
@@ -30,7 +31,7 @@ public record EmbedObject(
         @Nullable private String title;
         @Nullable private String description;
         @Nullable private String url;
-        @Nullable private Color color;
+        @Nullable private SimpleColor color;
         @Nullable private Footer footer;
         @Nullable private String thumbnail;
         @Nullable private String image;
@@ -52,7 +53,7 @@ public record EmbedObject(
             return this;
         }
 
-        public EmbedObjectBuilder color(@Nullable Color color) {
+        public EmbedObjectBuilder color(@Nullable SimpleColor color) {
             this.color = color;
             return this;
         }

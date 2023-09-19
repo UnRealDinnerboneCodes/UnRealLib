@@ -1,3 +1,4 @@
+import com.unrealdinnerbone.unreallib.SimpleColor;
 import com.unrealdinnerbone.unreallib.discord.DiscordWebhook;
 import com.unrealdinnerbone.unreallib.discord.EmbedObject;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ public class DiscordJsonTest
         webhook.addEmbed(EmbedObject.builder().title("Test")
                         .field("Test", "Test", true)
                         .author("test")
-                        .color(Color.RED)
+                        .color(SimpleColor.fromRGB(255, 255, 255))
                         .image("https://unreal.codes/kevStonk.png")
                 .description("Test").build());
     }
