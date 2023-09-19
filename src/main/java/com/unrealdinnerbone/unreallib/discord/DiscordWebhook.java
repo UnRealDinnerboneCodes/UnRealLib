@@ -14,7 +14,7 @@ public class DiscordWebhook {
     private final List<EmbedObject> embeds = new ArrayList<>();
     private String content;
     private String username;
-    private String avatarUrl;
+    private String avatar_url;
     private boolean tts;
 
     private DiscordWebhook() {}
@@ -29,7 +29,7 @@ public class DiscordWebhook {
     }
 
     public DiscordWebhook setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+        this.avatar_url = avatarUrl;
         return this;
     }
 
