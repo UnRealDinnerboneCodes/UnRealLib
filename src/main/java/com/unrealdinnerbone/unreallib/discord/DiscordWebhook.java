@@ -52,8 +52,12 @@ public class DiscordWebhook {
         if (this.content == null && this.embeds.isEmpty()) {
             throw new IllegalStateException("Set content or add at least one EmbedObject");
         }
-        String json = JsonUtil.DEFAULT.toJson(this);
+        String json = asJson();
         return HttpHelper.postOrThrow(URI.create(url), json, ContentType.JSON);
+    }
+
+    public String asJson() {
+        return JsonUtil.DEFAULT.toJson(this);
     }
 
 }
