@@ -1,6 +1,7 @@
 package com.unrealdinnerbone.unreallib.either;
 
 import com.unrealdinnerbone.unreallib.StoredValue;
+import com.unrealdinnerbone.unreallib.exception.ExceptionConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,6 +52,15 @@ public class Either<L,R> {
     }
 
     public void apply(Consumer<? super L> lFunc, Consumer<? super R> rFunc) {
+        if(left != null) {
+            lFunc.accept(left.value());
+        }
+        if(right != null) {
+            rFunc.accept(right.value());
+        }
+    }
+
+    public <E extends Exception> void applyExp(ExceptionConsumer<? super L, E> lFunc, ExceptionConsumer<? super R, E> rFunc) throws E {
         if(left != null) {
             lFunc.accept(left.value());
         }
