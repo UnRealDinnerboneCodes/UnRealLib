@@ -10,5 +10,4 @@ module com.unrealdinnerbone.unreallib.core {
     exports com.unrealdinnerbone.unreallib.list;
     exports com.unrealdinnerbone.unreallib.web;
     exports com.unrealdinnerbone.unreallib.registry;
-    opens com.unrealdinnerbone.unreallib.either to com.google.gson;
 }
