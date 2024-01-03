@@ -7,10 +7,14 @@ plugins {
 
 apply from: 'https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/helpers/base.gradle'
 
+repositories {
+    maven {
+        url "https://libraries.minecraft.net"
+    }
+}
+
 
 dependencies {
-//    implementation 'org.fusesource.jansi:jansi:2.4.0'
-//    implementation 'ch.qos.logback:logback-classic:1.4.5'
     api("com.unrealdinnerbone:UnRealLib-gson:${getVersion()}")
 }
 
