@@ -1,6 +1,8 @@
 module com.unrealdinnerbone.unreallib.main {
-    requires transitive com.unrealdinnerbone.unreallib.json;
-    requires transitive com.unrealdinnerbone.unreallib.core;
+    requires org.jetbrains.annotations;
+    requires java.net.http;
+    requires com.google.gson;
+    requires org.slf4j;
     exports com.unrealdinnerbone.unreallib.apiutils;
     exports com.unrealdinnerbone.unreallib.minecraft.ping;
     exports com.unrealdinnerbone.unreallib.discord;

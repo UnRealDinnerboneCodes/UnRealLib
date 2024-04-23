@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.gson.test;
+package json;
 
 import com.unrealdinnerbone.unreallib.Namespace;
 import com.unrealdinnerbone.unreallib.SimpleColor;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.Map;
 

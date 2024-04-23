@@ -1,4 +1,4 @@
-package com.unrealdinnerbone.gson.test;
+package json;
 
 import com.unrealdinnerbone.unreallib.json.api.IID;
 

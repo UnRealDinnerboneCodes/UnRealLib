@@ -5,7 +5,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.unrealdinnerbone.unreallib.SimpleColor;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class SimpleColorAdapter extends TypeAdapter<SimpleColor> {

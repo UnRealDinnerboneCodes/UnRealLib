@@ -9,11 +9,10 @@ import com.unrealdinnerbone.unreallib.SimpleColor;
 import com.unrealdinnerbone.unreallib.json.api.IJsonParser;
 import com.unrealdinnerbone.unreallib.json.exception.JsonParseException;
 import com.unrealdinnerbone.unreallib.json.gson.factory.GsonWarpedFactory;
+import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.NamespaceAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.SimpleColorAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.InstantAdapter;
-import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.NamespaceAdapter;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;

@@ -5,11 +5,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.unrealdinnerbone.unreallib.either.Either;
-import com.unrealdinnerbone.unreallib.json.api.IID;
 import com.unrealdinnerbone.unreallib.json.api.JsonRegistry;
 import com.unrealdinnerbone.unreallib.json.api.JsonString;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.EitherAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.JsonStringAdapter;
+import com.unrealdinnerbone.unreallib.json.api.IID;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.IIDJsonAdapter;
 import com.unrealdinnerbone.unreallib.json.gson.parsers.basic.RegistryJsonAdapter;
 
