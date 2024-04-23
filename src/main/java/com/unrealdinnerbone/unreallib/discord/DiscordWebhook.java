@@ -12,6 +12,8 @@ import java.util.List;
 public class DiscordWebhook {
 
     private final List<EmbedObject> embeds = new ArrayList<>();
+
+    private final List<Components> components = new ArrayList<>();
     private String content;
     private String username;
     private String avatar_url;
@@ -38,6 +40,11 @@ public class DiscordWebhook {
         return this;
     }
 
+    public DiscordWebhook withComponents(List<Component> components) {
+        this.components.add(new Components(1, components.toArray(new Component[0])));
+        return this;
+    }
+
     public DiscordWebhook setTts(boolean tts) {
         this.tts = tts;
         return this;
@@ -59,5 +66,8 @@ public class DiscordWebhook {
     public String asJson() {
         return JsonUtil.DEFAULT.toJson(this);
     }
+
+
+    public static record Components(int type, Component[] components) {}
 
 }

@@ -13,6 +13,7 @@ public class JsonResult<T> implements IResult<T> {
     private final IResult<HttpResponse<String>> result;
     private final Class<T> tClass;
     private final IJsonParser jsonParser;
+
     public JsonResult(IResult<HttpResponse<String>> result, Class<T> tClass, IJsonParser jsonParser) {
         this.result = result;
         this.tClass = tClass;

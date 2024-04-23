@@ -1,7 +1,5 @@
 package com.unrealdinnerbone.unreallib;
 
-
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public interface SimpleColor {
@@ -43,4 +41,7 @@ public interface SimpleColor {
 
     record RGB(int red, int green, int blue) implements SimpleColor { }
 
+    default int asRGB() {
+        return red() << 16 | green() << 8 | blue();
+    }
 }

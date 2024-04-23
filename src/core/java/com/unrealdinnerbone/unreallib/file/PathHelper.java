@@ -3,7 +3,7 @@ package com.unrealdinnerbone.unreallib.file;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -46,11 +46,11 @@ public class PathHelper {
     }
 
     public static void downloadFile(String url, Path path) throws IOException {
-        downloadFile(new URL(url), path);
+        downloadFile(URI.create(url), path);
     }
 
-    public static void downloadFile(URL url, Path file) throws IOException {
-        Files.copy(url.openStream(), file);
+    public static void downloadFile(URI url, Path file) throws IOException {
+        Files.copy(url.toURL().openStream(), file);
     }
 
     public static String fixFileName(String name) {
@@ -70,7 +70,9 @@ public class PathHelper {
     }
 
     public static List<Path> getOfPathsInFolder(Path path, Predicate<Path> fileFilter) throws IOException {
-        return Files.walk(path).filter(fileFilter).collect(Collectors.toList());
+        try(Stream<Path> pathsStream = Files.list(path)) {
+            return pathsStream.filter(fileFilter).toList();
+        }
     }
 
     public static String findExtension(Path path) {

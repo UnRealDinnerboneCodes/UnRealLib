@@ -62,7 +62,7 @@ public class ArrayUtil {
     }
 
     public static <T> Comparator<T> shuffle() {
-        final Map<Object, UUID> uniqueIds = new IdentityHashMap<>();
+        Map<Object, UUID> uniqueIds = new IdentityHashMap<>();
         return Comparator.comparing(e -> uniqueIds.computeIfAbsent(e, k -> UUID.randomUUID()));
     }
 

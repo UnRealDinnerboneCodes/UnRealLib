@@ -8,8 +8,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 public interface IResult<T> {
+
     T getNow() throws WebResultException, JsonParseException;
+
     CompletableFuture<T> get();
+
     default <R> IResult<R> map(ExceptionFunction<JsonParseException, T, R> function) {
         return new IResult<>() {
             @Override
