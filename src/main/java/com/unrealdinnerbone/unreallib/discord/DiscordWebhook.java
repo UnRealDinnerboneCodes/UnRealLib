@@ -13,11 +13,10 @@ public class DiscordWebhook {
 
     private final List<EmbedObject> embeds = new ArrayList<>();
 
-    private final List<Components> components = new ArrayList<>();
+    private List<Components> components = null;
     private String content;
     private String username;
     private String avatar_url;
-    private boolean tts;
 
     private DiscordWebhook() {}
 
@@ -41,14 +40,13 @@ public class DiscordWebhook {
     }
 
     public DiscordWebhook withComponents(List<Component> components) {
+        if(this.components == null) {
+            this.components = new ArrayList<>();
+        }
         this.components.add(new Components(1, components.toArray(new Component[0])));
         return this;
     }
 
-    public DiscordWebhook setTts(boolean tts) {
-        this.tts = tts;
-        return this;
-    }
 
     public DiscordWebhook setUsername(String username) {
         this.username = username;
@@ -60,6 +58,7 @@ public class DiscordWebhook {
             throw new IllegalStateException("Set content or add at least one EmbedObject");
         }
         String json = asJson();
+        System.out.println(json);
         return HttpHelper.postOrThrow(URI.create(url), json, ContentType.JSON);
     }
 

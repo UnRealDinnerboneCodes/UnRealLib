@@ -31,6 +31,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 }
 
+jar {
+    setArchiveBaseName(project.property("name"))
+}
+
 test {
     useJUnitPlatform()
 }

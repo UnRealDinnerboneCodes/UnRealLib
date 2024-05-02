@@ -11,10 +11,9 @@ public record EmbedObject(
         @Nullable String title,
         @Nullable String description,
         @Nullable String url,
-        @Nullable SimpleColor color,
+        @Nullable Integer color,
         @Nullable Footer footer,
         @Nullable String thumbnail,
-        @Nullable String image,
         @Nullable Author author,
         List<Field> fields) {
 
@@ -30,10 +29,9 @@ public record EmbedObject(
         @Nullable private String title;
         @Nullable private String description;
         @Nullable private String url;
-        @Nullable private SimpleColor color;
+        @Nullable private Integer color;
         @Nullable private Footer footer;
         @Nullable private String thumbnail;
-        @Nullable private String image;
         @Nullable private Author author;
         @NotNull private final List<Field> fields = new ArrayList<>();
 
@@ -53,7 +51,7 @@ public record EmbedObject(
         }
 
         public EmbedObjectBuilder color(@Nullable SimpleColor color) {
-            this.color = color;
+            this.color = color != null ? color.asRGB() : null;
             return this;
         }
 
@@ -78,10 +76,6 @@ public record EmbedObject(
             return this;
         }
 
-        public EmbedObjectBuilder image(@Nullable String image) {
-            this.image = image;
-            return this;
-        }
 
         public EmbedObjectBuilder author(@Nullable Author author) {
             this.author = author;
@@ -114,7 +108,7 @@ public record EmbedObject(
         }
 
         public EmbedObject build() {
-            return new EmbedObject(title, description, url, color, footer, thumbnail, image, author, fields);
+            return new EmbedObject(title, description, url, color, footer, thumbnail, author, fields);
         }
     }
 }
