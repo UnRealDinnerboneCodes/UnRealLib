@@ -6,5 +6,4 @@ public interface ExceptionFunction<E extends Exception, B, T> {
     default <R> ExceptionFunction<E, B, R> andThen(ExceptionFunction<E, T, R> after) {
         return (B b) -> after.apply(apply(b));
     }
-
 }

@@ -4,6 +4,7 @@ package com.unrealdinnerbone.unreallib;
 import java.util.function.Supplier;
 
 public class LazyValue<T> implements Supplier<T> {
+
     private Supplier<T> tSupplier;
     private T t;
     public LazyValue(Supplier<T> tSupplier) {

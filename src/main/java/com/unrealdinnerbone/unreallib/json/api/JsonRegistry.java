@@ -12,6 +12,7 @@ public class JsonRegistry<T> extends BasicRegistry<T> {
     public static final Map<Class<?>, JsonRegistry<?>> REGISTRIES = new HashMap<>();
 
     private final boolean allowJsonCreation;
+
     public JsonRegistry(BiFunction<String, Boolean, T> creator, Function<T, String> function, Class<T> type, boolean allowJsonCreation) {
         super(creator, function);
         this.allowJsonCreation = allowJsonCreation;

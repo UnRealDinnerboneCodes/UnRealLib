@@ -15,8 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MCPing
-{
+public class MCPing {
 
     public static CompletableFuture<MCServerPingResponse> ping(String host, int port) {
         CompletableFuture<MCServerPingResponse> future = new CompletableFuture<>();

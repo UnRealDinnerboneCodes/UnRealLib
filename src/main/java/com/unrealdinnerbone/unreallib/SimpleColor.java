@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface SimpleColor {
 
-
     @NotNull
     static SimpleColor fromRGB(int red, int green, int blue) {
         return new RGB(red, green, blue);

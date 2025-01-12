@@ -21,6 +21,7 @@ public class MathHelper {
     public static boolean randomBoolean(Random random) {
         return random.nextBoolean();
     }
+
     public static boolean randomBoolean() {
         return randomBoolean(getRandom());
     }

@@ -5,6 +5,7 @@ public class WebResultException extends RuntimeException {
 
     private final int code;
     private final String body;
+
     public WebResultException(String url, String theBody, int code) {
         super(url + " returned an " + code + " with body: " + theBody);
         this.body = theBody;

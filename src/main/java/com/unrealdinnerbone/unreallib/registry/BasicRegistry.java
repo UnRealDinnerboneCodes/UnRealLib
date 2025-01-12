@@ -11,10 +11,12 @@ public class BasicRegistry<T> implements IRegistry<T> {
     private final List<T> registry = new ArrayList<>();
     private final Function<T, String> function;
     private final BiFunction<String, Boolean, T> creator;
+
     public BasicRegistry(BiFunction<String, Boolean, T> creator, Function<T, String> function) {
         this.creator = creator;
         this.function = function;
     }
+
     @Override
     public List<T> getValues() {
         return registry;

@@ -10,6 +10,5 @@ public interface ExceptionBiFunction<E extends Exception, T, U, R> {
         Objects.requireNonNull(after);
         return (T t, U u) -> after.apply(apply(t, u));
     }
-
 }
 
