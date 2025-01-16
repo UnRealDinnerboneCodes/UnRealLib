@@ -26,10 +26,6 @@ public class ArrayUtil {
                 .collect(Collectors.joining("\n"));
     }
 
-    public static <T> T getLastValue(@NotNull List<T> t) {
-        return t.get(t.size() - 1);
-    }
-
     @Nullable
     public static <T> T getRandomValue(Random random, List<T> tList) {
         return tList.isEmpty() ? null : tList.get(MathHelper.randomInt(random, 0, tList.size() - 1));
@@ -39,7 +35,6 @@ public class ArrayUtil {
     public static <T> T getRandomValue(List<T> tList) {
         return getRandomValue(ThreadLocalRandom.current(), tList);
     }
-
 
     public static <T> Optional<T> getRandomValueOptionally(List<T> tList) {
         return Optional.ofNullable(getRandomValue(tList));
@@ -66,8 +61,8 @@ public class ArrayUtil {
         return Comparator.comparing(e -> uniqueIds.computeIfAbsent(e, k -> UUID.randomUUID()));
     }
 
-
-    public static <T> List<T> allOf(List<T>... lists) {
+    @SafeVarargs
+    public static <T> List<T> allOf(Collection<T>... lists) {
         return Arrays.stream(lists).flatMap(Collection::stream).collect(Collectors.toList());
     }
 

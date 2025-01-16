@@ -11,14 +11,17 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ErrorableValue<E extends Exception, T> extends Either<E, T> implements ExceptionSuppler<T, E> {
+
     @NotNull
     public static <E extends Exception, T> ErrorableValue<E, T> error(@NotNull E value) {
         return new ErrorableValue<>(new StoredValue<>(value), null);
     }
+
     @NotNull
     public static <E extends Exception, T> ErrorableValue<E, T> value(@Nullable T value) {
         return new ErrorableValue<>(null, new StoredValue<>(value));
     }
+
     @NotNull
     public static <E extends Exception, T> ErrorableValue<E, T> of(T value) {
         return value(value);
