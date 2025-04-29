@@ -14,6 +14,7 @@ public interface IResult<T> {
     CompletableFuture<T> get();
 
     default <R> IResult<R> map(ExceptionFunction<JsonParseException, T, R> function) {
+
         return new IResult<>() {
             @Override
             public R getNow() throws WebResultException, JsonParseException {

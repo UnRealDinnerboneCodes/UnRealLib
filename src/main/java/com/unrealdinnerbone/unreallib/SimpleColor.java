@@ -4,6 +4,21 @@ import org.jetbrains.annotations.NotNull;
 
 public interface SimpleColor {
 
+    SimpleColor WHITE = fromRGB(255, 255, 255);
+    SimpleColor BLACK = fromRGB(0, 0, 0);
+    SimpleColor RED = fromRGB(255, 0, 0);
+    SimpleColor GREEN = fromRGB(0, 255, 0);
+    SimpleColor BLUE = fromRGB(0, 0, 255);
+    SimpleColor YELLOW = fromRGB(255, 255, 0);
+    SimpleColor PURPLE = fromRGB(255, 0, 255);
+    SimpleColor CYAN = fromRGB(0, 255, 255);
+    SimpleColor ORANGE = fromRGB(255, 165, 0);
+    SimpleColor PINK = fromRGB(255, 192, 203);
+    SimpleColor GRAY = fromRGB(128, 128, 128);
+    SimpleColor LIGHT_GRAY = fromRGB(192, 192, 192);
+    SimpleColor DARK_GRAY = fromRGB(64, 64, 64);
+    SimpleColor BROWN = fromRGB(165, 42, 42);
+    
     @NotNull
     static SimpleColor fromRGB(int red, int green, int blue) {
         return new RGB(red, green, blue);
